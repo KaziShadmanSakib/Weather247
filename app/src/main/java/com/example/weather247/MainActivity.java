@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         //LocationController() takes the Location from the user device
         LocationController();
 
+        //weather API controller controls the API and fetches data from it
+        WeatherApiController weatherApiController = new WeatherApiController(this);
+        weatherApiController.getJsonData(this);
 
     }
 
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 location.getLatitude(), location.getLongitude(), 1);
 
                         userLocation = addresses.get(0).getLocality();
+                        Cache.saveUserLocation(MainActivity.this, userLocation);
                         userLocationTv.setText(userLocation);
 
 
