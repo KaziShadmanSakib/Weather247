@@ -46,6 +46,10 @@ public class WeatherApiController {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
 
+                        // parses the data of JSON urlResponse
+                        DataController dataController = new DataController(urlResponse);
+
+
                         Log.i("activity",urlResponse);
                     }
                 }, new Response.ErrorListener() {

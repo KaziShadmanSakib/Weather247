@@ -10,7 +10,7 @@ public class Cache {
 
     public static String loadUserLocation(Context context){
         SharedPreferences pref = context.getSharedPreferences(My_Preference_Name, Context.MODE_PRIVATE);
-        return pref.getString(Pref_userLocation_Key, "");
+        return pref.getString(Pref_userLocation_Key, "Dhaka");
     }
 
     public static void saveUserLocation(Context context, String userLocation){
