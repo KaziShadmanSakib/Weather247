@@ -11,6 +11,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,9 +28,11 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    String userLocation;
+    String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     TextView userLocationTv;
     FusedLocationProviderClient fusedLocationProviderClient;
+    TextView currentTemperatureTv, currentWeatherStatusTv;
+    ImageView currentWeatherIconIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,27 @@ public class MainActivity extends AppCompatActivity {
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
 
+        //sets and displays all the home basic weather info
+        homeWeatherInformation();
+
+    }
+
+    //sets and displays all the home basic weather info
+    public void homeWeatherInformation(){
+
+        currentTemperatureTv = findViewById(R.id.temperatureValue);
+        currentWeatherStatusTv = findViewById(R.id.weatherStatus);
+        currentWeatherIconIv = findViewById(R.id.weatherIcon);
+
+        currentTemperature = Cache.loadCurrentTemperature(this);
+        currentWeatherStatus = Cache.loadCurrentCondition(this);
+        currentWeatherIcon = Cache.loadCurrentIcon(this);
+
+        currentTemperatureTv.setText(currentTemperature);
+        currentWeatherStatusTv.setText(currentWeatherStatus);
+
+
+        Picasso.get().load(currentWeatherIcon).into(currentWeatherIconIv);
     }
 
     //LocationController() takes the Location from the user device

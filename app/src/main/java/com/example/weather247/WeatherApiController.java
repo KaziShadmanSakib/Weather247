@@ -12,15 +12,15 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class WeatherApiController {
 
     private static final String TAG = "tag";
-    private String time;
     private String location;
-    private String temperature;
-    private String icon;
-    private String windSpeed;
     private String url;
+    JSONObject urlResponseJson;
 
     Context context;
 
@@ -46,11 +46,18 @@ public class WeatherApiController {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
 
+                        try {
+                            urlResponseJson = new JSONObject(urlResponse);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         // parses the data of JSON urlResponse
-                        DataController dataController = new DataController(urlResponse);
+                        DataController dataController = new DataController(context, urlResponseJson);
+                        dataController.saveCurrentBasicData();
 
 
-                        Log.i("activity",urlResponse);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
