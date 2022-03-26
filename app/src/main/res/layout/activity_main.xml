@@ -15,6 +15,6 @@
         android:text="Location"
         android:textColor="#0B0A0A"
         android:textSize="16sp"
-        tools:layout_editor_absoluteX="55dp"
-        tools:layout_editor_absoluteY="74dp" />
+        tools:layout_editor_absoluteX="141dp"
+        tools:layout_editor_absoluteY="373dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
