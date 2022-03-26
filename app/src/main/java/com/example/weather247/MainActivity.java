@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     //LocationController() takes the Location from the user device
     public void LocationController() {
 
-        userLocationTv = findViewById(R.id.userLocationTv);
+        userLocationTv = findViewById(R.id.location);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
