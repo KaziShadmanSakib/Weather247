@@ -38,7 +38,7 @@ dependencies {
     //volley for json parsing
     implementation 'com.android.volley:volley:1.2.1'
 
-    //Picaso to implement image
+    //Picasso to implement image
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     testImplementation 'junit:junit:4.+'

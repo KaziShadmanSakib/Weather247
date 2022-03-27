@@ -5,12 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient"
+    android:background="@drawable/day_background"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="373dp"
         android:layout_height="295dp"
+        android:layout_marginTop="108dp"
         android:alpha="0.8"
         android:src="@drawable/cloud1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,8 +20,8 @@
 
     <TextView
         android:id="@+id/temperatureValue"
-        android:layout_width="169dp"
-        android:layout_height="117dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="casual"
         android:text="25"
@@ -47,6 +48,7 @@
         app:layout_constraintTop_toTopOf="@+id/temperatureValue"
         app:layout_constraintVertical_bias="0.303" />
 
+
     <TextView
         android:id="@+id/location"
         android:layout_width="wrap_content"
@@ -62,15 +64,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="68dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperatureValue">
 
@@ -96,8 +96,8 @@
             android:id="@+id/weatherIcon"
             android:layout_marginTop="16dp"
             android:src="@drawable/cloudy_icon"
-            tools:layout_editor_absoluteX="248dp"
-            tools:layout_editor_absoluteY="207dp" />
+            tools:layout_editor_absoluteX="250dp"
+            tools:layout_editor_absoluteY="210dp" />
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatEditText

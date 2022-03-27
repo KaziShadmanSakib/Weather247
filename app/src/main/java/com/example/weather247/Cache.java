@@ -64,7 +64,7 @@ public class Cache {
         SharedPreferences pref = context.getSharedPreferences(My_Preference_Name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(Pref_userLocation_Key, userLocation);
-        editor.commit();
+        editor.apply();
 
     }
 
