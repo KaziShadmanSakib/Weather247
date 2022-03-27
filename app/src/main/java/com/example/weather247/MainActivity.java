@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         currentWeatherStatusTv.setText(currentWeatherStatus);
 
         Log.i("activity", currentTemperature);
+
         Picasso.get().load(currentWeatherIcon).into(currentWeatherIconIv);
     }
 

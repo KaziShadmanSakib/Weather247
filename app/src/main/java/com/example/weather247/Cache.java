@@ -13,7 +13,7 @@ public class Cache {
 
     public static String loadCurrentIcon(Context context){
         SharedPreferences pref = context.getSharedPreferences(My_Preference_Name, Context.MODE_PRIVATE);
-        return pref.getString(Pref_currentIcon_Key, "");
+        return pref.getString(Pref_currentIcon_Key, "http://cdn.weatherapi.com/weather/64x64/day/113.png");
     }
 
     public static void saveCurrentIcon(Context context, String currentIcon){
