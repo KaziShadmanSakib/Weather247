@@ -1,8 +1,8 @@
 package com.example.weather247;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -10,7 +10,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -33,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
     TextView currentTemperatureTv, currentWeatherStatusTv;
     ImageView currentWeatherIconIv;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,34 +101,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //started from here
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                //initialize location
-                Location location = task.getResult();
-                if(location!=null){
-                    try {
-                        //initialize geoCoder
-                        Geocoder geocoder = new Geocoder(MainActivity.this,
-                                Locale.getDefault());
-                        //initialize address list
-                        List<Address> addresses = geocoder.getFromLocation(
-                                location.getLatitude(), location.getLongitude(), 1);
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(task -> {
+            //initialize location
+            Location location = task.getResult();
+            if(location!=null){
+                try {
+                    //initialize geoCoder
+                    Geocoder geocoder = new Geocoder(MainActivity.this,
+                            Locale.getDefault());
+                    //initialize address list
+                    List<Address> addresses = geocoder.getFromLocation(
+                            location.getLatitude(), location.getLongitude(), 1);
 
-                        userLocation = addresses.get(0).getLocality();
-                        Cache.saveUserLocation(MainActivity.this, userLocation);
-                        userLocationTv.setText(userLocation);
+                    userLocation = addresses.get(0).getLocality();
+                    Cache.saveUserLocation(MainActivity.this, userLocation);
+                    Log.i("Location", "getLocation: " + userLocation);
+                    userLocationTv.setText(userLocation);
 
 
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
                 }
-                if(location==null){
-                    //make a toast
-                    Toast.makeText(MainActivity.this, "Please turn on your location to get updated information!", Toast.LENGTH_LONG).show();
-                }
+
+            }
+            if(location==null){
+                //make a toast
+                Toast.makeText(MainActivity.this, "Please turn on your location to get updated information!", Toast.LENGTH_LONG).show();
             }
         });
 
