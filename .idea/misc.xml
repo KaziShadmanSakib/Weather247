@@ -6,13 +6,11 @@
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1845" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/background_gradient.xml" value="0.1845" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/ic_launcher_background.xml" value="0.124" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/info_trey.xml" value="0.1155" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/activity_main.xml" value="0.17708333333333334" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/current_weather.xml" value="0.264" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/home.xml" value="0.2" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.12447916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/current_weather.xml" value="0.18177083333333333" />
+        <entry key="app/src/main/res/layout/current_weather.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/weather_prediction.xml" value="0.35507246376811596" />
       </map>
     </option>
   </component>
