@@ -7,18 +7,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class DataController {
-    String currentTemperature;
-    String currentCondition;
-    String currentIcon;
-    JSONObject urlResponseJson;
-    Context context;
 
-    public DataController(Context context, JSONObject urlResponseJson){
-        this.urlResponseJson = urlResponseJson;
-        this.context = context;
-    }
+    private static String currentTemperature = "30";
+    private static String currentCondition = "Sunny";
+    private static String currentIcon = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
 
-    public void saveCurrentBasicData() {
+    public static void parseBasicInformation(JSONObject urlResponseJson) {
 
         try {
             currentTemperature = urlResponseJson.getJSONObject("current").getString("temp_c");
@@ -26,15 +20,40 @@ public class DataController {
             currentIcon = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("icon");
             currentIcon = "http:"+currentIcon;
 
-            Cache.saveCurrentTemperature(context, currentTemperature);
-            Cache.saveCurrentCondition(context, currentCondition);
-            Cache.saveCurrentIcon(context, currentIcon);
+            setCurrentTemperature(currentTemperature);
+            setCurrentCondition(currentCondition);
+            setCurrentIcon(currentIcon);
+
 
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static String getCurrentTemperature() {
+        return currentTemperature;
+    }
+
+    public static void setCurrentTemperature(String currentTemperature) {
+        DataController.currentTemperature = currentTemperature;
+    }
+
+    public static String getCurrentCondition() {
+        return currentCondition;
+    }
+
+    public static void setCurrentCondition(String currentCondition) {
+        DataController.currentCondition = currentCondition;
+    }
+
+    public static String getCurrentIcon() {
+        return currentIcon;
+    }
+
+    public static void setCurrentIcon(String currentIcon) {
+        DataController.currentIcon = currentIcon;
     }
 
 }

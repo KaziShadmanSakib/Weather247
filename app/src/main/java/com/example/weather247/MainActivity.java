@@ -58,14 +58,12 @@ public class MainActivity extends AppCompatActivity {
         currentWeatherStatusTv = findViewById(R.id.weatherStatus);
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
-        currentTemperature = Cache.loadCurrentTemperature(this);
-        currentWeatherStatus = Cache.loadCurrentCondition(this);
-        currentWeatherIcon = Cache.loadCurrentIcon(this);
+        currentTemperature = DataController.getCurrentTemperature();
+        currentWeatherStatus = DataController.getCurrentCondition();
+        currentWeatherIcon = DataController.getCurrentIcon();
 
         currentTemperatureTv.setText(currentTemperature);
         currentWeatherStatusTv.setText(currentWeatherStatus);
-
-        Log.i("activity", currentTemperature);
 
         Picasso.get().load(currentWeatherIcon).into(currentWeatherIconIv);
     }

@@ -16,16 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WeatherApiController {
-
-    private static final String TAG = "tag";
     private String location;
     private String url;
-    JSONObject urlResponseJson;
-
-    Context context;
-
-    // Tag used to cancel the request
-    String tag_json_obj = "json_obj_req";
+    private JSONObject urlResponseJson;
+    private Context context;
 
     public WeatherApiController(Context context){
         this.context = context;
@@ -47,16 +41,14 @@ public class WeatherApiController {
                         String urlResponse = response;
 
                         try {
+
                             urlResponseJson = new JSONObject(urlResponse);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        // parses the data of JSON urlResponse
-                        DataController dataController = new DataController(context, urlResponseJson);
-                        dataController.saveCurrentBasicData();
-
-
+                        DataController.parseBasicInformation(urlResponseJson);
 
                     }
                 }, new Response.ErrorListener() {
