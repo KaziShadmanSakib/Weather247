@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  VolleyListener{
 
     String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     TextView userLocationTv;
@@ -44,9 +44,12 @@ public class MainActivity extends AppCompatActivity {
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
 
+    }
+
+    @Override
+    public void requestFinished() {
         //sets and displays all the home basic weather info
         homeWeatherInformation();
-
     }
 
     //sets and displays all the home basic weather info

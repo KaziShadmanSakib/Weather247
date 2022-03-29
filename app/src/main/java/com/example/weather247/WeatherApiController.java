@@ -35,6 +35,7 @@ public class WeatherApiController {
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
+                    final VolleyListener volleyListener = (VolleyListener)context;
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
@@ -47,9 +48,10 @@ public class WeatherApiController {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         DataController.parseBasicInformation(urlResponseJson);
+                        volleyListener.requestFinished();
 
+                        //Log.i("Current Temperature", DataController.getCurrentTemperature());
                     }
                 }, new Response.ErrorListener() {
             @Override
