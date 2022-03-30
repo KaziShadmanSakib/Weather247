@@ -6,12 +6,12 @@
     android:layout_margin="8dp"
     android:clickable="true"
     android:focusable="true"
-    android:alpha="0.95"
+    android:alpha="0.7"
     android:elevation="6dp"
     app:cardCornerRadius="12dp"
     app:strokeWidth="1dp"
     app:strokeColor="@color/teal"
-    app:cardElevation="0dp">
+    app:cardElevation="6dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Delhi"
             android:textSize="20sp"
             android:textStyle="bold"
             android:typeface="normal"
@@ -43,7 +42,6 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="sans-serif"
-            android:text="30/3/2022"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,7 +14,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Initialize all the UI components
         setUiComponents();
-
 
         //LocationController() takes the Location from the user device
         locationController();
@@ -67,18 +66,12 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
 
-        LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        //locationRecyclerView.setLayoutManager(linearLayoutManager);
-        locationRecyclerView.setAdapter(locationCardAdapter);
-        locationRecyclerView.setLayoutManager(linearLayoutManager);
-       // locationCardCollection.add(new LocationCardModel("Delhi", "22/2/3"));
     }
 
     @Override
     public void requestFinished() {
         //sets and displays all the home basic weather info
-        homeWeatherInformation();
+        setHomeInformation();
     }
 
     private void setUiComponents() {
@@ -88,31 +81,40 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         currentWeatherStatusTv = findViewById(R.id.weatherStatus);
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
+        locationRecyclerView = findViewById(R.id.recycler_view);
+        LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        locationRecyclerView.setAdapter(locationCardAdapter);
+        locationRecyclerView.setLayoutManager(linearLayoutManager);
+
         searchLocationBar = findViewById(R.id.searchLocationBar);
         searchLocationBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) {
                     String searchedLocation = searchLocationBar.getText().toString();
-
+                    searchLocationBar.getText().clear();
+                    //TODO: make an API call with searched location, check validity of the location and then do the following
                     LocalDateTime currentTime = LocalDateTime.now();
-                    String dateAdded = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(currentTime);
-                    locationCardCollection.add(new LocationCardModel(searchedLocation, dateAdded));
-                    Log.i("Cards", locationCardCollection.toString());
-
+                    String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
+                    locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
                     locationCardAdapter.notifyItemInserted(0);
-
-                    locationRecyclerView.setLayoutManager(linearLayoutManager);
-                    locationRecyclerView.setAdapter(locationCardAdapter);
+                    while (locationCardCollection.size() > 5) {
+                        locationCardCollection.remove(locationCardCollection.size() - 1);
+                        locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
+                    }
+                    if (locationCardCollection.size() > 0) {
+                        TextView recentlySearchTV = findViewById(R.id.recentlySearched);
+                        recentlySearchTV.setText("Recently searched");
+                    }
                 }
                 return false;
             }
         });
-        locationRecyclerView = findViewById(R.id.recycler_view);
     }
 
     //sets and displays all the home basic weather info
-    public void homeWeatherInformation(){
+    public void setHomeInformation(){
         currentTemperature = DataController.getCurrentTemperature();
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         Picasso.get().load(currentWeatherIcon).into(currentWeatherIconIv);
     }
 
-    //LocationController() takes the Location from the user device
+    //locationController() takes the Location from the user device
     public void locationController() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);

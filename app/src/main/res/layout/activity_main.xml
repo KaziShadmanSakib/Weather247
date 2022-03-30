@@ -6,135 +6,154 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/day_background"
-        tools:context=".MainActivity">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/appCompatImageView"
-            android:layout_width="373dp"
-            android:layout_height="295dp"
-            android:layout_marginTop="108dp"
-            android:alpha="0.8"
-            android:src="@drawable/cloud1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/temperatureValue"
-            android:layout_width="wrap_content"
+        android:background="@drawable/day_background">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:fontFamily="casual"
-            android:text="25"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="100sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
 
-        <TextView
-            android:id="@+id/temperatureUnit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:text="°C"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/temperatureValue"
-            app:layout_constraintStart_toEndOf="@+id/temperatureValue"
-            app:layout_constraintTop_toTopOf="@+id/temperatureValue"
-            app:layout_constraintVertical_bias="0.303" />
+            tools:context=".MainActivity">
 
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/appCompatImageView"
+                android:layout_width="373dp"
+                android:layout_height="295dp"
+                android:layout_marginTop="108dp"
+                android:alpha="0.8"
+                android:src="@drawable/cloud1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:fontFamily="casual"
-            android:text="Siddeshwari, Dhaka"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temperatureValue">
-
-            <androidx.appcompat.widget.AppCompatCheckedTextView
-                android:id="@+id/weatherStatus"
+            <TextView
+                android:id="@+id/temperatureValue"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                android:layout_marginTop="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="casual"
-                android:text="Cloudy"
+                android:text="25"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="24sp"
+                android:textSize="100sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/temperatureValue" />
+                app:layout_constraintTop_toBottomOf="@+id/location" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:id="@+id/weatherIcon"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/cloudy_icon"
-                tools:layout_editor_absoluteX="250dp"
-                tools:layout_editor_absoluteY="210dp" />
-        </LinearLayout>
+            <TextView
+                android:id="@+id/temperatureUnit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="casual"
+                android:text="°C"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/temperatureValue"
+                app:layout_constraintStart_toEndOf="@+id/temperatureValue"
+                app:layout_constraintTop_toTopOf="@+id/temperatureValue"
+                app:layout_constraintVertical_bias="0.303" />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/searchLocationBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Enter location"
-            android:minHeight="48dp"
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="0.08" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchLocationBar">
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:fontFamily="casual"
+                android:text="Siddeshwari, Dhaka"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="68dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/temperatureValue">
+
+                <androidx.appcompat.widget.AppCompatCheckedTextView
+                    android:id="@+id/weatherStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="casual"
+                    android:text="Cloudy"
+                    android:textColor="@color/white"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/temperatureValue" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/weatherIcon"
+                    android:layout_marginTop="16dp"
+                    android:src="@drawable/cloudy_icon"
+                    tools:layout_editor_absoluteX="250dp"
+                    tools:layout_editor_absoluteY="210dp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/searchLocationBar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false"/>
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:hint="Enter location"
+                android:minHeight="48dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:background="@drawable/custom_edit_text"
+                android:drawableStart="@drawable/ic_baseline_add_location_24"
+                android:drawablePadding="12dp"
+                android:padding="12dp"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="0.08" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/searchLocationBar">
+                <TextView
+                    android:id="@+id/recentlySearched"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:nestedScrollingEnabled="false"/>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
