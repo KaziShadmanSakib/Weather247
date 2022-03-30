@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.weather247"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,10 @@ dependencies {
 
     //Swipe down to refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    //Recycler view
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

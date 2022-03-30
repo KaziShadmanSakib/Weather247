@@ -2,6 +2,8 @@ package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
@@ -11,39 +13,66 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.weather247.location.LocationCardAdapter;
+import com.example.weather247.location.LocationCardModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements  VolleyListener{
 
-    String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
-    TextView userLocationTv;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    TextView currentTemperatureTv, currentWeatherStatusTv;
-    ImageView currentWeatherIconIv;
-    SwipeRefreshLayout swipeRefreshLayout;
+    private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
+    private TextView userLocationTv;
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private TextView currentTemperatureTv, currentWeatherStatusTv;
+    private ImageView currentWeatherIconIv;
+    private EditText searchLocationBar;
+    private RecyclerView locationRecyclerView;
+    private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
+    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setUiComponents();
+
+
         //LocationController() takes the Location from the user device
-        LocationController();
+        locationController();
 
         //weather API controller controls the API and fetches data from it
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
 
+        LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        //locationRecyclerView.setLayoutManager(linearLayoutManager);
+        locationRecyclerView.setAdapter(locationCardAdapter);
+        locationRecyclerView.setLayoutManager(linearLayoutManager);
+       // locationCardCollection.add(new LocationCardModel("Delhi", "22/2/3"));
     }
 
     @Override
@@ -52,13 +81,38 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         homeWeatherInformation();
     }
 
-    //sets and displays all the home basic weather info
-    public void homeWeatherInformation(){
+    private void setUiComponents() {
+        userLocationTv = findViewById(R.id.location);
 
         currentTemperatureTv = findViewById(R.id.temperatureValue);
         currentWeatherStatusTv = findViewById(R.id.weatherStatus);
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
+        searchLocationBar = findViewById(R.id.searchLocationBar);
+        searchLocationBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) {
+                    String searchedLocation = searchLocationBar.getText().toString();
+
+                    LocalDateTime currentTime = LocalDateTime.now();
+                    String dateAdded = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(currentTime);
+                    locationCardCollection.add(new LocationCardModel(searchedLocation, dateAdded));
+                    Log.i("Cards", locationCardCollection.toString());
+
+                    locationCardAdapter.notifyItemInserted(0);
+
+                    locationRecyclerView.setLayoutManager(linearLayoutManager);
+                    locationRecyclerView.setAdapter(locationCardAdapter);
+                }
+                return false;
+            }
+        });
+        locationRecyclerView = findViewById(R.id.recycler_view);
+    }
+
+    //sets and displays all the home basic weather info
+    public void homeWeatherInformation(){
         currentTemperature = DataController.getCurrentTemperature();
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
@@ -70,9 +124,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
     }
 
     //LocationController() takes the Location from the user device
-    public void LocationController() {
-
-        userLocationTv = findViewById(R.id.location);
+    public void locationController() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
