@@ -13,9 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,12 +42,11 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
     private EditText searchLocationBar;
     private RecyclerView locationRecyclerView;
     private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
+    //TODO swipe to refresh yet to be added
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
     private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-
-    private Button searchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,34 +79,31 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
         locationRecyclerView = findViewById(R.id.recycler_view);
-        LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         locationRecyclerView.setAdapter(locationCardAdapter);
         locationRecyclerView.setLayoutManager(linearLayoutManager);
 
         searchLocationBar = findViewById(R.id.searchLocationBar);
-        searchLocationBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_SEARCH) {
-                    String searchedLocation = searchLocationBar.getText().toString();
-                    searchLocationBar.getText().clear();
-                    //TODO: make an API call with searched location, check validity of the location and then do the following
-                    LocalDateTime currentTime = LocalDateTime.now();
-                    String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
-                    locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
-                    locationCardAdapter.notifyItemInserted(0);
-                    while (locationCardCollection.size() > 5) {
-                        locationCardCollection.remove(locationCardCollection.size() - 1);
-                        locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
-                    }
-                    if (locationCardCollection.size() > 0) {
-                        TextView recentlySearchTV = findViewById(R.id.recentlySearched);
-                        recentlySearchTV.setText("Recently searched");
-                    }
+        searchLocationBar.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_SEARCH) {
+                String searchedLocation = searchLocationBar.getText().toString();
+                searchLocationBar.getText().clear();
+                //TODO: make an API call with searched location, check validity of the location and then do the following
+                LocalDateTime currentTime = LocalDateTime.now();
+                String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
+                locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
+                locationCardAdapter.notifyItemInserted(0);
+                while (locationCardCollection.size() > 5) {
+                    locationCardCollection.remove(locationCardCollection.size() - 1);
+                    locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
                 }
-                return false;
+                if (locationCardCollection.size() > 0) {
+                    TextView recentlySearchTV = findViewById(R.id.recentlySearched);
+                    recentlySearchTV.setText("Recently searched");
+                }
             }
+            return false;
         });
     }
 

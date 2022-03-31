@@ -1,7 +1,5 @@
 package com.example.weather247;
 
-import android.content.Context;
-import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,8 +24,9 @@ public class DataController {
     private static String currentPM10 = "53";
     private static String currentSO = "3";
     private static String currentNO = "13";
-    private static String currentO = "25";
+    private static String currentO3 = "25";
     private static String currentCO = "660";
+    private static String currentAQI = "50";
     private static String time1 = "00:00";
     private static String time2 = "00:00";
     private static String time3 = "00:00";
@@ -40,6 +39,12 @@ public class DataController {
     private static String temp2 = "25";
     private static String temp3 = "25";
     private static String temp4 = "25";
+
+    //TODO: implementation of AQI calculation
+    public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
+        int airQualityIndex = 0;
+        return airQualityIndex;
+    }
 
     public static void parseCurrentInformation(JSONObject urlResponseJson) {
 
@@ -63,9 +68,13 @@ public class DataController {
             currentPM10 = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("pm10");
             currentSO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("so2");
             currentNO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("no2");
-            currentO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("o3");
+            currentO3 = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("o3");
             currentCO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("co");
 
+            currentAQI = calculateAQI(
+                    Float.parseFloat(currentPM2_5),
+                    Float.parseFloat(currentPM10),
+                    Float.parseFloat(currentO3)).toString();
 
             //hourly temperatures
             Date date = new Date();
@@ -208,7 +217,7 @@ public class DataController {
             setCurrentPM10(currentPM10);
             setCurrentSO(currentSO);
             setCurrentNO(currentNO);
-            setCurrentO(currentO);
+            setCurrentO3(currentO3);
             setCurrentCO(currentCO);
 
             setTime1(time1);
@@ -448,12 +457,12 @@ public class DataController {
         DataController.currentNO = currentNO;
     }
 
-    public static String getCurrentO() {
-        return currentO;
+    public static String getCurrentO3() {
+        return currentO3;
     }
 
-    public static void setCurrentO(String currentO) {
-        DataController.currentO = currentO;
+    public static void setCurrentO3(String currentO3) {
+        DataController.currentO3 = currentO3;
     }
 
     public static String getCurrentCO() {
