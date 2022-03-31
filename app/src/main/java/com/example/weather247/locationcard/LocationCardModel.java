@@ -1,4 +1,4 @@
-package com.example.weather247.location;
+package com.example.weather247.locationcard;
 
 public class LocationCardModel {
     private String searchedLocation;

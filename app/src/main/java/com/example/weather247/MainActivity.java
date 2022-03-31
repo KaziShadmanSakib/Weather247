@@ -19,8 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.weather247.location.LocationCardAdapter;
-import com.example.weather247.location.LocationCardModel;
+import com.example.weather247.locationcard.LocationCardAdapter;
+import com.example.weather247.locationcard.LocationCardModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;

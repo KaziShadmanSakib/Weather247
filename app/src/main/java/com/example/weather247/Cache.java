@@ -2,10 +2,6 @@ package com.example.weather247;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.weather247.location.LocationCardModel;
-
-import java.util.ArrayList;
-
 
 public class Cache {
 

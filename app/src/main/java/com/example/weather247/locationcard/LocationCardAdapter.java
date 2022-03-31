@@ -1,4 +1,4 @@
-package com.example.weather247.location;
+package com.example.weather247.locationcard;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,7 +26,7 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
     @NonNull
     @Override
     public LocationCardAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_card, parent, false);
         return new Viewholder(view);
     }
 
