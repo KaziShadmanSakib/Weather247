@@ -40,10 +40,41 @@ public class DataController {
     private static String temp3 = "25";
     private static String temp4 = "25";
 
-    //TODO: implementation of AQI calculation
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
-        int airQualityIndex = 0;
-        return airQualityIndex;
+        Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};
+        Float[] pm25Breakpoints = {-0.1f, 12.0f, 35.4f, 55.4f, 150.4f, 250.4f, 350.4f, 500.4f};
+        Float[] pm10Breakpoints = {-1f, 54f, 154f, 254f, 354f, 424f, 504f, 604f};
+        Float[] o3Breakpoints = {-1f, 54f, 70f, 85f, 105f, 205f, 405f, 505f};
+
+        int pos1 = 1, pos2 = 1, pos3 = 1;
+        for (int i = 1; i < pm25Breakpoints.length; i++) {
+            if (currentPM2_5 <= pm25Breakpoints[i] && currentPM2_5 > pm25Breakpoints[i-1]) {
+                pos1 = i;
+                break;
+            }
+        }
+        for (int i = 1; i < pm10Breakpoints.length; i++) {
+            if (currentPM10 <= pm10Breakpoints[i] && currentPM10 > pm10Breakpoints[i-1]) {
+                pos2 = i;
+                break;
+            }
+        }
+        for(int i = 1; i < o3Breakpoints.length; i++) {
+            if(currentO3 <= o3Breakpoints[i] && currentO3 > o3Breakpoints[i-1]) {
+                pos3 = i;
+                break;
+            }
+        }
+
+        float aqi1, aqi2, aqi3;
+        aqi1 = ((aqiBreakpoints[pos1]-aqiBreakpoints[pos1-1]-1f)/(pm25Breakpoints[pos1]-pm25Breakpoints[pos1-1]-0.1f))*
+                (currentPM2_5-pm25Breakpoints[pos1-1]-0.1f)+aqiBreakpoints[pos1-1]+1f;
+        aqi2 = ((aqiBreakpoints[pos2]-aqiBreakpoints[pos2-1]-1f)/(pm10Breakpoints[pos2]-pm10Breakpoints[pos2-1]-1f))*
+                (currentPM10-pm10Breakpoints[pos2-1]-1f)+aqiBreakpoints[pos2-1]+1f;
+        aqi3 = ((aqiBreakpoints[pos3]-aqiBreakpoints[pos3-1]-1f)/(o3Breakpoints[pos3]-o3Breakpoints[pos3-1]-1f))*
+                (currentO3-o3Breakpoints[pos3-1]-1f)+aqiBreakpoints[pos3-1]+1f;
+
+        return Math.round((aqi1+aqi2+aqi3)/3.0f);
     }
 
     public static void parseCurrentInformation(JSONObject urlResponseJson) {
