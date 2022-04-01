@@ -48,8 +48,8 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
-            searchedLocationTV = itemView.findViewById(R.id.searchedLocation);
-            dateAddedTV = itemView.findViewById(R.id.date_added);
+            searchedLocationTV = itemView.findViewById(R.id.predictionDay);
+            dateAddedTV = itemView.findViewById(R.id.predictionDate);
         }
     }
 
