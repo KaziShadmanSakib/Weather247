@@ -1,5 +1,7 @@
 package com.example.weather247;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +41,8 @@ public class DataController {
     private static String temp2 = "25";
     private static String temp3 = "25";
     private static String temp4 = "25";
+    private static String currentHealthConcern = "Good";
+
 
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
         Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};
@@ -75,6 +79,16 @@ public class DataController {
                 (currentO3-o3Breakpoints[pos3-1]-1f)+aqiBreakpoints[pos3-1]+1f;
 
         return Math.round((aqi1+aqi2+aqi3)/3.0f);
+    }
+
+    private static int getTimeInInteger(String time){
+
+        String[] timeParts = time.split(":");
+
+        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
+
+        return  timeInt;
+
     }
 
     public static void parseCurrentInformation(JSONObject urlResponseJson) {
@@ -235,6 +249,33 @@ public class DataController {
 
             }
 
+            //Health Concern
+            if(Integer.parseInt(currentAQI) >= 0 && Integer.parseInt(currentAQI) <=50){
+               currentHealthConcern = "Good";
+            }
+
+            if(Integer.parseInt(currentAQI) >= 51 && Integer.parseInt(currentAQI) <=100){
+                currentHealthConcern = "Moderate";
+            }
+
+            if(Integer.parseInt(currentAQI) >= 101 && Integer.parseInt(currentAQI) <=150){
+                currentHealthConcern = "Unhealthy for Sensitive Groups";
+            }
+
+            if(Integer.parseInt(currentAQI) >= 151 && Integer.parseInt(currentAQI) <=200){
+                currentHealthConcern = "Unhealthy";
+            }
+
+            if(Integer.parseInt(currentAQI) >= 201 && Integer.parseInt(currentAQI) <=300){
+                currentHealthConcern = "Very Unhealthy";
+            }
+
+            if(Integer.parseInt(currentAQI) >= 301 && Integer.parseInt(currentAQI) <=500){
+                currentHealthConcern = "Hazardous";
+            }
+
+
+
             setCurrentTemperature(currentTemperature);
             setCurrentIcon(currentIcon);
             setCurrentHumidity(currentHumidity);
@@ -266,23 +307,17 @@ public class DataController {
             setIcon3(icon3);
             setIcon4(icon4);
 
+            setCurrentAQI(currentAQI);
+            setCurrentHealthConcern(currentHealthConcern);
+
+            Log.i("activity", currentHealthConcern);
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
     }
-
-    private static int getTimeInInteger(String time){
-
-        String[] timeParts = time.split(":");
-
-        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
-
-        return  timeInt;
-
-    }
-
 
     public static void parseBasicInformation(JSONObject urlResponseJson) {
 
@@ -302,6 +337,22 @@ public class DataController {
             e.printStackTrace();
         }
 
+    }
+
+    public static String getCurrentAQI() {
+        return currentAQI;
+    }
+
+    public static void setCurrentAQI(String currentAQI) {
+        DataController.currentAQI = currentAQI;
+    }
+
+    public static String getCurrentHealthConcern() {
+        return currentHealthConcern;
+    }
+
+    public static void setCurrentHealthConcern(String currentHealthConcern) {
+        DataController.currentHealthConcern = currentHealthConcern;
     }
 
     public static String getIcon1() {
