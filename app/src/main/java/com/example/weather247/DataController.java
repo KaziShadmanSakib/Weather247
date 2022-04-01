@@ -131,15 +131,15 @@ public class DataController {
             //00:00 to 03:00 hourly weather
             if(realTimeInt >= 0 && realTimeInt < 240){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getJSONObject("condition").getString("icon");
@@ -151,15 +151,15 @@ public class DataController {
             //04:00 to 07:00 hourly weather
             if(realTimeInt >= 240 && realTimeInt < 480){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getJSONObject("condition").getString("icon");
@@ -171,15 +171,15 @@ public class DataController {
             //08:00 to 11:00 hourly weather
             if(realTimeInt >= 480 && realTimeInt < 720){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getJSONObject("condition").getString("icon");
@@ -191,15 +191,15 @@ public class DataController {
             //12:00 to 15:00 hourly weather
             if(realTimeInt >= 720 && realTimeInt < 960){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getJSONObject("condition").getString("icon");
@@ -211,15 +211,15 @@ public class DataController {
             //16:00 to 19:00 hourly weather
             if(realTimeInt >= 960 && realTimeInt < 1200){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getJSONObject("condition").getString("icon");
@@ -229,17 +229,17 @@ public class DataController {
             }
 
             //20:00 to 23:00 hourly weather
-            if(realTimeInt >= 1200 && realTimeInt < 1380){
+            if(realTimeInt >= 1200 && realTimeInt < 1440){
 
-                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("time");
-                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("time");
-                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("time");
-                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("time");
+                time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("time").substring(11,16);
+                time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("time").substring(11,16);
+                time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("time").substring(11,16);
+                time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c");
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c");
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c");
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c");
+                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getJSONObject("condition").getString("icon");
@@ -310,7 +310,7 @@ public class DataController {
             setCurrentAQI(currentAQI);
             setCurrentHealthConcern(currentHealthConcern);
 
-            Log.i("activity", currentHealthConcern);
+//            Log.i("activity", time1);
 
 
         } catch (JSONException e) {

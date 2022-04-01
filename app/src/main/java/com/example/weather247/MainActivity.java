@@ -7,13 +7,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements  VolleyListener{
+public class MainActivity extends AppCompatActivity implements  VolleyListener, GestureDetector.OnGestureListener {
 
     private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     private TextView userLocationTv;
@@ -48,10 +53,19 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
     private LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
     private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+
+    //for swipe left/right
+    private static String TAG = "Swipe Position";
+    private float x1, x2, y1, y2;
+    private static int MIN_DISTANCE = 150;
+    private GestureDetector gestureDetector;
+    Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.gestureDetector = new GestureDetector(MainActivity.this,this);
 
         //Initialize all the UI components
         setUiComponents();
@@ -63,6 +77,59 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
 
+        button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CurrentWeather.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        gestureDetector.onTouchEvent(event);
+
+        switch (event.getAction()){
+
+            //starting time swipe gesture
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            //ending time swipe gesture
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                y2 = event.getY();
+
+                //horizontal
+                float valueX = x2-x1;
+                //vertical
+                float valueY = y2-y1;
+                if(Math.abs(valueX) > MIN_DISTANCE){
+                    //detect left to right swipe
+
+                    if(x2 > x1){
+                        Intent intent = new Intent(MainActivity.this, CurrentWeather.class);
+                        startActivity(intent);
+                        }
+                    else{
+                        Intent intent = new Intent(MainActivity.this, WeatherPrediction.class);
+                        startActivity(intent);
+
+                    }
+
+                }
+
+
+        }
+
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -181,5 +248,35 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener{
             }
         });
 
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return false;
     }
 }

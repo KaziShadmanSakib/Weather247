@@ -12,7 +12,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/location1"
+            android:id="@+id/locationTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dhaka"
@@ -38,7 +38,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location1"
+            app:layout_constraintTop_toBottomOf="@+id/locationTv"
             app:layout_constraintVertical_bias="0.0">
 
             <LinearLayout
@@ -56,7 +56,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/currentTemperature"
+                    android:id="@+id/currentTemperatureTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25°C"
@@ -64,6 +64,7 @@
                     android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/currentWeatherIconIv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cloudy_icon" />
@@ -77,6 +78,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/time1Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="9:00"
@@ -84,6 +86,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/temp1Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25°C"
@@ -91,6 +94,7 @@
                     android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon1Iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cloudy_icon" />
@@ -103,6 +107,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/time2Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10:00"
@@ -110,6 +115,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/temp2Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25°C"
@@ -117,6 +123,7 @@
                     android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon2Iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cloudy_icon" />
@@ -129,6 +136,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/time3Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11:00"
@@ -136,6 +144,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/temp3Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25°C"
@@ -143,6 +152,7 @@
                     android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon3Iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cloudy_icon" />
@@ -155,6 +165,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/time4Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12:00"
@@ -162,6 +173,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/temp4Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25°C"
@@ -169,6 +181,7 @@
                     android:textSize="20sp" />
 
                 <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/icon4Iv"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/cloudy_icon" />
@@ -204,9 +217,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Humidity"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentHumidityTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -229,9 +244,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Real feel"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentRealFeelTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -254,9 +271,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Pressure"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentPressureTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -279,9 +298,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Chance of rain"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentChanceOfRainTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -304,9 +325,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Wind speed"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentWindSpeedTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -329,9 +352,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Wind direction"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentWindDirTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -354,9 +379,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="UV index"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentUVIndexTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -395,7 +422,7 @@
                 android:layout_marginStart="30dp">
 
                 <TextView
-                    android:id="@+id/aqiValue"
+                    android:id="@+id/currentAQITv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -405,12 +432,13 @@
                     android:textSize="80sp" />
 
                 <TextView
+                    android:id="@+id/currentHealthConcernTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10sp"
                     android:layout_marginTop="60sp"
                     android:layout_marginBottom="1dp"
-                    android:layout_toEndOf="@id/aqiValue"
+                    android:layout_toEndOf="@id/currentAQITv"
                     android:text="Good"
                     android:textColor="@color/green"
                     android:textSize="20sp" />
@@ -427,9 +455,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="PM2.5"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentPM2_5Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -451,9 +481,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="PM10"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentPM10Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -475,9 +507,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="SO₂"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentSOTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -499,9 +533,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="NO₂"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentNOTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -523,9 +559,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="O₃"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentO3Tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -547,9 +585,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="CO"
+                    android:textColor="#040404"
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/currentCOTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

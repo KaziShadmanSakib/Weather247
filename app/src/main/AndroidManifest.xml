@@ -3,17 +3,23 @@
     package="com.example.weather247">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Weather247">
+        android:theme="@style/Theme.Weather247"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".WeatherPrediction"
+            android:exported="false" />
+        <activity
+            android:name=".CurrentWeather"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -113,17 +113,19 @@
                 android:id="@+id/searchLocationBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
                 android:layout_marginStart="24dp"
-                android:hint="Enter location"
-                android:minHeight="48dp"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
+                android:layout_marginEnd="24dp"
                 android:background="@drawable/custom_edit_text"
                 android:drawableStart="@drawable/ic_baseline_add_location_24"
                 android:drawablePadding="12dp"
+                android:hint="Enter location"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:minHeight="48dp"
                 android:padding="12dp"
 
+                android:textColor="#040404"
+                android:textColorHint="#AFA4A4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -152,6 +154,14 @@
                     android:layout_height="match_parent"
                     android:nestedScrollingEnabled="false"/>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Button"
+                tools:layout_editor_absoluteX="53dp"
+                tools:layout_editor_absoluteY="239dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
