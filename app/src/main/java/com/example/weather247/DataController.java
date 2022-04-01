@@ -129,7 +129,7 @@ public class DataController {
             int realTimeInt = getTimeInInteger(realTime);
 
             //00:00 to 03:00 hourly weather
-            if(realTimeInt >= 0 && realTimeInt < 240){
+            if((realTimeInt >= 0 && realTimeInt < 240) || realTimeInt >= 1440){
 
                 time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(0).getString("time").substring(11,16);
                 time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("time").substring(11,16);
@@ -310,7 +310,7 @@ public class DataController {
             setCurrentAQI(currentAQI);
             setCurrentHealthConcern(currentHealthConcern);
 
-//            Log.i("activity", time1);
+            Log.i("activity", String.valueOf(realTimeInt));
 
 
         } catch (JSONException e) {
