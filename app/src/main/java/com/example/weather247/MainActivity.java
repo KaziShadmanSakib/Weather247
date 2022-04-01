@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener, 
 
 
     }
-
+/*
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener, 
 
         return super.onTouchEvent(event);
     }
-
+*/
     @Override
     public void requestFinished() {
         //sets and displays all the home basic weather info

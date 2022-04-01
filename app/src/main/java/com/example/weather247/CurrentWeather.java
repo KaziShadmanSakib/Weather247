@@ -2,6 +2,7 @@ package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -126,6 +127,34 @@ public class CurrentWeather extends AppCompatActivity{
         Picasso.get().load(icon2).into(icon2Iv);
         Picasso.get().load(icon3).into(icon3Iv);
         Picasso.get().load(icon4).into(icon4Iv);
+
+        if(Integer.parseInt(currentAQI) >= 0 && Integer.parseInt(currentAQI)<=50){
+            currentAQITv.setTextColor(Color.parseColor("#008000"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#008000"));
+        }
+        if(Integer.parseInt(currentAQI) >= 51 && Integer.parseInt(currentAQI)<=100){
+
+            currentAQITv.setTextColor(Color.parseColor("#FFFF00"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#FFFF00"));
+
+        }
+        if(Integer.parseInt(currentAQI) >= 101 && Integer.parseInt(currentAQI)<=150){
+
+            currentAQITv.setTextColor(Color.parseColor("#FFA500"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#FFA500"));
+        }
+        if(Integer.parseInt(currentAQI) >= 151 && Integer.parseInt(currentAQI)<=200){
+            currentAQITv.setTextColor(Color.parseColor("#FF0000"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#FF0000"));
+        }
+        if(Integer.parseInt(currentAQI) >= 201 && Integer.parseInt(currentAQI)<=300){
+            currentAQITv.setTextColor(Color.parseColor("#9370DB"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#9370DB"));
+        }
+        if(Integer.parseInt(currentAQI) >= 301 && Integer.parseInt(currentAQI)<=500){
+            currentAQITv.setTextColor(Color.parseColor("#8B0000"));
+            currentHealthConcernTv.setTextColor(Color.parseColor("#8B0000"));
+        }
 
     }
 
