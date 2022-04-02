@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weather247.R;
@@ -35,6 +37,11 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         LocationCardModel model = locationCardCollection.get(position);
         holder.searchedLocationTV.setText(model.getSearchedLocation());
         holder.dateAddedTV.setText(model.getDateAdded());
+        //TODO: send location to API controller
+        // waiting for Kabbo vai to implement searched location data request
+        holder.locationHolderLayout.setOnClickListener(view -> {
+            Toast.makeText(context, holder.searchedLocationTV.getText(), Toast.LENGTH_LONG).show();
+        });
     }
 
     @Override
@@ -43,11 +50,13 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
     }
 
     public static class Viewholder extends RecyclerView.ViewHolder {
+        private final ConstraintLayout locationHolderLayout;
         private final TextView searchedLocationTV;
         private final TextView dateAddedTV;
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
+            locationHolderLayout = itemView.findViewById(R.id.locationHolderLayout);
             searchedLocationTV = itemView.findViewById(R.id.predictionDay);
             dateAddedTV = itemView.findViewById(R.id.predictionDate);
         }

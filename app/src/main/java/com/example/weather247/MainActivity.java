@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     //TODO swipe to refresh yet to be added
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
-    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+    private final LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
+    private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
 
     //for swipe left/right
     private static final String TAG = "MainActivity";
-    private static int MIN_DISTANCE = 100;
+    private static int MIN_DISTANCE = 140;
     private GestureDetector gestureDetector;
 
     @Override
@@ -92,8 +92,6 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
         locationRecyclerView = findViewById(R.id.recycler_view);
-        locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         locationRecyclerView.setAdapter(locationCardAdapter);
         locationRecyclerView.setLayoutManager(linearLayoutManager);
 
@@ -198,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent motionEvent) {
-            Log.i(TAG, "onDown: called");
             return false;
         }
 
