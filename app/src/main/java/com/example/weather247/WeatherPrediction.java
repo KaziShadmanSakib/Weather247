@@ -52,28 +52,28 @@ public class WeatherPrediction extends AppCompatActivity {
     private String nextDay_daily_chance_of_rain = "89%";
     private String nextDay_daily_chance_of_snow = "50%";
 
-    private TextView locationTv;
-    private TextView currentDateTv;
-    private TextView current_maxtemp_cTv;
-    private TextView current_mintemp_cTv;
-    private TextView current_avgtemp_cTv;
-    private TextView current_maxwind_kphTv;
-    private TextView current_daily_chance_of_rainTv;
-    private TextView current_daily_chance_of_snowTv;
-    private TextView tomorrowDateTv;
-    private TextView tomorrow_maxtemp_cTv;
-    private TextView tomorrow_mintemp_cTv;
-    private TextView tomorrow_avgtemp_cTv;
-    private TextView tomorrow_maxwind_kphTv;
-    private TextView tomorrow_daily_chance_of_rainTv;
-    private TextView tomorrow_daily_chance_of_snowTv;
-    private TextView nextDayDateTv;
-    private TextView nextDay_maxtemp_cTv;
-    private TextView nextDay_mintemp_cTv;
-    private TextView nextDay_avgtemp_cTv;
-    private TextView nextDay_maxwind_kphTv;
-    private TextView nextDay_daily_chance_of_rainTv;
-    private TextView nextDay_daily_chance_of_snowTv;
+//    private TextView locationTv;
+//    private TextView currentDateTv;
+//    private TextView current_maxtemp_cTv;
+//    private TextView current_mintemp_cTv;
+//    private TextView current_avgtemp_cTv;
+//    private TextView current_maxwind_kphTv;
+//    private TextView current_daily_chance_of_rainTv;
+//    private TextView current_daily_chance_of_snowTv;
+//    private TextView tomorrowDateTv;
+//    private TextView tomorrow_maxtemp_cTv;
+//    private TextView tomorrow_mintemp_cTv;
+//    private TextView tomorrow_avgtemp_cTv;
+//    private TextView tomorrow_maxwind_kphTv;
+//    private TextView tomorrow_daily_chance_of_rainTv;
+//    private TextView tomorrow_daily_chance_of_snowTv;
+//    private TextView nextDayDateTv;
+//    private TextView nextDay_maxtemp_cTv;
+//    private TextView nextDay_mintemp_cTv;
+//    private TextView nextDay_avgtemp_cTv;
+//    private TextView nextDay_maxwind_kphTv;
+//    private TextView nextDay_daily_chance_of_rainTv;
+//    private TextView nextDay_daily_chance_of_snowTv;
 
 
 
@@ -107,6 +107,17 @@ public class WeatherPrediction extends AppCompatActivity {
         current_daily_chance_of_rain = DataController.getCurrent_daily_chance_of_rain();
         current_daily_chance_of_snow = DataController.getCurrent_daily_chance_of_snow();
 
+        predictionCardCollection.add(new PredictionCardModel(
+                "Today",
+                currentDate,
+                current_maxtemp_c,
+                current_mintemp_c,
+                current_avgtemp_c,
+                current_maxwind_kph,
+                current_daily_chance_of_rain,
+                current_daily_chance_of_rain
+        ));
+
         //tomorrow prediction
         tomorrowDate = DataController.getTomorrowDate();
         tomorrow_maxtemp_c = DataController.getTomorrow_maxtemp_c();
@@ -115,6 +126,17 @@ public class WeatherPrediction extends AppCompatActivity {
         tomorrow_maxwind_kph = DataController.getTomorrow_maxwind_kph();
         tomorrow_daily_chance_of_rain = DataController.getTomorrow_daily_chance_of_rain();
         tomorrow_daily_chance_of_snow = DataController.getTomorrow_daily_chance_of_snow();
+
+        predictionCardCollection.add(new PredictionCardModel(
+                "Tomorrow",
+                tomorrowDate,
+                tomorrow_maxtemp_c,
+                tomorrow_mintemp_c,
+                tomorrow_avgtemp_c,
+                tomorrow_maxwind_kph,
+                tomorrow_daily_chance_of_rain,
+                tomorrow_daily_chance_of_snow
+        ));
 
         //the next day prediction
 
@@ -126,36 +148,23 @@ public class WeatherPrediction extends AppCompatActivity {
         nextDay_daily_chance_of_rain = DataController.getNextDay_daily_chance_of_rain();
         nextDay_daily_chance_of_snow = DataController.getNextDay_daily_chance_of_snow();
 
+        predictionCardCollection.add(new PredictionCardModel(
+                "Day after tomorrow",
+                nextDayDate,
+                nextDay_maxtemp_c,
+                nextDay_mintemp_c,
+                nextDay_avgtemp_c,
+                nextDay_maxwind_kph,
+                nextDay_daily_chance_of_rain,
+                nextDay_daily_chance_of_snow
+        ));
+
+        //predictionCardAdapter.notifyDataSetChanged();
 
 
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onDown(MotionEvent motionEvent) {
-            return false;
-        }
-
-        @Override
-        public void onShowPress(MotionEvent motionEvent) {
-
-        }
-
-        @Override
-        public boolean onSingleTapUp(MotionEvent motionEvent) {
-            return false;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            return false;
-        }
-
-        @Override
-        public void onLongPress(MotionEvent motionEvent) {
-
-        }
-
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
             if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE) {

@@ -8,6 +8,7 @@
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/custom_edit_text.xml" value="0.178" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/day_background.xml" value="0.124" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/ic_baseline_add_location_24.xml" value="0.178" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/ic_baseline_add_location_focused_24.xml" value="0.1675" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1355" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/ic_launcher_background.xml" value="0.124" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/info_trey.xml" value="0.1155" />
@@ -16,8 +17,8 @@
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/current_weather.xml" value="0.1" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/home.xml" value="0.2" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/location_card.xml" value="0.16927083333333334" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/prediction_card.xml" value="0.2" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.4" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/prediction_card.xml" value="0.1" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/current_weather.xml" value="0.18177083333333333" />
       </map>

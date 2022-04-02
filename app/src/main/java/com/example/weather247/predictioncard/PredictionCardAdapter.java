@@ -13,6 +13,7 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import com.example.weather247.R;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -44,10 +45,14 @@ public class PredictionCardAdapter extends RecyclerView.Adapter<PredictionCardAd
         holder.humidityHolder.setText(model.getHumidity());
         holder.chanceOfRainHolder.setText(model.getChanceOfRain());
         holder.chanceOfSnowHolder.setText(model.getChanceOfSnow());
-        holder.predictionHolderLayout.setOnClickListener(view -> {
+        holder.baseCard.setOnClickListener(view -> {
             if (holder.collapsibleLayout.getVisibility() == View.GONE) {
-                TransitionManager.beginDelayedTransition(holder.predictionHolderLayout, new AutoTransition());
+                TransitionManager.beginDelayedTransition(holder.baseCard, new AutoTransition());
                 holder.collapsibleLayout.setVisibility(View.VISIBLE);
+            }
+            else {
+                TransitionManager.beginDelayedTransition(holder.baseCard, new AutoTransition());
+                holder.collapsibleLayout.setVisibility(View.GONE);
             }
         });
     }
@@ -58,7 +63,7 @@ public class PredictionCardAdapter extends RecyclerView.Adapter<PredictionCardAd
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
-        private final LinearLayout predictionHolderLayout;
+        private final MaterialCardView baseCard;
         private final LinearLayout collapsibleLayout;
         private final TextView dayHolder;
         private final TextView dateHolder;
@@ -71,7 +76,7 @@ public class PredictionCardAdapter extends RecyclerView.Adapter<PredictionCardAd
 
         public Viewholder(@NonNull View itemView) {
             super(itemView);
-            predictionHolderLayout = itemView.findViewById(R.id.predictionHolderLayout);
+            baseCard = itemView.findViewById(R.id.base_card);
             collapsibleLayout = itemView.findViewById(R.id.collapsibleLayout);
             dayHolder = itemView.findViewById(R.id.predictionDay);
             dateHolder = itemView.findViewById(R.id.predictionDate);
