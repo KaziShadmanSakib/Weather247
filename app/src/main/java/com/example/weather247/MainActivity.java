@@ -1,7 +1,9 @@
 package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -37,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements  VolleyListener, GestureDetector.OnGestureListener {
+public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
     private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     private TextView userLocationTv;
@@ -55,17 +57,15 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener, 
 
 
     //for swipe left/right
-    private static String TAG = "Swipe Position";
-    private float x1, x2, y1, y2;
-    private static int MIN_DISTANCE = 150;
+    private static final String TAG = "MainActivity";
+    private static int MIN_DISTANCE = 100;
     private GestureDetector gestureDetector;
-    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.gestureDetector = new GestureDetector(MainActivity.this,this);
+        gestureDetector = new GestureDetector(this, new GestureListener());
 
         //Initialize all the UI components
         setUiComponents();
@@ -76,62 +76,8 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener, 
         //weather API controller controls the API and fetches data from it
         WeatherApiController weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
-
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CurrentWeather.class);
-                startActivity(intent);
-            }
-        });
-
-
-
     }
-/*
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
 
-        gestureDetector.onTouchEvent(event);
-
-        switch (event.getAction()){
-
-            //starting time swipe gesture
-            case MotionEvent.ACTION_DOWN:
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
-            //ending time swipe gesture
-            case MotionEvent.ACTION_UP:
-                x2 = event.getX();
-                y2 = event.getY();
-
-                //horizontal
-                float valueX = x2-x1;
-                //vertical
-                float valueY = y2-y1;
-                if(Math.abs(valueX) > MIN_DISTANCE){
-                    //detect left to right swipe
-
-                    if(x2 > x1){
-                        Intent intent = new Intent(MainActivity.this, CurrentWeather.class);
-                        startActivity(intent);
-                        }
-                    else{
-                        Intent intent = new Intent(MainActivity.this, WeatherPrediction.class);
-                        startActivity(intent);
-
-                    }
-
-                }
-
-
-        }
-
-        return super.onTouchEvent(event);
-    }
-*/
     @Override
     public void requestFinished() {
         //sets and displays all the home basic weather info
@@ -247,36 +193,54 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener, 
                 Toast.makeText(MainActivity.this, "Please turn on your location to get updated information!", Toast.LENGTH_LONG).show();
             }
         });
+    }
 
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            Log.i(TAG, "onDown: called");
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE)
+                startActivity(new Intent(MainActivity.this, CurrentWeather.class));
+            else if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE)
+                startActivity(new Intent(MainActivity.this, WeatherPrediction.class));
+            return super.onFling(motionEvent, motionEvent1, v, v1);
+        }
     }
 
     @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        gestureDetector.onTouchEvent(motionEvent);
+        return super.onTouchEvent(motionEvent);
     }
 
     @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        return false;
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gestureDetector.onTouchEvent(ev);
     }
 }

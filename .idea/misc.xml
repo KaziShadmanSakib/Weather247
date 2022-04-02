@@ -13,14 +13,13 @@
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/drawable/info_trey.xml" value="0.1155" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/card_layout.xml" value="0.1" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/current_weather.xml" value="0.264" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/current_weather.xml" value="0.1" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/home.xml" value="0.2" />
-        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.12447916666666667" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/current_weather.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/location_card.xml" value="0.35507246376811596" />
-        <entry key="app/src/main/res/layout/prediction_card.xml" value="0.35507246376811596" />
-        <entry key="app/src/main/res/layout/weather_prediction.xml" value="0.35507246376811596" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/location_card.xml" value="0.16927083333333334" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/prediction_card.xml" value="0.2" />
+        <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.4" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/current_weather.xml" value="0.18177083333333333" />
       </map>
     </option>
   </component>
