@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.example.weather247.predictioncard.PredictionCardAdapter;
@@ -20,6 +23,11 @@ public class WeatherPrediction extends AppCompatActivity {
 
     private final PredictionCardAdapter predictionCardAdapter = new PredictionCardAdapter(this, predictionCardCollection);
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+    //for swipe left/right
+    private static final String TAG = "WeatherPrediction";
+    private static int MIN_DISTANCE = 140;
+    private GestureDetector gestureDetector;
 
     private String location = "United States";
     private String currentDate = "2022-04-02";
@@ -73,6 +81,7 @@ public class WeatherPrediction extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_prediction);
+        gestureDetector = new GestureDetector(this, new GestureListener());
 
         setUiComponents();
         setWeatherPredictionInformation();
@@ -120,4 +129,53 @@ public class WeatherPrediction extends AppCompatActivity {
 
 
     }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE) {
+                startActivity(new Intent(WeatherPrediction.this, MainActivity.class));
+                WeatherPrediction.this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            }
+            return super.onFling(motionEvent, motionEvent1, v, v1);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        gestureDetector.onTouchEvent(motionEvent);
+        return super.onTouchEvent(motionEvent);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gestureDetector.onTouchEvent(ev);
+    }
+
 }

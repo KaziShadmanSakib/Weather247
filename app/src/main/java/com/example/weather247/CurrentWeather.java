@@ -2,9 +2,12 @@ package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,11 @@ public class CurrentWeather extends AppCompatActivity{
     private TextView currentO3Tv, currentCOTv, currentAQITv, time1Tv, time2Tv, time3Tv, time4Tv;
     private TextView temp1Tv, temp2Tv, temp3Tv, temp4Tv, currentHealthConcernTv;
     private ImageView currentWeatherIconIv, icon1Iv, icon2Iv, icon3Iv, icon4Iv;
+
+    //for swipe left/right
+    private static final String TAG = "CurrentWeather";
+    private static int MIN_DISTANCE = 140;
+    private GestureDetector gestureDetector;
 
     private String location = "London";
     private String currentTemperature = "30";
@@ -55,6 +63,7 @@ public class CurrentWeather extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_weather);
+        gestureDetector = new GestureDetector(this, new GestureListener());
 
         setUiComponents();
         setCurrentWeatherInformation();
@@ -190,5 +199,53 @@ public class CurrentWeather extends AppCompatActivity{
         icon3Iv = findViewById(R.id.icon3Iv);
         icon4Iv = findViewById(R.id.icon4Iv);
 
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE) {
+                startActivity(new Intent(CurrentWeather.this, MainActivity.class));
+                CurrentWeather.this.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anime_slide_out_right);
+            }
+            return super.onFling(motionEvent, motionEvent1, v, v1);
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        gestureDetector.onTouchEvent(motionEvent);
+        return super.onTouchEvent(motionEvent);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gestureDetector.onTouchEvent(ev);
     }
 }
