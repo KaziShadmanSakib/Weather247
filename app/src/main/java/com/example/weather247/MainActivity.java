@@ -224,10 +224,14 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-            if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE)
+            if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE) {
                 startActivity(new Intent(MainActivity.this, CurrentWeather.class));
-            else if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE)
+                MainActivity.this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            }
+            else if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE) {
                 startActivity(new Intent(MainActivity.this, WeatherPrediction.class));
+                MainActivity.this.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anime_slide_out_right);
+            }
             return super.onFling(motionEvent, motionEvent1, v, v1);
         }
     }
