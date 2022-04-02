@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.example.weather247.predictioncard.PredictionCardAdapter;
 import com.example.weather247.predictioncard.PredictionCardModel;
@@ -19,6 +20,52 @@ public class WeatherPrediction extends AppCompatActivity {
 
     private final PredictionCardAdapter predictionCardAdapter = new PredictionCardAdapter(this, predictionCardCollection);
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+
+    private String location = "United States";
+    private String currentDate = "2022-04-02";
+    private String current_maxtemp_c = "30°C";
+    private String current_mintemp_c = "25°C";
+    private String current_avgtemp_c = "27.5°C";
+    private String current_maxwind_kph = "18.4 kph";
+    private String current_daily_chance_of_rain = "89%";
+    private String current_daily_chance_of_snow = "50%";
+    private String tomorrowDate = "2022-04-02";
+    private String tomorrow_maxtemp_c = "30°C";
+    private String tomorrow_mintemp_c = "25°C";
+    private String tomorrow_avgtemp_c = "27.5°C";
+    private String tomorrow_maxwind_kph = "18.4 kph";
+    private String tomorrow_daily_chance_of_rain = "89%";
+    private String tomorrow_daily_chance_of_snow = "50%";
+    private String nextDayDate = "2022-04-02";
+    private String nextDay_maxtemp_c = "30°C";
+    private String nextDay_mintemp_c = "25°C";
+    private String nextDay_avgtemp_c = "27.5°C";
+    private String nextDay_maxwind_kph = "18.4 kph";
+    private String nextDay_daily_chance_of_rain = "89%";
+    private String nextDay_daily_chance_of_snow = "50%";
+
+    private TextView locationTv;
+    private TextView currentDateTv;
+    private TextView current_maxtemp_cTv;
+    private TextView current_mintemp_cTv;
+    private TextView current_avgtemp_cTv;
+    private TextView current_maxwind_kphTv;
+    private TextView current_daily_chance_of_rainTv;
+    private TextView current_daily_chance_of_snowTv;
+    private TextView tomorrowDateTv;
+    private TextView tomorrow_maxtemp_cTv;
+    private TextView tomorrow_mintemp_cTv;
+    private TextView tomorrow_avgtemp_cTv;
+    private TextView tomorrow_maxwind_kphTv;
+    private TextView tomorrow_daily_chance_of_rainTv;
+    private TextView tomorrow_daily_chance_of_snowTv;
+    private TextView nextDayDateTv;
+    private TextView nextDay_maxtemp_cTv;
+    private TextView nextDay_mintemp_cTv;
+    private TextView nextDay_avgtemp_cTv;
+    private TextView nextDay_maxwind_kphTv;
+    private TextView nextDay_daily_chance_of_rainTv;
+    private TextView nextDay_daily_chance_of_snowTv;
 
 
 
@@ -37,9 +84,38 @@ public class WeatherPrediction extends AppCompatActivity {
         predictionRecyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    //TODO: shuru korbo eta ekhon hehe
+    //TODO: Parsing Done, just you have to set the string value to a TextView, TextViews are initialezed above just use findViewById
     public void setWeatherPredictionInformation() {
 
+        location = Cache.loadUserLocation(this);
+
+        //current prediction
+        currentDate = DataController.getCurrentDate();
+        current_maxtemp_c = DataController.getCurrent_maxtemp_c();
+        current_mintemp_c = DataController.getCurrent_mintemp_c();
+        current_avgtemp_c = DataController.getCurrent_avgtemp_c();
+        current_maxwind_kph = DataController.getCurrent_maxwind_kph();
+        current_daily_chance_of_rain = DataController.getCurrent_daily_chance_of_rain();
+        current_daily_chance_of_snow = DataController.getCurrent_daily_chance_of_snow();
+
+        //tomorrow prediction
+        tomorrowDate = DataController.getTomorrowDate();
+        tomorrow_maxtemp_c = DataController.getTomorrow_maxtemp_c();
+        tomorrow_mintemp_c = DataController.getTomorrow_mintemp_c();
+        tomorrow_avgtemp_c = DataController.getTomorrow_avgtemp_c();
+        tomorrow_maxwind_kph = DataController.getTomorrow_maxwind_kph();
+        tomorrow_daily_chance_of_rain = DataController.getTomorrow_daily_chance_of_rain();
+        tomorrow_daily_chance_of_snow = DataController.getTomorrow_daily_chance_of_snow();
+
+        //the next day prediction
+
+        nextDayDate = DataController.getNextDayDate();
+        nextDay_maxtemp_c = DataController.getNextDay_maxtemp_c();
+        nextDay_mintemp_c = DataController.getNextDay_mintemp_c();
+        nextDay_avgtemp_c = DataController.getNextDay_avgtemp_c();
+        nextDay_maxwind_kph = DataController.getNextDay_maxwind_kph();
+        nextDay_daily_chance_of_rain = DataController.getNextDay_daily_chance_of_rain();
+        nextDay_daily_chance_of_snow = DataController.getNextDay_daily_chance_of_snow();
 
 
 
