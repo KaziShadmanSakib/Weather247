@@ -50,6 +50,7 @@ public class WeatherApiController {
                         }
                         DataController.parseBasicInformation(urlResponseJson);
                         DataController.parseCurrentInformation(urlResponseJson);
+                        DataController.parseWeatherPrediction(urlResponseJson);
                         volleyListener.requestFinished();
 
                         //Log.i("Current Temperature", DataController.getCurrentTemperature());

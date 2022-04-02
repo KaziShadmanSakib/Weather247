@@ -43,6 +43,34 @@ public class DataController {
     private static String temp4 = "25";
     private static String currentHealthConcern = "Good";
 
+    //current prediction
+    private static String currentDate = "2022-04-02";
+    private static String current_maxtemp_c = "30°C";
+    private static String current_mintemp_c = "25°C";
+    private static String current_avgtemp_c = "27.5°C";
+    private static String current_maxwind_kph = "18.4 kph";
+    private static String current_daily_chance_of_rain = "89%";
+    private static String current_daily_chance_of_snow = "50%";
+
+    //tomorrow prediction
+
+    private static String tomorrowDate = "2022-04-02";
+    private static String tomorrow_maxtemp_c = "30°C";
+    private static String tomorrow_mintemp_c = "25°C";
+    private static String tomorrow_avgtemp_c = "27.5°C";
+    private static String tomorrow_maxwind_kph = "18.4 kph";
+    private static String tomorrow_daily_chance_of_rain = "89%";
+    private static String tomorrow_daily_chance_of_snow = "50%";
+
+    //the next day prediction
+
+    private static String nextDayDate = "2022-04-02";
+    private static String nextDay_maxtemp_c = "30°C";
+    private static String nextDay_mintemp_c = "25°C";
+    private static String nextDay_avgtemp_c = "27.5°C";
+    private static String nextDay_maxwind_kph = "18.4 kph";
+    private static String nextDay_daily_chance_of_rain = "89%";
+    private static String nextDay_daily_chance_of_snow = "50%";
 
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
         Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};
@@ -88,6 +116,75 @@ public class DataController {
         int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
 
         return  timeInt;
+
+    }
+
+    public static void parseWeatherPrediction(JSONObject urlResponseJson){
+
+       try {
+
+            JSONArray jsonArray1 = urlResponseJson.getJSONObject("forecast").getJSONArray("forecastday");
+           //current prediction
+           currentDate = jsonArray1.getJSONObject(0).getString("date");
+           current_maxtemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("maxtemp_c")+"°C";
+           current_mintemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("mintemp_c")+"°C";
+           current_avgtemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("avgtemp_c")+"°C";
+           current_maxwind_kph = jsonArray1.getJSONObject(0).getJSONObject("day").getString("maxwind_kph") + " kph";
+           current_daily_chance_of_rain = jsonArray1.getJSONObject(0).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
+           current_daily_chance_of_snow = jsonArray1.getJSONObject(0).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
+
+           setCurrentDate(currentDate);
+           setCurrent_maxtemp_c(current_maxtemp_c);
+           setCurrent_mintemp_c(current_mintemp_c);
+           setCurrent_avgtemp_c(current_avgtemp_c);
+           setCurrent_maxwind_kph(current_maxwind_kph);
+           setCurrent_daily_chance_of_rain(current_daily_chance_of_rain);
+           setCurrent_daily_chance_of_snow(current_daily_chance_of_snow);
+
+           //tomorrow prediction
+           tomorrowDate = jsonArray1.getJSONObject(1).getString("date");
+           tomorrow_maxtemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("maxtemp_c")+"°C";
+           tomorrow_mintemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("mintemp_c")+"°C";
+           tomorrow_avgtemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("avgtemp_c")+"°C";
+           tomorrow_maxwind_kph = jsonArray1.getJSONObject(1).getJSONObject("day").getString("maxwind_kph") + " kph";
+           tomorrow_daily_chance_of_rain = jsonArray1.getJSONObject(1).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
+           tomorrow_daily_chance_of_snow = jsonArray1.getJSONObject(1).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
+
+
+           setTomorrowDate(tomorrowDate);
+           setTomorrow_maxtemp_c(tomorrow_maxtemp_c);
+           setTomorrow_mintemp_c(tomorrow_mintemp_c);
+           setTomorrow_avgtemp_c(tomorrow_avgtemp_c);
+           setTomorrow_maxwind_kph(tomorrow_maxwind_kph);
+           setTomorrow_daily_chance_of_rain(tomorrow_daily_chance_of_rain);
+           setTomorrow_daily_chance_of_snow(tomorrow_daily_chance_of_snow);
+
+
+           //the next day prediction
+
+           nextDayDate = jsonArray1.getJSONObject(2).getString("date");
+           nextDay_maxtemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("maxtemp_c")+"°C";
+           nextDay_mintemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("mintemp_c")+"°C";
+           nextDay_avgtemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("avgtemp_c")+"°C";
+           nextDay_maxwind_kph = jsonArray1.getJSONObject(2).getJSONObject("day").getString("maxwind_kph") + " kph";
+           nextDay_daily_chance_of_rain = jsonArray1.getJSONObject(2).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
+           nextDay_daily_chance_of_snow = jsonArray1.getJSONObject(2).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
+
+
+           setNextDayDate(nextDayDate);
+           setNextDay_maxtemp_c(nextDay_maxtemp_c);
+           setNextDay_mintemp_c(nextDay_mintemp_c);
+           setNextDay_avgtemp_c(nextDay_avgtemp_c);
+           setNextDay_maxwind_kph(nextDay_maxwind_kph);
+           setNextDay_daily_chance_of_rain(nextDay_daily_chance_of_rain);
+           setNextDay_daily_chance_of_snow(nextDay_daily_chance_of_snow);
+
+
+       } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
 
     }
 
@@ -310,7 +407,6 @@ public class DataController {
             setCurrentAQI(currentAQI);
             setCurrentHealthConcern(currentHealthConcern);
 
-            Log.i("activity", String.valueOf(realTimeInt));
 
 
         } catch (JSONException e) {
@@ -338,6 +434,175 @@ public class DataController {
         }
 
     }
+
+    public static String getCurrentDate() {
+        return currentDate;
+    }
+
+    public static void setCurrentDate(String currentDate) {
+        DataController.currentDate = currentDate;
+    }
+
+    public static String getCurrent_maxtemp_c() {
+        return current_maxtemp_c;
+    }
+
+    public static void setCurrent_maxtemp_c(String current_maxtemp_c) {
+        DataController.current_maxtemp_c = current_maxtemp_c;
+    }
+
+    public static String getCurrent_mintemp_c() {
+        return current_mintemp_c;
+    }
+
+    public static void setCurrent_mintemp_c(String current_mintemp_c) {
+        DataController.current_mintemp_c = current_mintemp_c;
+    }
+
+    public static String getCurrent_avgtemp_c() {
+        return current_avgtemp_c;
+    }
+
+    public static void setCurrent_avgtemp_c(String current_avgtemp_c) {
+        DataController.current_avgtemp_c = current_avgtemp_c;
+    }
+
+    public static String getCurrent_maxwind_kph() {
+        return current_maxwind_kph;
+    }
+
+    public static void setCurrent_maxwind_kph(String current_maxwind_kph) {
+        DataController.current_maxwind_kph = current_maxwind_kph;
+    }
+
+    public static String getCurrent_daily_chance_of_rain() {
+        return current_daily_chance_of_rain;
+    }
+
+    public static void setCurrent_daily_chance_of_rain(String current_daily_chance_of_rain) {
+        DataController.current_daily_chance_of_rain = current_daily_chance_of_rain;
+    }
+
+    public static String getCurrent_daily_chance_of_snow() {
+        return current_daily_chance_of_snow;
+    }
+
+    public static void setCurrent_daily_chance_of_snow(String current_daily_chance_of_snow) {
+        DataController.current_daily_chance_of_snow = current_daily_chance_of_snow;
+    }
+
+    public static String getTomorrowDate() {
+        return tomorrowDate;
+    }
+
+    public static void setTomorrowDate(String tomorrowDate) {
+        DataController.tomorrowDate = tomorrowDate;
+    }
+
+    public static String getTomorrow_maxtemp_c() {
+        return tomorrow_maxtemp_c;
+    }
+
+    public static void setTomorrow_maxtemp_c(String tomorrow_maxtemp_c) {
+        DataController.tomorrow_maxtemp_c = tomorrow_maxtemp_c;
+    }
+
+    public static String getTomorrow_mintemp_c() {
+        return tomorrow_mintemp_c;
+    }
+
+    public static void setTomorrow_mintemp_c(String tomorrow_mintemp_c) {
+        DataController.tomorrow_mintemp_c = tomorrow_mintemp_c;
+    }
+
+    public static String getTomorrow_avgtemp_c() {
+        return tomorrow_avgtemp_c;
+    }
+
+    public static void setTomorrow_avgtemp_c(String tomorrow_avgtemp_c) {
+        DataController.tomorrow_avgtemp_c = tomorrow_avgtemp_c;
+    }
+
+    public static String getTomorrow_maxwind_kph() {
+        return tomorrow_maxwind_kph;
+    }
+
+    public static void setTomorrow_maxwind_kph(String tomorrow_maxwind_kph) {
+        DataController.tomorrow_maxwind_kph = tomorrow_maxwind_kph;
+    }
+
+    public static String getTomorrow_daily_chance_of_rain() {
+        return tomorrow_daily_chance_of_rain;
+    }
+
+    public static void setTomorrow_daily_chance_of_rain(String tomorrow_daily_chance_of_rain) {
+        DataController.tomorrow_daily_chance_of_rain = tomorrow_daily_chance_of_rain;
+    }
+
+    public static String getTomorrow_daily_chance_of_snow() {
+        return tomorrow_daily_chance_of_snow;
+    }
+
+    public static void setTomorrow_daily_chance_of_snow(String tomorrow_daily_chance_of_snow) {
+        DataController.tomorrow_daily_chance_of_snow = tomorrow_daily_chance_of_snow;
+    }
+
+    public static String getNextDayDate() {
+        return nextDayDate;
+    }
+
+    public static void setNextDayDate(String nextDayDate) {
+        DataController.nextDayDate = nextDayDate;
+    }
+
+    public static String getNextDay_maxtemp_c() {
+        return nextDay_maxtemp_c;
+    }
+
+    public static void setNextDay_maxtemp_c(String nextDay_maxtemp_c) {
+        DataController.nextDay_maxtemp_c = nextDay_maxtemp_c;
+    }
+
+    public static String getNextDay_mintemp_c() {
+        return nextDay_mintemp_c;
+    }
+
+    public static void setNextDay_mintemp_c(String nextDay_mintemp_c) {
+        DataController.nextDay_mintemp_c = nextDay_mintemp_c;
+    }
+
+    public static String getNextDay_avgtemp_c() {
+        return nextDay_avgtemp_c;
+    }
+
+    public static void setNextDay_avgtemp_c(String nextDay_avgtemp_c) {
+        DataController.nextDay_avgtemp_c = nextDay_avgtemp_c;
+    }
+
+    public static String getNextDay_maxwind_kph() {
+        return nextDay_maxwind_kph;
+    }
+
+    public static void setNextDay_maxwind_kph(String nextDay_maxwind_kph) {
+        DataController.nextDay_maxwind_kph = nextDay_maxwind_kph;
+    }
+
+    public static String getNextDay_daily_chance_of_rain() {
+        return nextDay_daily_chance_of_rain;
+    }
+
+    public static void setNextDay_daily_chance_of_rain(String nextDay_daily_chance_of_rain) {
+        DataController.nextDay_daily_chance_of_rain = nextDay_daily_chance_of_rain;
+    }
+
+    public static String getNextDay_daily_chance_of_snow() {
+        return nextDay_daily_chance_of_snow;
+    }
+
+    public static void setNextDay_daily_chance_of_snow(String nextDay_daily_chance_of_snow) {
+        DataController.nextDay_daily_chance_of_snow = nextDay_daily_chance_of_snow;
+    }
+
 
     public static String getCurrentAQI() {
         return currentAQI;

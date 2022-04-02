@@ -20,6 +20,8 @@ public class WeatherPrediction extends AppCompatActivity {
     private final PredictionCardAdapter predictionCardAdapter = new PredictionCardAdapter(this, predictionCardCollection);
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +36,12 @@ public class WeatherPrediction extends AppCompatActivity {
         predictionRecyclerView.setAdapter(predictionCardAdapter);
         predictionRecyclerView.setLayoutManager(linearLayoutManager);
     }
-    //TODO: waiting for Kabbo vai to parse prediction data
+
+    //TODO: shuru korbo eta ekhon hehe
     public void setWeatherPredictionInformation() {
+
+
+
 
     }
 }
