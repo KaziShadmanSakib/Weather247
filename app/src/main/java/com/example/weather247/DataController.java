@@ -72,6 +72,9 @@ public class DataController {
     private static String nextDay_daily_chance_of_rain = "89%";
     private static String nextDay_daily_chance_of_snow = "50%";
 
+    private static String[] predictionIcon;
+    private static String[] predictionWeatherStatus;
+
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
         Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};
         Float[] pm25Breakpoints = {-0.1f, 12.0f, 35.4f, 55.4f, 150.4f, 250.4f, 350.4f, 500.4f};
@@ -178,6 +181,18 @@ public class DataController {
            setNextDay_avghumidity(nextDay_avghumidity);
            setNextDay_daily_chance_of_rain(nextDay_daily_chance_of_rain);
            setNextDay_daily_chance_of_snow(nextDay_daily_chance_of_snow);
+
+
+           //weather prediction icon and weather status of today, tomorrow and next day
+           predictionIcon = new String[3];
+           predictionWeatherStatus = new String[3];
+
+           for(int i=0;i<3;i++){
+               predictionWeatherStatus[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getJSONObject("condition").getString("text");
+               predictionIcon[i] = "http:"+jsonArray1.getJSONObject(i).getJSONObject("day").getJSONObject("condition").getString("icon");
+           }
+           setPredictionWeatherStatus(predictionWeatherStatus);
+           setPredictionIcon(predictionIcon);
 
 
        } catch (JSONException e) {
@@ -434,6 +449,23 @@ public class DataController {
         }
 
     }
+
+    public static String[] getPredictionIcon() {
+        return predictionIcon;
+    }
+
+    public static void setPredictionIcon(String[] predictionIcon) {
+        DataController.predictionIcon = predictionIcon;
+    }
+
+    public static String[] getPredictionWeatherStatus() {
+        return predictionWeatherStatus;
+    }
+
+    public static void setPredictionWeatherStatus(String[] predictionWeatherStatus) {
+        DataController.predictionWeatherStatus = predictionWeatherStatus;
+    }
+
 
     public static String getCurrent_avghumidity() {
         return current_avghumidity;

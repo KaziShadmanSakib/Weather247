@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
@@ -52,6 +53,9 @@ public class WeatherPrediction extends AppCompatActivity {
     private String nextDay_daily_chance_of_rain = "89%";
     private String nextDay_daily_chance_of_snow = "50%";
 
+    private String[] predictionWeatherStatus;
+    private String[] predictionIcon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,12 @@ public class WeatherPrediction extends AppCompatActivity {
     public void setWeatherPredictionInformation() {
 
         location = Cache.loadUserLocation(this);
+
+        //Todo set weatherStatus and Icon
+        //predictionWeatherStatus and predictionIcon are an String array where index 0 is today, 1 is tomorrow and 2 is nextDay
+        predictionWeatherStatus = DataController.getPredictionWeatherStatus();
+        predictionIcon = DataController.getPredictionIcon();
+
 
         //current prediction
         currentDate = DataController.getCurrentDate();
