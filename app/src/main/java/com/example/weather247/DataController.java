@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class DataController {
 
@@ -221,12 +222,13 @@ public class DataController {
             currentWindDir = urlResponseJson.getJSONObject("current").getString("wind_dir");
             currentUVIndex = urlResponseJson.getJSONObject("current").getString("uv");
 
-            currentPM2_5 = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("pm2_5");
-            currentPM10 = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("pm10");
-            currentSO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("so2");
-            currentNO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("no2");
-            currentO3 = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("o3");
-            currentCO = urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("co");
+            currentPM2_5 = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("pm2_5")));
+            currentPM10 = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("pm10")));
+            currentSO = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("so2")));
+            currentNO = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("no2")));
+            currentO3 = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("o3")));
+            currentCO = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("co")));
+
 
             currentAQI = calculateAQI(
                     Float.parseFloat(currentPM2_5),
