@@ -41,6 +41,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
+    private WeatherApiController weatherApiController;
     private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     private TextView userLocationTv;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         locationController();
 
         //weather API controller controls the API and fetches data from it
-        WeatherApiController weatherApiController = new WeatherApiController(this);
+        weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
     }
 
@@ -100,7 +101,13 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 String searchedLocation = searchLocationBar.getText().toString();
                 searchLocationBar.getText().clear();
+
                 //TODO: make an API call with searched location, check validity of the location and then do the following
+                userLocationTv.setText(searchedLocation);
+                weatherApiController.getJsonData(this, searchedLocation);
+                Cache.saveUserLocation(MainActivity.this, searchedLocation);
+                Log.i("Location", "getLocationSearched: " + searchedLocation);
+
                 LocalDateTime currentTime = LocalDateTime.now();
                 String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
                 locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));

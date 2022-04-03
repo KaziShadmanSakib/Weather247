@@ -16,10 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class WeatherApiController {
-    private String location;
     private String url;
     private JSONObject urlResponseJson;
     private Context context;
+    private String  location;
 
     public WeatherApiController(Context context){
         this.context = context;
@@ -30,6 +30,50 @@ public class WeatherApiController {
 
         url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
 
+        Log.i("Location", url);
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    final VolleyListener volleyListener = (VolleyListener)context;
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        String urlResponse = response;
+
+                        try {
+
+                            urlResponseJson = new JSONObject(urlResponse);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        DataController.parseBasicInformation(urlResponseJson);
+                        DataController.parseCurrentInformation(urlResponseJson);
+                        DataController.parseWeatherPrediction(urlResponseJson);
+                        volleyListener.requestFinished();
+
+                        //Log.i("Current Temperature", DataController.getCurrentTemperature());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Log.i("activity", error.toString());
+
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    public void getJsonData(Context context, String location) {
+
+        url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
+
+        Log.i("Location", url);
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.
