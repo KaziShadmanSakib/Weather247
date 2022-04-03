@@ -3,6 +3,8 @@ package com.example.weather247.predictioncard;
 public class PredictionCardModel {
     private String day;
     private String date;
+    private String iconPath;
+    private String status;
     private String maxTemp;
     private String minTemp;
     private String avgTemp;
@@ -10,9 +12,11 @@ public class PredictionCardModel {
     private String chanceOfRain;
     private String chanceOfSnow;
 
-    public PredictionCardModel(String day, String date, String maxTemp, String minTemp, String avgTemp, String humidity, String chanceOfRain, String chanceOfSnow) {
+    public PredictionCardModel(String day, String date, String iconPath, String status, String maxTemp, String minTemp, String avgTemp, String humidity, String chanceOfRain, String chanceOfSnow) {
         this.day = day;
         this.date = date;
+        this.iconPath = iconPath;
+        this.status = status;
         this.maxTemp = maxTemp;
         this.minTemp = minTemp;
         this.avgTemp = avgTemp;
@@ -35,6 +39,22 @@ public class PredictionCardModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getIconPath() {
+        return iconPath;
+    }
+
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getMaxTemp() {

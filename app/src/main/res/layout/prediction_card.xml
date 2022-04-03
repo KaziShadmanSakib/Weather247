@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/base_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,26 +22,27 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/predictionDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:text="Tomorrow"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:typeface="normal"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.187" />
 
             <TextView
                 android:id="@+id/predictionDate"
@@ -57,9 +59,32 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/predictionDay" />
+                app:layout_constraintTop_toBottomOf="@+id/predictionDay"
+                app:layout_constraintVertical_bias="0.0" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/predictionIcon"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.957"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.31" />
+
+            <TextView
+                android:id="@+id/predictionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="weather status"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.953"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.786" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/collapsibleLayout"
@@ -68,7 +93,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            android:alpha="0.5"
+            android:alpha="0.6"
             android:background="@drawable/info_trey"
             android:orientation="vertical"
             android:visibility="gone"
@@ -88,6 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Maximum temperature"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
 
                 <TextView
@@ -99,6 +125,7 @@
                     android:text="36.7°C"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
 
@@ -113,7 +140,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Minimum temperature"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/predictedMinTemp"
@@ -124,6 +152,7 @@
                     android:text="24.2°C"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
 
@@ -138,7 +167,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Average temperature"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/predictedAvgTemp"
@@ -149,6 +179,7 @@
                     android:text="28.8°C"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
 
@@ -163,7 +194,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Humidity"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/predictedHumidity"
@@ -174,6 +206,7 @@
                     android:text="65.0"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
 
@@ -188,7 +221,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Chance of rain"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/predictedChanceOfRain"
@@ -199,6 +233,7 @@
                     android:text="88"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
 
@@ -214,7 +249,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:text="Chance of snow"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
 
                 <TextView
                     android:id="@+id/predictedChanceOfSnow"
@@ -225,6 +261,7 @@
                     android:text="0"
                     android:textAlignment="viewEnd"
                     android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:textSize="20sp" />
             </RelativeLayout>
         </LinearLayout>
