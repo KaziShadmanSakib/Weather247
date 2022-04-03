@@ -48,7 +48,7 @@ public class DataController {
     private static String current_maxtemp_c = "30°C";
     private static String current_mintemp_c = "25°C";
     private static String current_avgtemp_c = "27.5°C";
-    private static String current_maxwind_kph = "18.4 kph";
+    private static String current_avghumidity = "50%";
     private static String current_daily_chance_of_rain = "89%";
     private static String current_daily_chance_of_snow = "50%";
 
@@ -58,7 +58,7 @@ public class DataController {
     private static String tomorrow_maxtemp_c = "30°C";
     private static String tomorrow_mintemp_c = "25°C";
     private static String tomorrow_avgtemp_c = "27.5°C";
-    private static String tomorrow_maxwind_kph = "18.4 kph";
+    private static String tomorrow_avghumidity = "50%";
     private static String tomorrow_daily_chance_of_rain = "89%";
     private static String tomorrow_daily_chance_of_snow = "50%";
 
@@ -68,7 +68,7 @@ public class DataController {
     private static String nextDay_maxtemp_c = "30°C";
     private static String nextDay_mintemp_c = "25°C";
     private static String nextDay_avgtemp_c = "27.5°C";
-    private static String nextDay_maxwind_kph = "18.4 kph";
+    private static String nextDay_avghumidity = "50%";
     private static String nextDay_daily_chance_of_rain = "89%";
     private static String nextDay_daily_chance_of_snow = "50%";
 
@@ -129,7 +129,7 @@ public class DataController {
            current_maxtemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("maxtemp_c")+"°C";
            current_mintemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("mintemp_c")+"°C";
            current_avgtemp_c = jsonArray1.getJSONObject(0).getJSONObject("day").getString("avgtemp_c")+"°C";
-           current_maxwind_kph = jsonArray1.getJSONObject(0).getJSONObject("day").getString("maxwind_kph") + " kph";
+           current_avghumidity = jsonArray1.getJSONObject(0).getJSONObject("day").getString("avghumidity") + "%";
            current_daily_chance_of_rain = jsonArray1.getJSONObject(0).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
            current_daily_chance_of_snow = jsonArray1.getJSONObject(0).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
 
@@ -137,7 +137,7 @@ public class DataController {
            setCurrent_maxtemp_c(current_maxtemp_c);
            setCurrent_mintemp_c(current_mintemp_c);
            setCurrent_avgtemp_c(current_avgtemp_c);
-           setCurrent_maxwind_kph(current_maxwind_kph);
+           setCurrent_avghumidity(current_avghumidity);
            setCurrent_daily_chance_of_rain(current_daily_chance_of_rain);
            setCurrent_daily_chance_of_snow(current_daily_chance_of_snow);
 
@@ -146,7 +146,7 @@ public class DataController {
            tomorrow_maxtemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("maxtemp_c")+"°C";
            tomorrow_mintemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("mintemp_c")+"°C";
            tomorrow_avgtemp_c = jsonArray1.getJSONObject(1).getJSONObject("day").getString("avgtemp_c")+"°C";
-           tomorrow_maxwind_kph = jsonArray1.getJSONObject(1).getJSONObject("day").getString("maxwind_kph") + " kph";
+           tomorrow_avghumidity = jsonArray1.getJSONObject(1).getJSONObject("day").getString("avghumidity") + "%";
            tomorrow_daily_chance_of_rain = jsonArray1.getJSONObject(1).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
            tomorrow_daily_chance_of_snow = jsonArray1.getJSONObject(1).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
 
@@ -155,7 +155,7 @@ public class DataController {
            setTomorrow_maxtemp_c(tomorrow_maxtemp_c);
            setTomorrow_mintemp_c(tomorrow_mintemp_c);
            setTomorrow_avgtemp_c(tomorrow_avgtemp_c);
-           setTomorrow_maxwind_kph(tomorrow_maxwind_kph);
+           setTomorrow_avghumidity(tomorrow_avghumidity);
            setTomorrow_daily_chance_of_rain(tomorrow_daily_chance_of_rain);
            setTomorrow_daily_chance_of_snow(tomorrow_daily_chance_of_snow);
 
@@ -166,7 +166,7 @@ public class DataController {
            nextDay_maxtemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("maxtemp_c")+"°C";
            nextDay_mintemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("mintemp_c")+"°C";
            nextDay_avgtemp_c = jsonArray1.getJSONObject(2).getJSONObject("day").getString("avgtemp_c")+"°C";
-           nextDay_maxwind_kph = jsonArray1.getJSONObject(2).getJSONObject("day").getString("maxwind_kph") + " kph";
+           nextDay_avghumidity = jsonArray1.getJSONObject(2).getJSONObject("day").getString("avghumidity") + "%";
            nextDay_daily_chance_of_rain = jsonArray1.getJSONObject(2).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
            nextDay_daily_chance_of_snow = jsonArray1.getJSONObject(2).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
 
@@ -175,7 +175,7 @@ public class DataController {
            setNextDay_maxtemp_c(nextDay_maxtemp_c);
            setNextDay_mintemp_c(nextDay_mintemp_c);
            setNextDay_avgtemp_c(nextDay_avgtemp_c);
-           setNextDay_maxwind_kph(nextDay_maxwind_kph);
+           setNextDay_avghumidity(nextDay_avghumidity);
            setNextDay_daily_chance_of_rain(nextDay_daily_chance_of_rain);
            setNextDay_daily_chance_of_snow(nextDay_daily_chance_of_snow);
 
@@ -435,6 +435,30 @@ public class DataController {
 
     }
 
+    public static String getCurrent_avghumidity() {
+        return current_avghumidity;
+    }
+
+    public static void setCurrent_avghumidity(String current_avghumidity) {
+        DataController.current_avghumidity = current_avghumidity;
+    }
+
+    public static String getTomorrow_avghumidity() {
+        return tomorrow_avghumidity;
+    }
+
+    public static void setTomorrow_avghumidity(String tomorrow_avghumidity) {
+        DataController.tomorrow_avghumidity = tomorrow_avghumidity;
+    }
+
+    public static String getNextDay_avghumidity() {
+        return nextDay_avghumidity;
+    }
+
+    public static void setNextDay_avghumidity(String nextDay_avghumidity) {
+        DataController.nextDay_avghumidity = nextDay_avghumidity;
+    }
+
     public static String getCurrentDate() {
         return currentDate;
     }
@@ -465,14 +489,6 @@ public class DataController {
 
     public static void setCurrent_avgtemp_c(String current_avgtemp_c) {
         DataController.current_avgtemp_c = current_avgtemp_c;
-    }
-
-    public static String getCurrent_maxwind_kph() {
-        return current_maxwind_kph;
-    }
-
-    public static void setCurrent_maxwind_kph(String current_maxwind_kph) {
-        DataController.current_maxwind_kph = current_maxwind_kph;
     }
 
     public static String getCurrent_daily_chance_of_rain() {
@@ -523,14 +539,6 @@ public class DataController {
         DataController.tomorrow_avgtemp_c = tomorrow_avgtemp_c;
     }
 
-    public static String getTomorrow_maxwind_kph() {
-        return tomorrow_maxwind_kph;
-    }
-
-    public static void setTomorrow_maxwind_kph(String tomorrow_maxwind_kph) {
-        DataController.tomorrow_maxwind_kph = tomorrow_maxwind_kph;
-    }
-
     public static String getTomorrow_daily_chance_of_rain() {
         return tomorrow_daily_chance_of_rain;
     }
@@ -577,14 +585,6 @@ public class DataController {
 
     public static void setNextDay_avgtemp_c(String nextDay_avgtemp_c) {
         DataController.nextDay_avgtemp_c = nextDay_avgtemp_c;
-    }
-
-    public static String getNextDay_maxwind_kph() {
-        return nextDay_maxwind_kph;
-    }
-
-    public static void setNextDay_maxwind_kph(String nextDay_maxwind_kph) {
-        DataController.nextDay_maxwind_kph = nextDay_maxwind_kph;
     }
 
     public static String getNextDay_daily_chance_of_rain() {
