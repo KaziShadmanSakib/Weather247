@@ -14,7 +14,13 @@ import android.widget.TextView;
 import com.example.weather247.predictioncard.PredictionCardAdapter;
 import com.example.weather247.predictioncard.PredictionCardModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class WeatherPrediction extends AppCompatActivity {
 
@@ -94,6 +100,8 @@ public class WeatherPrediction extends AppCompatActivity {
         predictionCardCollection.add(new PredictionCardModel(
                 "Today",
                 currentDate,
+                predictionIcon[0],
+                predictionWeatherStatus[0],
                 current_maxtemp_c,
                 current_mintemp_c,
                 current_avgtemp_c,
@@ -114,6 +122,8 @@ public class WeatherPrediction extends AppCompatActivity {
         predictionCardCollection.add(new PredictionCardModel(
                 "Tomorrow",
                 tomorrowDate,
+                predictionIcon[1],
+                predictionWeatherStatus[1],
                 tomorrow_maxtemp_c,
                 tomorrow_mintemp_c,
                 tomorrow_avgtemp_c,
@@ -133,8 +143,10 @@ public class WeatherPrediction extends AppCompatActivity {
         nextDay_daily_chance_of_snow = DataController.getNextDay_daily_chance_of_snow();
 
         predictionCardCollection.add(new PredictionCardModel(
-                "Day after tomorrow",
+                parseDate(nextDayDate),
                 nextDayDate,
+                predictionIcon[2],
+                predictionWeatherStatus[2],
                 nextDay_maxtemp_c,
                 nextDay_mintemp_c,
                 nextDay_avgtemp_c,
@@ -142,10 +154,22 @@ public class WeatherPrediction extends AppCompatActivity {
                 nextDay_daily_chance_of_rain,
                 nextDay_daily_chance_of_snow
         ));
+    }
 
-        //predictionCardAdapter.notifyDataSetChanged();
-
-
+    private String parseDate(String s) {
+        String[] dayOfTheWeeks = {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(nextDayDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date == null) {
+            return "The day after tomorrow";
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return dayOfTheWeeks[calendar.get(Calendar.DAY_OF_WEEK)];
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
