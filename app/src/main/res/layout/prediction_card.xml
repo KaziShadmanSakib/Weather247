@@ -11,7 +11,7 @@
     android:focusable="true"
     app:cardCornerRadius="12dp"
     app:cardElevation="6dp"
-    app:strokeColor="@color/teal"
+    app:strokeColor="@color/teal_700"
     app:strokeWidth="1dp">
 
 

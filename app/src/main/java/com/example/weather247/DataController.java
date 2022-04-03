@@ -106,7 +106,7 @@ public class DataController {
         aqi3 = ((aqiBreakpoints[pos3]-aqiBreakpoints[pos3-1]-1f)/(o3Breakpoints[pos3]-o3Breakpoints[pos3-1]-1f))*
                 (currentO3-o3Breakpoints[pos3-1]-1f)+aqiBreakpoints[pos3-1]+1f;
 
-        return Math.round((aqi1+aqi2+aqi3)/3.0f);
+        return Math.round(Math.max(aqi1, Math.max(aqi2, aqi3)));
     }
 
     private static int getTimeInInteger(String time){

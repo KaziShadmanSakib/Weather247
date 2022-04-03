@@ -10,7 +10,7 @@
     android:elevation="6dp"
     app:cardCornerRadius="12dp"
     app:strokeWidth="1dp"
-    app:strokeColor="@color/teal"
+    app:strokeColor="@color/teal_700"
     app:cardElevation="6dp">
 
 
