@@ -3,6 +3,7 @@ package com.example.weather247;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,9 +34,11 @@ import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private TextView currentTemperatureTv, currentWeatherStatusTv;
     private ImageView currentWeatherIconIv;
+    private String currentSunrise = "06:00 AM";
+    private String currentSunset = "06:00 PM";
+    private String nowTime = "00:00";
     private EditText searchLocationBar;
     private RecyclerView locationRecyclerView;
     private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
@@ -83,6 +89,16 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     public void requestFinished() {
         //sets and displays all the home basic weather info
         setHomeInformation();
+    }
+
+    private int getTimeInInteger(String time){
+
+        String[] timeParts = time.split(":");
+
+        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
+
+        return  timeInt;
+
     }
 
     private void setUiComponents() {
@@ -130,6 +146,32 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         currentTemperature = DataController.getCurrentTemperature();
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat;
+        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        nowTime = (String) dateFormat.format(date);
+
+        currentSunrise = DataController.getCurrentSunrise().substring(0,5);
+        currentSunset = DataController.getCurrentSunset().substring(0,5);
+
+        int nowTimeInt = getTimeInInteger(nowTime);
+        int currentSunriseInt = getTimeInInteger(currentSunrise);
+        int currentSunsetInt = getTimeInInteger(currentSunset);
+        currentSunsetInt = currentSunsetInt + 720;
+
+        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+
+            swipeRefreshLayout = findViewById(R.id.swipeLayout);
+            swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+        }
+
+        else {
+            swipeRefreshLayout = findViewById(R.id.swipeLayout);
+            swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+        }
+
 
         currentTemperatureTv.setText(currentTemperature);
         currentWeatherStatusTv.setText(currentWeatherStatus);

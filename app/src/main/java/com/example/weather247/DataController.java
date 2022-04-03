@@ -52,6 +52,8 @@ public class DataController {
     private static String current_avghumidity = "50%";
     private static String current_daily_chance_of_rain = "89%";
     private static String current_daily_chance_of_snow = "50%";
+    private static String currentSunrise = "06:00 AM";
+    private static String currentSunset = "06:00 PM";
 
     //tomorrow prediction
 
@@ -238,7 +240,7 @@ public class DataController {
             //hourly temperatures
             Date date = new Date();
             SimpleDateFormat dateFormat;
-            dateFormat = new SimpleDateFormat("kk:mm");
+            dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
             realTime = (String) dateFormat.format(date);
             int realTimeInt = getTimeInInteger(realTime);
 
@@ -435,14 +437,22 @@ public class DataController {
     public static void parseBasicInformation(JSONObject urlResponseJson) {
 
         try {
+            JSONArray jsonArray1 = urlResponseJson.getJSONObject("forecast").getJSONArray("forecastday");
+
             currentTemperature = urlResponseJson.getJSONObject("current").getString("temp_c");
             currentCondition = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("text");
             currentIcon = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("icon");
             currentIcon = "http:"+currentIcon;
 
+            currentSunrise = jsonArray1.getJSONObject(0).getJSONObject("astro").getString("sunrise");
+            currentSunset = jsonArray1.getJSONObject(0).getJSONObject("astro").getString("sunset");
+
+
             setCurrentTemperature(currentTemperature);
             setCurrentCondition(currentCondition);
             setCurrentIcon(currentIcon);
+            setCurrentSunrise(currentSunrise);
+            setCurrentSunset(currentSunset);
 
 
 
@@ -450,6 +460,22 @@ public class DataController {
             e.printStackTrace();
         }
 
+    }
+
+    public static String getCurrentSunrise() {
+        return currentSunrise;
+    }
+
+    public static void setCurrentSunrise(String currentSunrise) {
+        DataController.currentSunrise = currentSunrise;
+    }
+
+    public static String getCurrentSunset() {
+        return currentSunset;
+    }
+
+    public static void setCurrentSunset(String currentSunset) {
+        DataController.currentSunset = currentSunset;
     }
 
     public static String[] getPredictionIcon() {
