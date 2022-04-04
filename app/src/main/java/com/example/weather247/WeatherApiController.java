@@ -2,6 +2,7 @@ package com.example.weather247;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,15 +16,70 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+
 public class WeatherApiController {
     private String url;
     private JSONObject urlResponseJson;
     private Context context;
     private String  location;
+    private String text;
 
     public WeatherApiController(Context context){
         this.context = context;
         location = Cache.loadUserLocation(context);
+    }
+
+    private void writeToFile(String data,Context context) {
+
+        File file = new File(context.getFilesDir(), "cache");
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
+        try {
+
+            File gpxfile = new File(file, "lastSavedData");
+
+            //FileReader reader = new FileReader(gpxfile);
+            //reader.read();
+
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(data);
+            writer.flush();
+            writer.close();
+            Toast.makeText(context, "Saved your text", Toast.LENGTH_LONG).show();
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    public void getSavedJsonData(Context context, String lastSavedData){
+
+        final VolleyListener volleyListener = (VolleyListener)context;
+        String urlResponse = lastSavedData;
+
+        try {
+
+            urlResponseJson = new JSONObject(urlResponse);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        DataController.parseBasicInformation(urlResponseJson);
+        DataController.parseCurrentInformation(urlResponseJson);
+        DataController.parseWeatherPrediction(urlResponseJson);
+        volleyListener.requestFinished();
+
+
     }
 
     public void getJsonData(Context context) {
@@ -42,6 +98,8 @@ public class WeatherApiController {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
 
+                        writeToFile(urlResponse, context);
+
                         try {
 
                             urlResponseJson = new JSONObject(urlResponse);
@@ -49,6 +107,7 @@ public class WeatherApiController {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                         DataController.parseBasicInformation(urlResponseJson);
                         DataController.parseCurrentInformation(urlResponseJson);
                         DataController.parseWeatherPrediction(urlResponseJson);
@@ -84,6 +143,7 @@ public class WeatherApiController {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
+                        writeToFile(urlResponse, context);
 
                         try {
 

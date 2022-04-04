@@ -29,7 +29,13 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -64,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private static int MIN_DISTANCE = 140;
     private GestureDetector gestureDetector;
 
+    private static long trigger = 0;
+    private String urlResponse;
+    private String lastSavedData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +89,28 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         //weather API controller controls the API and fetches data from it
         weatherApiController = new WeatherApiController(this);
         weatherApiController.getJsonData(this);
+
+        //lastSavedData = readSavedData();
+        //weatherApiController.getSavedJsonData(this, lastSavedData);
+    }
+
+    private String readSavedData(){
+
+        File file = new File(this.getFilesDir(), "cache");
+
+        try {
+
+            File gpxfile = new File(file, "lastSavedData");
+            FileReader fileReader = new FileReader(gpxfile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            urlResponse = bufferedReader.readLine();
+            fileReader.close();
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File read failed: " + e.toString());
+        }
+        return urlResponse;
     }
 
     @Override
