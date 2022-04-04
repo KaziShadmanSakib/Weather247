@@ -61,11 +61,11 @@ public class WeatherPrediction extends AppCompatActivity {
     private String nextDay_daily_chance_of_rain = "89%";
     private String nextDay_daily_chance_of_snow = "50%";
 
-    private String[] predictionWeatherStatus;
-    private String[] predictionIcon;
-    private String nowTime;
-    private String currentSunrise;
-    private String currentSunset;
+    private String[] predictionWeatherStatus = {"Sunny","Sunny","Sunny"};
+    private String[] predictionIcon = {"http://cdn.weatherapi.com/weather/64x64/day/113.png","http://cdn.weatherapi.com/weather/64x64/day/113.png","http://cdn.weatherapi.com/weather/64x64/day/113.png"};
+    private String currentSunrise = "06:00 AM";
+    private String currentSunset = "06:00 PM";
+    private String nowTime = "00:00";
     private ScrollView scrollView;
 
     @Override

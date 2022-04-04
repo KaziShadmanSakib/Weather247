@@ -75,8 +75,8 @@ public class DataController {
     private static String nextDay_daily_chance_of_rain = "89%";
     private static String nextDay_daily_chance_of_snow = "50%";
 
-    private static String[] predictionIcon;
-    private static String[] predictionWeatherStatus;
+    private static String[] predictionWeatherStatus = {"Sunny","Sunny","Sunny"};
+    private static String[] predictionIcon = {"http://cdn.weatherapi.com/weather/64x64/day/113.png","http://cdn.weatherapi.com/weather/64x64/day/113.png","http://cdn.weatherapi.com/weather/64x64/day/113.png"};
 
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
         Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};

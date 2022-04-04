@@ -64,9 +64,9 @@ public class CurrentWeather extends AppCompatActivity{
     private String temp3 = "25";
     private String temp4 = "25";
     private String currentHealthConcern = "Good";
-    private String nowTime;
-    private String currentSunrise;
-    private String currentSunset;
+    private String currentSunrise = "06:00 AM";
+    private String currentSunset = "06:00 PM";
+    private String nowTime = "00:00";
     private ScrollView scrollView;
 
 
