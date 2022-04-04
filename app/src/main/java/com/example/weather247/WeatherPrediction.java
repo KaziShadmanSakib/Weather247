@@ -1,6 +1,7 @@
 package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.weather247.predictioncard.PredictionCardAdapter;
@@ -61,6 +63,10 @@ public class WeatherPrediction extends AppCompatActivity {
 
     private String[] predictionWeatherStatus;
     private String[] predictionIcon;
+    private String nowTime;
+    private String currentSunrise;
+    private String currentSunset;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,16 @@ public class WeatherPrediction extends AppCompatActivity {
 
         setUiComponents();
         setWeatherPredictionInformation();
+    }
+
+    private int getTimeInInteger(String time){
+
+        String[] timeParts = time.split(":");
+
+        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
+
+        return  timeInt;
+
     }
 
     public void setUiComponents() {
@@ -82,10 +98,34 @@ public class WeatherPrediction extends AppCompatActivity {
 
         location = Cache.loadUserLocation(this);
 
-        //Todo set weatherStatus and Icon
         //predictionWeatherStatus and predictionIcon are an String array where index 0 is today, 1 is tomorrow and 2 is nextDay
         predictionWeatherStatus = DataController.getPredictionWeatherStatus();
         predictionIcon = DataController.getPredictionIcon();
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat;
+        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        nowTime = (String) dateFormat.format(date);
+
+        currentSunrise = DataController.getCurrentSunrise().substring(0,5);
+        currentSunset = DataController.getCurrentSunset().substring(0,5);
+
+        int nowTimeInt = getTimeInInteger(nowTime);
+        int currentSunriseInt = getTimeInInteger(currentSunrise);
+        int currentSunsetInt = getTimeInInteger(currentSunset);
+        currentSunsetInt = currentSunsetInt + 720;
+
+        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+
+            scrollView = findViewById(R.id.weatherPrediction);
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+        }
+
+        else {
+            scrollView = findViewById(R.id.weatherPrediction);
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+        }
 
 
         //current prediction

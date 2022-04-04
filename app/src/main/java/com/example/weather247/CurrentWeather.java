@@ -1,6 +1,7 @@
 package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,10 +9,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class CurrentWeather extends AppCompatActivity{
 
@@ -57,6 +64,10 @@ public class CurrentWeather extends AppCompatActivity{
     private String temp3 = "25";
     private String temp4 = "25";
     private String currentHealthConcern = "Good";
+    private String nowTime;
+    private String currentSunrise;
+    private String currentSunset;
+    private ScrollView scrollView;
 
 
     @Override
@@ -67,6 +78,16 @@ public class CurrentWeather extends AppCompatActivity{
 
         setUiComponents();
         setCurrentWeatherInformation();
+
+    }
+
+    private int getTimeInInteger(String time){
+
+        String[] timeParts = time.split(":");
+
+        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
+
+        return  timeInt;
 
     }
 
@@ -103,6 +124,30 @@ public class CurrentWeather extends AppCompatActivity{
         temp4 = DataController.getTemp4();
         currentHealthConcern = DataController.getCurrentHealthConcern();
 
+        Date date = new Date();
+        SimpleDateFormat dateFormat;
+        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        nowTime = (String) dateFormat.format(date);
+
+        currentSunrise = DataController.getCurrentSunrise().substring(0,5);
+        currentSunset = DataController.getCurrentSunset().substring(0,5);
+
+        int nowTimeInt = getTimeInInteger(nowTime);
+        int currentSunriseInt = getTimeInInteger(currentSunrise);
+        int currentSunsetInt = getTimeInInteger(currentSunset);
+        currentSunsetInt = currentSunsetInt + 720;
+
+        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+
+            scrollView = findViewById(R.id.currentWeather);
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+        }
+
+        else {
+            scrollView = findViewById(R.id.currentWeather);
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+        }
 
 
         locationTv.setText(location);
