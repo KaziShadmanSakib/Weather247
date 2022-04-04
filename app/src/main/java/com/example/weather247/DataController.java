@@ -1,7 +1,5 @@
 package com.example.weather247;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +110,7 @@ public class DataController {
         aqi3 = ((aqiBreakpoints[pos3]-aqiBreakpoints[pos3-1]-1f)/(o3Breakpoints[pos3]-o3Breakpoints[pos3-1]-1f))*
                 (currentO3-o3Breakpoints[pos3-1]-1f)+aqiBreakpoints[pos3-1]+1f;
 
-        return Math.round(Math.max(aqi1, Math.max(aqi2, aqi3)));
+        return Math.round((aqi1 + aqi2 + aqi3) / 3.0f);
     }
 
     private static int getTimeInInteger(String time){

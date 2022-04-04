@@ -196,11 +196,11 @@ public class WeatherPrediction extends AppCompatActivity {
         ));
     }
 
-    private String parseDate(String s) {
+    public String parseDate(String s) {
         String[] dayOfTheWeeks = {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
         Date date = null;
         try {
-            date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(nextDayDate);
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(s);
         } catch (ParseException e) {
             e.printStackTrace();
         }
