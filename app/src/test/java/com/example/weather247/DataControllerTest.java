@@ -1,5 +1,7 @@
 package com.example.weather247;
 
+import android.provider.ContactsContract;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,5 +33,17 @@ public class DataControllerTest {
                 12.4f
         );
         Assert.assertTrue(result3 > 0 && result3 < 150);
+    }
+
+    @Test
+    public void test1GetDayOfTheWeek() {
+        String result = DataController.getDayOfTheWeek("2022-04-04");
+        Assert.assertEquals("Monday", result);
+    }
+
+    @Test
+    public void test2GetDayOfTheWeek() {
+        String result = DataController.getDayOfTheWeek("gibberish");
+        Assert.assertEquals("The day after tomorrow", result);
     }
 }

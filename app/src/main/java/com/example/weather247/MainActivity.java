@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,11 +33,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private String currentSunset = "06:00 PM";
     private String nowTime = "00:00";
     private EditText searchLocationBar;
+    private ImageButton settingsButton;
     private RecyclerView locationRecyclerView;
     private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
     //TODO swipe to refresh yet to be added
@@ -164,6 +164,12 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
                 }
             }
             return false;
+        });
+
+        settingsButton = findViewById(R.id.settingsIcon);
+        settingsButton.setOnClickListener(view -> {
+            Settings settings = new Settings();
+            settings.show(getFragmentManager(), "Settings");
         });
     }
 
