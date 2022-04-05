@@ -168,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
         settingsButton = findViewById(R.id.settingsIcon);
         settingsButton.setOnClickListener(view -> {
-            Settings settings = new Settings();
-            settings.show(getFragmentManager(), "Settings");
+            Intent intent = new Intent(this, Settings.class);
+            startActivity(intent);
         });
     }
 

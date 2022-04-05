@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,12 +15,15 @@
             android:layout_marginStart="10dp"
             android:text="Temperature units"
             android:textSize="16sp"/>
+
         <Spinner
+            android:id="@+id/temperatureUnits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:spinnerMode="dropdown"/>
+            android:entries="@array/temperatureUnits"
+            android:spinnerMode="dialog" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -31,11 +36,12 @@
             android:text="Wind speed units"
             android:textSize="16sp"/>
         <Spinner
+            android:id="@+id/windSpeedUnits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dialog" />
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,11 +54,13 @@
             android:layout_marginStart="10dp"
             android:text="Pressure units"
             android:textSize="16sp"/>
+
         <Spinner
+            android:id="@+id/pressureUnits"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dialog" />
     </RelativeLayout>
 </LinearLayout>
