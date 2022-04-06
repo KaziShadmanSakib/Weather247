@@ -29,6 +29,7 @@ public class WeatherApiController {
     private Context context;
     private String  location;
     private String text;
+    public static int flag = 0;
 
     public WeatherApiController(Context context){
         this.context = context;
@@ -97,7 +98,6 @@ public class WeatherApiController {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
-
                         writeToFile(urlResponse, context);
 
                         try {
@@ -144,7 +144,7 @@ public class WeatherApiController {
                         // Display the first 500 characters of the response string.
                         String urlResponse = response;
                         writeToFile(urlResponse, context);
-
+                        flag = 0;
                         try {
 
                             urlResponseJson = new JSONObject(urlResponse);
@@ -160,13 +160,14 @@ public class WeatherApiController {
                         //Log.i("Current Temperature", DataController.getCurrentTemperature());
                     }
                 }, new Response.ErrorListener() {
-            //final VolleyListener volleyListener = (VolleyListener)context;
+            final VolleyListener volleyListener = (VolleyListener)context;
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                    Log.i("activity", error.toString());
-                    //writeToFile("Invalid", context);
-                    //volleyListener.requestFinished();
+                    //Log.i("activity", error.toString());
+                    flag = 1;
+                    Log.i("activity", String.valueOf(flag));
+                    volleyListener.requestFinished();
 
             }
         });
