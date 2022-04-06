@@ -160,10 +160,13 @@ public class WeatherApiController {
                         //Log.i("Current Temperature", DataController.getCurrentTemperature());
                     }
                 }, new Response.ErrorListener() {
+            //final VolleyListener volleyListener = (VolleyListener)context;
             @Override
             public void onErrorResponse(VolleyError error) {
 
                     Log.i("activity", error.toString());
+                    //writeToFile("Invalid", context);
+                    //volleyListener.requestFinished();
 
             }
         });

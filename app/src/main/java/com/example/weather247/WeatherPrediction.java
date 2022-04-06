@@ -106,14 +106,16 @@ public class WeatherPrediction extends AppCompatActivity {
             predictionCardCollection.add(new PredictionCardModel(
                     predictionDay[i],
                     predictionDate[i],
-                    predictionIcon[2],
-                    predictionWeatherStatus[2],
+                    predictionIcon[i],
+                    predictionWeatherStatus[i],
                     predictedMaxTemp[i],
                     predictedMinTemp[i],
                     predictedAvgTemp[i],
                     predictedAvgHumidity[i],
                     predictedChanceOfRain[i],
                     predictedChanceOfSnow[i]
+
+
             ));
         }
     }
