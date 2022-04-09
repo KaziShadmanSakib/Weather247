@@ -40,15 +40,10 @@ public class WeatherApiController {
         try {
 
             File gpxfile = new File(file, "lastSavedData");
-
-            //FileReader reader = new FileReader(gpxfile);
-            //reader.read();
-
             FileWriter writer = new FileWriter(gpxfile);
             writer.append(data);
             writer.flush();
             writer.close();
-            Toast.makeText(context, "Saved your text", Toast.LENGTH_LONG).show();
 
         }
         catch (IOException e) {
@@ -69,6 +64,7 @@ public class WeatherApiController {
             e.printStackTrace();
         }
 
+        DataController.parseLocation(urlResponseJson);
         DataController.parseBasicInformation(urlResponseJson);
         DataController.parseCurrentInformation(urlResponseJson);
         DataController.parseWeatherPrediction(urlResponseJson);

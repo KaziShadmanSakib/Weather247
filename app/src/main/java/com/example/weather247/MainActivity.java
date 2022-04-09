@@ -8,11 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -78,20 +81,55 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //weather API controller controls the API and fetches data from it
+        weatherApiController = new WeatherApiController(this);
+
+        //detect swipes when user swipes layouts
         gestureDetector = new GestureDetector(this, new GestureListener());
 
         //Initialize all the UI components
         setUiComponents();
 
-        //LocationController() takes the Location from the user device
-        locationController();
 
-        //weather API controller controls the API and fetches data from it
-        weatherApiController = new WeatherApiController(this);
-        weatherApiController.getJsonData(this);
+        //if there is no internet connection, get data from cache file
+        if(!(isConnectedToInternet(this))){
 
-        //lastSavedData = readSavedData();
-        //weatherApiController.getSavedJsonData(this, lastSavedData);
+            lastSavedData = readSavedData();
+            weatherApiController.getSavedJsonData(this, lastSavedData);
+
+        }
+
+        //else there is internet connection, so detect user location and get data
+        else{
+
+            //LocationController() takes the Location from the user device
+            locationController();
+            weatherApiController.getJsonData(this);
+
+        }
+    }
+
+    public boolean isConnectedToInternet(Context context){
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            }
+
+            else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true;
+            }
+        }
+
+        else {
+            return false;
+        }
+        return false;
     }
 
     private String readSavedData(){
