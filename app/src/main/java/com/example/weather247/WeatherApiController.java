@@ -8,8 +8,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -17,11 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
 
 public class WeatherApiController {
     private String url;
@@ -29,7 +24,6 @@ public class WeatherApiController {
     private Context context;
     private String  location;
     private String text;
-    public static int flag = 0;
 
     public WeatherApiController(Context context){
         this.context = context;
@@ -97,23 +91,20 @@ public class WeatherApiController {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        String urlResponse = response;
-                        writeToFile(urlResponse, context);
+                        writeToFile(response, context);
 
                         try {
 
-                            urlResponseJson = new JSONObject(urlResponse);
+                            urlResponseJson = new JSONObject(response);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        DataController.parseLocation(urlResponseJson);
                         DataController.parseBasicInformation(urlResponseJson);
                         DataController.parseCurrentInformation(urlResponseJson);
                         DataController.parseWeatherPrediction(urlResponseJson);
                         volleyListener.requestFinished();
-
-                        //Log.i("Current Temperature", DataController.getCurrentTemperature());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -142,33 +133,25 @@ public class WeatherApiController {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        String urlResponse = response;
-                        writeToFile(urlResponse, context);
-                        flag = 0;
+                        writeToFile(response, context);
                         try {
 
-                            urlResponseJson = new JSONObject(urlResponse);
+                            urlResponseJson = new JSONObject(response);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        DataController.parseLocation(urlResponseJson);
                         DataController.parseBasicInformation(urlResponseJson);
                         DataController.parseCurrentInformation(urlResponseJson);
                         DataController.parseWeatherPrediction(urlResponseJson);
-                        volleyListener.requestFinished();
-
-                        //Log.i("Current Temperature", DataController.getCurrentTemperature());
+                        volleyListener.searchRequestFinished();
                     }
                 }, new Response.ErrorListener() {
             final VolleyListener volleyListener = (VolleyListener)context;
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                    //Log.i("activity", error.toString());
-                    flag = 1;
-                    Log.i("activity", String.valueOf(flag));
-                    volleyListener.requestFinished();
-
+                volleyListener.invalidSearchRequestFinished();
             }
         });
 

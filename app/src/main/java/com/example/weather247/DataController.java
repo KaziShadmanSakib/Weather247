@@ -12,6 +12,8 @@ import java.util.Locale;
 
 public class DataController {
 
+    private static String region = "Dhaka";
+    private static String country = "Bangladesh";
     private static String currentTemperature = "30";
     private static String currentCondition = "Sunny";
     private static String currentIcon = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
@@ -56,6 +58,11 @@ public class DataController {
     private static String[] predictedChanceOfSnow;
     private static String[] predictionIcon;
     private static String[] predictionWeatherStatus;
+
+    //units
+    private static String temperatureUnit;
+    private static String windSpeedUnit;
+    private static String pressureUnit;
 
     public static String getDayOfTheWeek(String s) {
         String[] dayOfTheWeeks = {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -118,6 +125,15 @@ public class DataController {
 
     }
 
+    public static void parseLocation(JSONObject urlResponseJson) {
+        try {
+            region = urlResponseJson.getJSONObject("location").getString("name");
+            country = urlResponseJson.getJSONObject("location").getString("country");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void parseWeatherPrediction(JSONObject urlResponseJson){
 
         try {
@@ -155,9 +171,6 @@ public class DataController {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     public static void parseCurrentInformation(JSONObject urlResponseJson) {
@@ -917,4 +930,35 @@ public class DataController {
         return currentIcon;
     }
 
+    public static String getRegion() {
+        return region;
+    }
+
+    public static String getCountry() {
+        return country;
+    }
+
+    public static String getTemperatureUnit() {
+        return temperatureUnit;
+    }
+
+    public static void setTemperatureUnit(String temperatureUnit) {
+        DataController.temperatureUnit = temperatureUnit;
+    }
+
+    public static String getWindSpeedUnit() {
+        return windSpeedUnit;
+    }
+
+    public static void setWindSpeedUnit(String windSpeedUnit) {
+        DataController.windSpeedUnit = windSpeedUnit;
+    }
+
+    public static String getPressureUnit() {
+        return pressureUnit;
+    }
+
+    public static void setPressureUnit(String pressureUnit) {
+        DataController.pressureUnit = pressureUnit;
+    }
 }

@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
     //TODO swipe to refresh yet to be added
     private SwipeRefreshLayout swipeRefreshLayout;
-    private int flag = 0;
 
     private final LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -118,7 +117,32 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     public void requestFinished() {
         //sets and displays all the home basic weather info
         setHomeInformation();
-        flag = weatherApiController.flag;
+    }
+
+    @Override
+    public void searchRequestFinished() {
+        String searchedLocation = DataController.getRegion() + ", " + DataController.getCountry();
+        userLocationTv.setText(searchedLocation);
+        Cache.saveUserLocation(MainActivity.this, searchedLocation);
+        Log.i("Location", "getLocationSearched: " + searchedLocation);
+
+        LocalDateTime currentTime = LocalDateTime.now();
+        String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
+        locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
+        locationCardAdapter.notifyItemInserted(0);
+        while (locationCardCollection.size() > 5) {
+            locationCardCollection.remove(locationCardCollection.size() - 1);
+            locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
+        }
+        if (locationCardCollection.size() > 0) {
+            TextView recentlySearchTV = findViewById(R.id.recentlySearched);
+            recentlySearchTV.setText("Recently searched");
+        }
+    }
+
+    @Override
+    public void invalidSearchRequestFinished() {
+        Toast.makeText(this, "No matching location found.", Toast.LENGTH_LONG).show();
     }
 
     private int getTimeInInteger(String time){
@@ -145,37 +169,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 String searchedLocation = searchLocationBar.getText().toString();
                 searchLocationBar.getText().clear();
-
-                //TODO: make an API call with searched location, check validity of the location and then do the following
-
                 weatherApiController.getJsonData(this, searchedLocation);
-
-
-                //Log.i("activity", String.valueOf(flag));
-                if(flag==1){
-
-                    Toast.makeText(this, "No matching location found.", Toast.LENGTH_LONG).show();
-
-                }
-
-                else{
-                    userLocationTv.setText(searchedLocation);
-                    Cache.saveUserLocation(MainActivity.this, searchedLocation);
-                    Log.i("Location", "getLocationSearched: " + searchedLocation);
-
-                    LocalDateTime currentTime = LocalDateTime.now();
-                    String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
-                    locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
-                    locationCardAdapter.notifyItemInserted(0);
-                    while (locationCardCollection.size() > 5) {
-                        locationCardCollection.remove(locationCardCollection.size() - 1);
-                        locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
-                    }
-                    if (locationCardCollection.size() > 0) {
-                        TextView recentlySearchTV = findViewById(R.id.recentlySearched);
-                        recentlySearchTV.setText("Recently searched");
-                    }
-                }
             }
             return false;
         });
@@ -189,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
     //sets and displays all the home basic weather info
     public void setHomeInformation(){
+        userLocation = DataController.getRegion() + ", " + DataController.getCountry();
         currentTemperature = DataController.getCurrentTemperature();
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
@@ -218,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
         }
 
-
+        userLocationTv.setText(userLocation);
         currentTemperatureTv.setText(currentTemperature);
         currentWeatherStatusTv.setText(currentWeatherStatus);
 
@@ -273,8 +268,6 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
                     userLocation = addresses.get(0).getLocality();
                     Cache.saveUserLocation(MainActivity.this, userLocation);
                     Log.i("Location", "getLocation: " + userLocation);
-                    userLocationTv.setText(userLocation);
-
 
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

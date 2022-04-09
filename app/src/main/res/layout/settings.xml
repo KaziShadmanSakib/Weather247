@@ -4,17 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Temperature units"
-            android:textSize="16sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
 
         <Spinner
             android:id="@+id/temperatureUnits"
@@ -22,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:entries="@array/temperatureUnits"
             android:spinnerMode="dialog" />
     </RelativeLayout>
     <RelativeLayout
@@ -34,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Wind speed units"
-            android:textSize="16sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
         <Spinner
             android:id="@+id/windSpeedUnits"
             android:layout_width="wrap_content"
@@ -46,14 +63,15 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginTop="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Pressure units"
-            android:textSize="16sp"/>
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <Spinner
             android:id="@+id/pressureUnits"
@@ -62,5 +80,20 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:spinnerMode="dialog" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/settingsApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:textColor="@color/DodgerBlue"
+            android:textSize="18sp" />
     </RelativeLayout>
 </LinearLayout>

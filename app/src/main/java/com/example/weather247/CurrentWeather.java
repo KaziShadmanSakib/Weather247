@@ -6,10 +6,8 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,44 +28,8 @@ public class CurrentWeather extends AppCompatActivity{
     private ImageView currentWeatherIconIv, icon1Iv, icon2Iv, icon3Iv, icon4Iv;
 
     //for swipe left/right
-    private static final String TAG = "CurrentWeather";
-    private static int MIN_DISTANCE = 140;
+    private static final int MIN_DISTANCE = 140;
     private GestureDetector gestureDetector;
-
-    private String location = "London";
-    private String currentTemperature = "30";
-    private String currentIcon = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
-    private String currentHumidity = "70";
-    private String currentRealFeel = "25";
-    private String currentPressure = "1007";
-    private String currentChanceOfRain = "50";
-    private String currentWindSpeed = "11";
-    private String currentWindDir = "West";
-    private String currentUVIndex = "1";
-    private String currentPM2_5 = "32";
-    private String currentPM10 = "53";
-    private String currentSO = "3";
-    private String currentNO = "13";
-    private String currentO3 = "25";
-    private String currentCO = "660";
-    private String currentAQI = "50";
-    private String time1 = "00:00";
-    private String time2 = "00:00";
-    private String time3 = "00:00";
-    private String time4 = "00:00";
-    private String icon1 = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
-    private String icon2 = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
-    private String icon3 = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
-    private String icon4 = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
-    private String temp1 = "25";
-    private String temp2 = "25";
-    private String temp3 = "25";
-    private String temp4 = "25";
-    private String currentHealthConcern = "Good";
-    private String currentSunrise = "06:00 AM";
-    private String currentSunset = "06:00 PM";
-    private String nowTime = "00:00";
-    private ScrollView scrollView;
 
 
     @Override
@@ -85,67 +47,64 @@ public class CurrentWeather extends AppCompatActivity{
 
         String[] timeParts = time.split(":");
 
-        int timeInt = (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
-
-        return  timeInt;
+        return (Integer.parseInt(timeParts[0]) * 60) + Integer.parseInt(timeParts[1]);
 
     }
 
 
     private void setCurrentWeatherInformation() {
-        location = Cache.loadUserLocation(this);
-        currentTemperature = DataController.getCurrentTemperature() + "°C";
-        currentIcon = DataController.getCurrentIcon();
-        currentHumidity = DataController.getCurrentHumidity();
-        currentRealFeel = DataController.getCurrentRealFeel();
-        currentPressure = DataController.getCurrentPressure();
-        currentChanceOfRain = DataController.getCurrentChanceOfRain();
-        currentWindSpeed = DataController.getCurrentWindSpeed();
-        currentWindDir = DataController.getCurrentWindDir();
-        currentUVIndex = DataController.getCurrentUVIndex();
-        currentPM2_5 = DataController.getCurrentPM2_5();
-        currentPM10 = DataController.getCurrentPM10();
-        currentSO = DataController.getCurrentSO();
-        currentNO = DataController.getCurrentNO();
-        currentO3 = DataController.getCurrentO3();
-        currentCO = DataController.getCurrentCO();
-        currentAQI = DataController.getCurrentAQI();
-        time1 = DataController.getTime1();
-        time2 = DataController.getTime2();
-        time3 = DataController.getTime3();
-        time4 = DataController.getTime4();
-        icon1 = DataController.getIcon1();
-        icon2 = DataController.getIcon2();
-        icon3 = DataController.getIcon3();
-        icon4 = DataController.getIcon4();
-        temp1 = DataController.getTemp1();
-        temp2 = DataController.getTemp2();
-        temp3 = DataController.getTemp3();
-        temp4 = DataController.getTemp4();
-        currentHealthConcern = DataController.getCurrentHealthConcern();
+        String location = DataController.getRegion() + ", " + DataController.getCountry();
+        String currentTemperature = DataController.getCurrentTemperature() + "°C";
+        String currentIcon = DataController.getCurrentIcon();
+        String currentHumidity = DataController.getCurrentHumidity();
+        String currentRealFeel = DataController.getCurrentRealFeel();
+        String currentPressure = DataController.getCurrentPressure();
+        String currentChanceOfRain = DataController.getCurrentChanceOfRain();
+        String currentWindSpeed = DataController.getCurrentWindSpeed();
+        String currentWindDir = DataController.getCurrentWindDir();
+        String currentUVIndex = DataController.getCurrentUVIndex();
+        String currentPM2_5 = DataController.getCurrentPM2_5();
+        String currentPM10 = DataController.getCurrentPM10();
+        String currentSO = DataController.getCurrentSO();
+        String currentNO = DataController.getCurrentNO();
+        String currentO3 = DataController.getCurrentO3();
+        String currentCO = DataController.getCurrentCO();
+        String currentAQI = DataController.getCurrentAQI();
+        String time1 = DataController.getTime1();
+        String time2 = DataController.getTime2();
+        String time3 = DataController.getTime3();
+        String time4 = DataController.getTime4();
+        String icon1 = DataController.getIcon1();
+        String icon2 = DataController.getIcon2();
+        String icon3 = DataController.getIcon3();
+        String icon4 = DataController.getIcon4();
+        String temp1 = DataController.getTemp1();
+        String temp2 = DataController.getTemp2();
+        String temp3 = DataController.getTemp3();
+        String temp4 = DataController.getTemp4();
+        String currentHealthConcern = DataController.getCurrentHealthConcern();
 
         Date date = new Date();
         SimpleDateFormat dateFormat;
         dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        nowTime = (String) dateFormat.format(date);
+        String nowTime = (String) dateFormat.format(date);
 
-        currentSunrise = DataController.getCurrentSunrise().substring(0,5);
-        currentSunset = DataController.getCurrentSunset().substring(0,5);
+        String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
+        String currentSunset = DataController.getCurrentSunset().substring(0, 5);
 
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720;
 
+        ScrollView scrollView = findViewById(R.id.currentWeather);
         if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
-            scrollView = findViewById(R.id.currentWeather);
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
 
         }
 
         else {
-            scrollView = findViewById(R.id.currentWeather);
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
         }
 
