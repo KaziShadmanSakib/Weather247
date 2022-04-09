@@ -3,7 +3,6 @@ package com.example.weather247;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -36,20 +35,17 @@ public class Settings extends Activity {
         windSpeedUnitSpinner = findViewById(R.id.windSpeedUnits);
         pressureUnitSpinner = findViewById(R.id.pressureUnits);
         applyButton = findViewById(R.id.settingsApply);
-        applyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String temperatureUnit = temperatureUnitSpinner.getSelectedItem().toString();
-                String windSpeedUnit = windSpeedUnitSpinner.getSelectedItem().toString();
-                String pressureUnit = pressureUnitSpinner.getSelectedItem().toString();
+        applyButton.setOnClickListener(view -> {
+            String temperatureUnit = temperatureUnitSpinner.getSelectedItem().toString();
+            String windSpeedUnit = windSpeedUnitSpinner.getSelectedItem().toString();
+            String pressureUnit = pressureUnitSpinner.getSelectedItem().toString();
 
-                DataController.setTemperatureUnit(temperatureUnit);
-                DataController.setWindSpeedUnit(windSpeedUnit);
-                DataController.setPressureUnit(pressureUnit);
+            DataController.setTemperatureUnit(temperatureUnit);
+            DataController.setWindSpeedUnit(windSpeedUnit);
+            DataController.setPressureUnit(pressureUnit);
 
-                Intent intent = new Intent(Settings.this, MainActivity.class);
-                startActivity(intent);
-            }
+            Intent intent = new Intent(Settings.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 
