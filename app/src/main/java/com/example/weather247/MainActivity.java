@@ -176,6 +176,10 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             TextView recentlySearchTV = findViewById(R.id.recentlySearched);
             recentlySearchTV.setText("Recently searched");
         }
+
+        //sets and displays all the home basic weather info of searched location
+        setHomeInformation();
+
     }
 
     @Override
