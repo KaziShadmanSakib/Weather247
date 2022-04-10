@@ -53,14 +53,10 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private TextView currentTemperatureTv, currentWeatherStatusTv;
     private ImageView currentWeatherIconIv;
-    private String currentSunrise = "06:00 AM";
-    private String currentSunset = "06:00 PM";
-    private String nowTime = "00:00";
     private EditText searchLocationBar;
     private ImageButton settingsButton;
     private RecyclerView locationRecyclerView;
-    private ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
-    //TODO swipe to refresh yet to be added
+    private final ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private final LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
@@ -216,6 +212,11 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
         });
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            weatherApiController.getJsonData();
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     //sets and displays all the home basic weather info
@@ -228,17 +229,16 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         Date date = new Date();
         SimpleDateFormat dateFormat;
         dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        nowTime = (String) dateFormat.format(date);
+        String nowTime = dateFormat.format(date);
 
-        currentSunrise = DataController.getCurrentSunrise().substring(0,5);
-        currentSunset = DataController.getCurrentSunset().substring(0,5);
+        String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
+        String currentSunset = DataController.getCurrentSunset().substring(0, 5);
 
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720;
 
-        swipeRefreshLayout = findViewById(R.id.swipeLayout);
         if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
