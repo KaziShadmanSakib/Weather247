@@ -1,5 +1,7 @@
 package com.example.weather247;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +16,8 @@ public class DataController {
 
     private static String region = "Dhaka";
     private static String country = "Bangladesh";
-    private static String currentTemperature = "30";
+    private static String currentTemperatureHome = "30";
+    private static String currentTemperatureCI = "30";
     private static String currentCondition = "Sunny";
     private static String currentIcon = "http://cdn.weatherapi.com/weather/64x64/day/113.png";
     private static String currentHumidity = "70";
@@ -48,21 +51,21 @@ public class DataController {
     private static String currentHealthConcern = "Good";
 
     //prediction data
-    private static String[] predictionDay;
-    private static String[] predictionDate;
-    private static String[] predictedMaxTemp;
-    private static String[] predictedMinTemp;
-    private static String[] predictedAvgTemp;
-    private static String[] predictedAvgHumidity;
-    private static String[] predictedChanceOfRain;
-    private static String[] predictedChanceOfSnow;
-    private static String[] predictionIcon;
-    private static String[] predictionWeatherStatus;
+    private static String[] predictionDay = {"Today", "Tomorrow", "Next Day"};
+    private static String[] predictionDate = {"2022-04-11", "2022-04-12", "2022-04-13"};
+    private static String[] predictedMaxTemp = {"30°C", "30°C", "30°C"};
+    private static String[] predictedMinTemp = {"25°C", "25°C", "25°C"};
+    private static String[] predictedAvgTemp = {"27.5°C", "27.5°C", "27.5°C"};
+    private static String[] predictedAvgHumidity = {"50%", "50%", "50%"};
+    private static String[] predictedChanceOfRain = {"50%", "50%", "50%"};
+    private static String[] predictedChanceOfSnow = {"0%", "0%", "0%"};
+    private static String[] predictionIcon = {"http://cdn.weatherapi.com/weather/64x64/day/113.png", "http://cdn.weatherapi.com/weather/64x64/day/113.png", "http://cdn.weatherapi.com/weather/64x64/day/113.png"};
+    private static String[] predictionWeatherStatus = {"Sunny", "Sunny", "Sunny"};
 
     //units
-    private static String temperatureUnit;
-    private static String windSpeedUnit;
-    private static String pressureUnit;
+    private static String temperatureUnit = "Celsius";
+    private static String windSpeedUnit = "kmph";
+    private static String pressureUnit = "mbar";
 
     public static String getDayOfTheWeek(String s) {
         String[] dayOfTheWeeks = {"Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -153,9 +156,18 @@ public class DataController {
 
             for (int i = 0; i < 3; i++) {
                 predictionDate[i] = jsonArray1.getJSONObject(i).getString("date");
-                predictedMaxTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("maxtemp_c")+"°C";
-                predictedMinTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("mintemp_c")+"°C";
-                predictedAvgTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("avgtemp_c")+"°C";
+
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    predictedMaxTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("maxtemp_c")+"°C";
+                    predictedMinTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("mintemp_c")+"°C";
+                    predictedAvgTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("avgtemp_c")+"°C";
+                }
+                else{
+                    predictedMaxTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("maxtemp_f")+"°F";
+                    predictedMinTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("mintemp_f")+"°F";
+                    predictedAvgTemp[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("avgtemp_f")+"°F";
+                }
+
                 predictedAvgHumidity[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("avghumidity") + "%";
                 predictedChanceOfRain[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("daily_chance_of_rain")+ "%";
                 predictedChanceOfSnow[i] = jsonArray1.getJSONObject(i).getJSONObject("day").getString("daily_chance_of_snow")+ "%";
@@ -176,18 +188,35 @@ public class DataController {
     public static void parseCurrentInformation(JSONObject urlResponseJson) {
 
         try {
-            currentTemperature = urlResponseJson.getJSONObject("current").getString("temp_c");
+            if(DataController.getTemperatureUnit() == "Celsius"){
+                currentTemperatureCI = urlResponseJson.getJSONObject("current").getString("temp_c")+"°C";
+                currentRealFeel = urlResponseJson.getJSONObject("current").getString("feelslike_c") + "°C";
+            }
+            else{
+                currentTemperatureCI = urlResponseJson.getJSONObject("current").getString("temp_f")+"°F";
+                currentRealFeel = urlResponseJson.getJSONObject("current").getString("feelslike_f") + "°F";
+            }
             currentIcon = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("icon");
             currentIcon = "http:"+currentIcon;
 
             currentHumidity = urlResponseJson.getJSONObject("current").getString("humidity") + "%";
-            currentRealFeel = urlResponseJson.getJSONObject("current").getString("feelslike_c") + "°C";
-            currentPressure = urlResponseJson.getJSONObject("current").getString("pressure_mb") + "mb";
+
+            if(DataController.getPressureUnit() == "mbar"){
+                currentPressure = urlResponseJson.getJSONObject("current").getString("pressure_mb") + " mbar";
+            }
+            else{
+                currentPressure = urlResponseJson.getJSONObject("current").getString("pressure_in") + " inHg";
+            }
 
             JSONArray jsonArray1 = urlResponseJson.getJSONObject("forecast").getJSONArray("forecastday");
             currentChanceOfRain = jsonArray1.getJSONObject(0).getJSONObject("day").getString("daily_chance_of_rain") + "%";
 
-            currentWindSpeed = urlResponseJson.getJSONObject("current").getString("wind_kph") + "kph";
+            if(DataController.getWindSpeedUnit() == "kmph"){
+                currentWindSpeed = urlResponseJson.getJSONObject("current").getString("wind_kph") + " kmph";
+            }
+            else{
+                currentWindSpeed = urlResponseJson.getJSONObject("current").getString("wind_mph") + " mph";
+            }
             currentWindDir = urlResponseJson.getJSONObject("current").getString("wind_dir");
             currentUVIndex = urlResponseJson.getJSONObject("current").getString("uv");
 
@@ -219,10 +248,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getJSONObject("condition").getString("icon");
@@ -239,10 +276,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getJSONObject("condition").getString("icon");
@@ -259,10 +304,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(3).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getJSONObject("condition").getString("icon");
@@ -279,10 +332,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(4).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getJSONObject("condition").getString("icon");
@@ -299,10 +360,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(5).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getJSONObject("condition").getString("icon");
@@ -319,10 +388,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(6).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getJSONObject("condition").getString("icon");
@@ -340,10 +417,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(7).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getJSONObject("condition").getString("icon");
@@ -361,10 +446,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(8).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getJSONObject("condition").getString("icon");
@@ -382,10 +475,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(9).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getJSONObject("condition").getString("icon");
@@ -403,10 +504,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(10).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getJSONObject("condition").getString("icon");
@@ -424,10 +533,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(11).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getJSONObject("condition").getString("icon");
@@ -445,10 +562,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(12).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getJSONObject("condition").getString("icon");
@@ -466,10 +591,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(13).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getJSONObject("condition").getString("icon");
@@ -487,10 +620,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(14).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getJSONObject("condition").getString("icon");
@@ -508,10 +649,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(15).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getJSONObject("condition").getString("icon");
@@ -529,10 +678,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(16).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getJSONObject("condition").getString("icon");
@@ -550,10 +707,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(17).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getJSONObject("condition").getString("icon");
@@ -571,10 +736,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(18).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getJSONObject("condition").getString("icon");
@@ -592,10 +765,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(19).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getJSONObject("condition").getString("icon");
@@ -613,10 +794,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(20).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getJSONObject("condition").getString("icon");
@@ -634,10 +823,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(21).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getJSONObject("condition").getString("icon");
@@ -655,10 +852,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(22).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getJSONObject("condition").getString("icon");
@@ -676,10 +881,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(23).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getJSONObject("condition").getString("icon");
@@ -697,10 +910,18 @@ public class DataController {
                 time3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("time").substring(11,16);
                 time4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(3).getString("time").substring(11,16);
 
-                temp1 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
-                temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
-                temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
-                temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
+                if(DataController.getTemperatureUnit() == "Celsius"){
+                    temp1 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_c") + "°C";
+                    temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_c") + "°C";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_c") + "°C";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(3).getString("temp_c") + "°C";
+                }
+                else{
+                    temp1 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getString("temp_f") + "°F";
+                    temp2 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getString("temp_f") + "°F";
+                    temp3 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(2).getString("temp_f") + "°F";
+                    temp4 = jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(3).getString("temp_f") + "°F";
+                }
 
                 icon1 = "http:" + jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(0).getJSONObject("condition").getString("icon");
                 icon2 = "http:" + jsonArray1.getJSONObject(1).getJSONArray("hour").getJSONObject(1).getJSONObject("condition").getString("icon");
@@ -746,7 +967,7 @@ public class DataController {
         try {
             JSONArray jsonArray1 = urlResponseJson.getJSONObject("forecast").getJSONArray("forecastday");
 
-            currentTemperature = urlResponseJson.getJSONObject("current").getString("temp_c");
+            //currentTemperature = urlResponseJson.getJSONObject("current").getString("temp_c");
             currentCondition = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("text");
             currentIcon = urlResponseJson.getJSONObject("current").getJSONObject("condition").getString("icon");
             currentIcon = "http:"+currentIcon;
@@ -754,6 +975,13 @@ public class DataController {
             currentSunrise = jsonArray1.getJSONObject(0).getJSONObject("astro").getString("sunrise");
             currentSunset = jsonArray1.getJSONObject(0).getJSONObject("astro").getString("sunset");
 
+            if(DataController.getTemperatureUnit() == "Celsius"){
+                currentTemperatureHome = urlResponseJson.getJSONObject("current").getString("temp_c");
+
+            }
+            else{
+                currentTemperatureHome = urlResponseJson.getJSONObject("current").getString("temp_f");
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -886,8 +1114,11 @@ public class DataController {
         return currentCO;
     }
 
-    public static String getCurrentTemperature() {
-        return currentTemperature;
+    public static String getCurrentTemperatureHome() {
+        return currentTemperatureHome;
+    }
+    public static String getCurrentTemperatureCI() {
+        return currentTemperatureCI;
     }
 
     public static String[] getPredictionDay() {

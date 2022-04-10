@@ -3,6 +3,7 @@ package com.example.weather247;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -11,8 +12,8 @@ import android.widget.TextView;
 public class Settings extends Activity {
 
     private final String[] temperatureUnits = {"Celsius", "Fahrenheit"};
-    private final String[] windSpeedUnits = {"kmph", "mph", "Knot"};
-    private final String[] pressureUnits = {"mbar", "atm"};
+    private final String[] windSpeedUnits = {"kmph", "mph"};
+    private final String[] pressureUnits = {"mbar", "inHg"};
 
     //Widgets
     Spinner temperatureUnitSpinner;

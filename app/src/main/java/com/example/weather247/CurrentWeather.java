@@ -54,7 +54,7 @@ public class CurrentWeather extends AppCompatActivity{
 
     private void setCurrentWeatherInformation() {
         String location = DataController.getRegion() + ", " + DataController.getCountry();
-        String currentTemperature = DataController.getCurrentTemperature() + "°C";
+        String currentTemperature = DataController.getCurrentTemperatureCI();
         String currentIcon = DataController.getCurrentIcon();
         String currentHumidity = DataController.getCurrentHumidity();
         String currentRealFeel = DataController.getCurrentRealFeel();

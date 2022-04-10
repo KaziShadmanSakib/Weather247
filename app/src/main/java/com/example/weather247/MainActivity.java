@@ -45,13 +45,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//Todo 1 add lighting pic
+//Todo 2 temperature er text ta ektu upore home er
+//Todo 3 home background darker
+
 public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
     private WeatherApiController weatherApiController;
     private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
     private TextView userLocationTv;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private TextView currentTemperatureTv, currentWeatherStatusTv;
+    private TextView currentTemperatureTv, currentWeatherStatusTv, currentTemperatureUnit;
     private ImageView currentWeatherIconIv;
     private EditText searchLocationBar;
     private ImageButton settingsButton;
@@ -190,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         userLocationTv = findViewById(R.id.location);
 
         currentTemperatureTv = findViewById(R.id.temperatureValue);
+        currentTemperatureUnit = findViewById(R.id.temperatureUnit);
         currentWeatherStatusTv = findViewById(R.id.weatherStatus);
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
 
@@ -222,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     //sets and displays all the home basic weather info
     public void setHomeInformation(){
         userLocation = DataController.getRegion() + ", " + DataController.getCountry();
-        currentTemperature = DataController.getCurrentTemperature();
+        currentTemperature = DataController.getCurrentTemperatureHome();
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
 
@@ -252,6 +257,13 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         userLocationTv.setText(userLocation);
         currentTemperatureTv.setText(currentTemperature);
         currentWeatherStatusTv.setText(currentWeatherStatus);
+
+        if(DataController.getTemperatureUnit() == "Celsius" ){
+            currentTemperatureUnit.setText("°C");
+        }
+        else {
+            currentTemperatureUnit.setText("°F");
+        }
 
         Picasso.get().load(currentWeatherIcon).into(currentWeatherIconIv);
     }
