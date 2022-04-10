@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weather247.R;
+import com.example.weather247.WeatherApiController;
 
 
 import java.util.ArrayList;
@@ -35,12 +35,14 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
     @Override
     public void onBindViewHolder(@NonNull LocationCardAdapter.Viewholder holder, int position) {
         LocationCardModel model = locationCardCollection.get(position);
-        holder.searchedLocationTV.setText(model.getSearchedLocation());
+        String region = model.getRegion();
+        String country = model.getCountry();
+        String searchedLocation = region + ", " + country;
+        holder.searchedLocationTV.setText(searchedLocation);
         holder.dateAddedTV.setText(model.getDateAdded());
-        //TODO: send location to API controller
-        // waiting for Kabbo vai to implement searched location data request
         holder.locationHolderLayout.setOnClickListener(view -> {
-            Toast.makeText(context, holder.searchedLocationTV.getText(), Toast.LENGTH_LONG).show();
+            WeatherApiController weatherApiController = new WeatherApiController(context);
+            weatherApiController.getJsonData(region);
         });
     }
 

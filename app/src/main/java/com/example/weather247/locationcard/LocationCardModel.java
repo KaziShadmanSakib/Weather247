@@ -1,28 +1,26 @@
 package com.example.weather247.locationcard;
 
 public class LocationCardModel {
-    private String searchedLocation;
-    private String dateAdded;
+    private final String region;
+    private final String country;
+    private final String dateAdded;
 
-    public LocationCardModel(String searchedLocation, String dateAdded) {
-        this.searchedLocation = searchedLocation;
+    public LocationCardModel(String region, String country, String dateAdded) {
+        this.region = region;
+        this.country = country;
         this.dateAdded = dateAdded;
     }
 
-    public String getSearchedLocation() {
-        return searchedLocation;
+    public String getRegion() {
+        return region;
     }
 
-    public void setSearchedLocation(String searchedLocation) {
-        this.searchedLocation = searchedLocation;
+    public String getCountry() {
+        return country;
     }
 
     public String getDateAdded() {
         return dateAdded;
-    }
-
-    public void setDateAdded(String dateAdded) {
-        this.dateAdded = dateAdded;
     }
 
 }

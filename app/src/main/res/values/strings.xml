@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">Weather247</string>
-<!--    <string-array name="temperatureUnits">-->
-<!--        <item>Celsius</item>-->
-<!--    </string-array>-->
+    <string name="recently_searched">Recently searched</string>
 </resources>

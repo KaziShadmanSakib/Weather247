@@ -2,7 +2,6 @@ package com.example.weather247;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,9 +20,8 @@ import java.io.IOException;
 public class WeatherApiController {
     private String url;
     private JSONObject urlResponseJson;
-    private Context context;
-    private String  location;
-    private String text;
+    private final Context context;
+    private final String  location;
 
     public WeatherApiController(Context context){
         this.context = context;
@@ -47,18 +45,17 @@ public class WeatherApiController {
 
         }
         catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            Log.e("Exception", "File write failed: " + e);
         }
     }
 
     public void getSavedJsonData(Context context, String lastSavedData){
 
         final VolleyListener volleyListener = (VolleyListener)context;
-        String urlResponse = lastSavedData;
 
         try {
 
-            urlResponseJson = new JSONObject(urlResponse);
+            urlResponseJson = new JSONObject(lastSavedData);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,7 +70,7 @@ public class WeatherApiController {
 
     }
 
-    public void getJsonData(Context context) {
+    public void getJsonData() {
 
         url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
 
@@ -88,7 +85,6 @@ public class WeatherApiController {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         writeToFile(response, context);
-
                         try {
 
                             urlResponseJson = new JSONObject(response);
@@ -115,7 +111,7 @@ public class WeatherApiController {
         queue.add(stringRequest);
     }
 
-    public void getJsonData(Context context, String location) {
+    public void getJsonData(String location) {
 
         url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
 
@@ -128,7 +124,6 @@ public class WeatherApiController {
                     final VolleyListener volleyListener = (VolleyListener)context;
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
                         writeToFile(response, context);
                         try {
 

@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -69,11 +68,9 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
 
     //for swipe left/right
-    private static final String TAG = "MainActivity";
-    private static int MIN_DISTANCE = 140;
+    private static final int MIN_DISTANCE = 140;
     private GestureDetector gestureDetector;
 
-    private static long trigger = 0;
     private String urlResponse;
     private String lastSavedData;
 
@@ -105,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
             //LocationController() takes the Location from the user device
             locationController();
-            weatherApiController.getJsonData(this);
+            weatherApiController.getJsonData();
 
         }
     }
@@ -115,21 +112,18 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (activeNetwork != null) { // connected to the internet
+            // connected to the mobile provider's data plan
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                 // connected to wifi
                 return true;
             }
 
-            else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                // connected to the mobile provider's data plan
-                return true;
-            }
+            else return activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE;
         }
 
         else {
             return false;
         }
-        return false;
     }
 
     private String readSavedData(){
@@ -146,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
         }
         catch (IOException e) {
-            Log.e("Exception", "File read failed: " + e.toString());
+            Log.e("Exception", "File read failed: " + e);
         }
         return urlResponse;
     }
@@ -159,14 +153,15 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
     @Override
     public void searchRequestFinished() {
-        String searchedLocation = DataController.getRegion() + ", " + DataController.getCountry();
+        String region = DataController.getRegion();
+        String country = DataController.getCountry();
+        String searchedLocation = region + ", " + country;
         userLocationTv.setText(searchedLocation);
         Cache.saveUserLocation(MainActivity.this, searchedLocation);
-        Log.i("Location", "getLocationSearched: " + searchedLocation);
 
         LocalDateTime currentTime = LocalDateTime.now();
         String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
-        locationCardCollection.add(0, new LocationCardModel(searchedLocation, dateAdded));
+        locationCardCollection.add(0, new LocationCardModel(region, country, dateAdded));
         locationCardAdapter.notifyItemInserted(0);
         while (locationCardCollection.size() > 5) {
             locationCardCollection.remove(locationCardCollection.size() - 1);
@@ -174,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         }
         if (locationCardCollection.size() > 0) {
             TextView recentlySearchTV = findViewById(R.id.recentlySearched);
-            recentlySearchTV.setText("Recently searched");
+            recentlySearchTV.setText(R.string.recently_searched);
         }
 
         //sets and displays all the home basic weather info of searched location
@@ -211,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 String searchedLocation = searchLocationBar.getText().toString();
                 searchLocationBar.getText().clear();
-                weatherApiController.getJsonData(this, searchedLocation);
+                weatherApiController.getJsonData(searchedLocation);
             }
             return false;
         });
@@ -243,15 +238,14 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720;
 
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
         if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
-            swipeRefreshLayout = findViewById(R.id.swipeLayout);
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
 
         }
 
         else {
-            swipeRefreshLayout = findViewById(R.id.swipeLayout);
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
         }
 

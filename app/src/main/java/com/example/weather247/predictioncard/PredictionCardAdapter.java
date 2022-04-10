@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class PredictionCardAdapter extends RecyclerView.Adapter<PredictionCardAdapter.Viewholder> {
 
-    private Context context;
-    private ArrayList<PredictionCardModel> predictionCardCollection;
+    private final Context context;
+    private final ArrayList<PredictionCardModel> predictionCardCollection;
 
     public PredictionCardAdapter(Context context, ArrayList<PredictionCardModel> predictionCardCollection) {
         this.context = context;
@@ -66,7 +66,7 @@ public class PredictionCardAdapter extends RecyclerView.Adapter<PredictionCardAd
         return predictionCardCollection.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public static class Viewholder extends RecyclerView.ViewHolder {
         private final MaterialCardView baseCard;
         private final LinearLayout collapsibleLayout;
         private final TextView dayHolder;
