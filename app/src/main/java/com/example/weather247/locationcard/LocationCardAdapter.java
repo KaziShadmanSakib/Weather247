@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weather247.DataController;
 import com.example.weather247.R;
 import com.example.weather247.WeatherApiController;
 
@@ -38,8 +39,9 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         String region = model.getRegion();
         String country = model.getCountry();
         String searchedLocation = region + ", " + country;
+        String dateAdded = model.getDateAdded() + ", Local Time in " + region + " : " + DataController.getCurrentTimeRegion();
         holder.searchedLocationTV.setText(searchedLocation);
-        holder.dateAddedTV.setText(model.getDateAdded());
+        holder.dateAddedTV.setText(dateAdded);
         holder.locationHolderLayout.setOnClickListener(view -> {
             WeatherApiController weatherApiController = new WeatherApiController(context);
             weatherApiController.getJsonData(region);
