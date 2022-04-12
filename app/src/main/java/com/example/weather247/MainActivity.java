@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,6 +20,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -29,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.weather247.locationcard.LocationCardAdapter;
 import com.example.weather247.locationcard.LocationCardModel;
+import com.example.weather247.notification.MemoBroadcast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
@@ -41,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -70,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private String urlResponse;
     private String lastSavedData;
 
-    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
-    private final static String default_notification_channel_id = "default";
 
 
     @Override
@@ -105,6 +110,55 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             weatherApiController.getJsonData();
 
         }
+
+        //set notifications for today
+        setNotification();
+    }
+
+    public void setNotification(){
+
+
+        notificationChannel();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 24);
+        calendar.set(Calendar.SECOND, 0);
+
+        if(Calendar.getInstance().after(calendar)){
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        }
+
+        Intent intent = new Intent(MainActivity.this, MemoBroadcast.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+
+    }
+
+    private void notificationChannel(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+
+            CharSequence name = "Weather247";
+            String description = "Weather247 CHANNEL";
+
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("Notification", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
+
+
     }
 
     public boolean isConnectedToInternet(Context context){
