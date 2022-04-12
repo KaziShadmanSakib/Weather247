@@ -45,10 +45,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-//Todo 1 add lighting pic
-//Todo 2 temperature er text ta ektu upore home er
-//Todo 3 home background darker
-
 public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
     private WeatherApiController weatherApiController;
@@ -265,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         currentTemperatureTv.setText(currentTemperature);
         currentWeatherStatusTv.setText(currentWeatherStatus);
 
-        if(DataController.getTemperatureUnit() == "Celsius" ){
+        if(DataController.getTemperatureUnit().equals("Celsius")){
             currentTemperatureUnit.setText("°C");
         }
         else {

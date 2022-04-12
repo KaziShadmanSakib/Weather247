@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Weather247</string>
     <string name="recently_searched">Recently searched</string>
+    <string name="string_icon">String icon</string>
 </resources>
