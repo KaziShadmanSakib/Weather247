@@ -2,12 +2,16 @@ package com.example.weather247;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.weather247.locationcard.LocationCardAdapter;
 import com.example.weather247.locationcard.LocationCardModel;
+import com.example.weather247.notification.NotificationPublisher;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.squareup.picasso.Picasso;
@@ -74,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     private String urlResponse;
     private String lastSavedData;
 
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +114,30 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             weatherApiController.getJsonData();
 
         }
+
+
+
     }
+
+    private void scheduleNotification (Notification notification , long delay) {
+        Intent notificationIntent = new Intent( this, NotificationPublisher. class ) ;
+        notificationIntent.putExtra(NotificationPublisher. NOTIFICATION_ID , 1 ) ;
+        notificationIntent.putExtra(NotificationPublisher. NOTIFICATION , notification) ;
+        PendingIntent pendingIntent = PendingIntent. getBroadcast ( this, 0 , notificationIntent , PendingIntent. FLAG_UPDATE_CURRENT ) ;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE ) ;
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager. ELAPSED_REALTIME_WAKEUP , delay , pendingIntent) ;
+    }
+    private Notification getNotification (String content) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder( this, default_notification_channel_id ) ;
+        builder.setContentTitle( "Scheduled Notification" ) ;
+        builder.setContentText(content) ;
+        builder.setSmallIcon(R.drawable. ic_launcher_foreground ) ;
+        builder.setAutoCancel( true ) ;
+        builder.setChannelId( NOTIFICATION_CHANNEL_ID ) ;
+        return builder.build() ;
+    }
+
 
     public boolean isConnectedToInternet(Context context){
 
@@ -136,7 +168,10 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             FileReader fileReader = new FileReader(gpxfile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             urlResponse = bufferedReader.readLine();
-            fileReader.close();
+            bufferedReader.close();
+            //fileReader.close();
+
+            Log.i("activity", urlResponse);
 
         }
         catch (IOException e) {

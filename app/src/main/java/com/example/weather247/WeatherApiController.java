@@ -2,6 +2,7 @@ package com.example.weather247;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,8 +32,11 @@ public class WeatherApiController {
     private void writeToFile(String data,Context context) {
 
         File file = new File(context.getFilesDir(), "cache");
-        if (!file.exists()) {
-            file.mkdir();
+        if (!file.exists()){
+            if ( !file.mkdir()) {
+                Toast.makeText(context, "Could not create a cache directory!", Toast.LENGTH_LONG).show();
+                return;
+            }
         }
 
         try {
