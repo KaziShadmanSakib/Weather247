@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -72,6 +73,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
     private RecyclerView locationRecyclerView;
     private final ArrayList<LocationCardModel> locationCardCollection = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ImageView cloudIv;
 
     private final LocationCardAdapter locationCardAdapter = new LocationCardAdapter(this, locationCardCollection);
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -275,6 +277,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         currentTemperatureUnit = findViewById(R.id.temperatureUnit);
         currentWeatherStatusTv = findViewById(R.id.weatherStatus);
         currentWeatherIconIv = findViewById(R.id.weatherIcon);
+        cloudIv = findViewById(R.id.cloudImageView);
 
         locationRecyclerView = findViewById(R.id.recycler_view);
         locationRecyclerView.setAdapter(locationCardAdapter);
@@ -321,15 +324,25 @@ public class Home extends AppCompatActivity implements VolleyListener {
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720;
+        int currentSunsetFinishTimeInt = currentSunsetInt + 120;
 
-        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+        if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+            cloudIv.setVisibility(View.VISIBLE);
+
+        }
+
+        else if(nowTimeInt >= currentSunsetInt && nowTimeInt < currentSunsetFinishTimeInt){
+
+            swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
+            cloudIv.setVisibility(View.VISIBLE);
 
         }
 
         else {
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+            cloudIv.setVisibility(View.GONE);
         }
 
         userLocationTv.setText(userLocation);

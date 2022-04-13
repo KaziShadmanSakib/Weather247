@@ -33,9 +33,9 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/appCompatImageView"
+                android:id="@+id/cloudImageView"
                 android:layout_width="373dp"
-                android:layout_height="295dp"
+                android:layout_height="315dp"
                 android:layout_marginTop="108dp"
                 android:alpha="0.8"
                 android:src="@drawable/cloud1"
