@@ -1,4 +1,4 @@
-package com.example.weather247;
+package com.example.weather247.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -7,26 +7,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
-import com.example.weather247.predictioncard.PredictionCardAdapter;
-import com.example.weather247.predictioncard.PredictionCardModel;
+import com.example.weather247.R;
+import com.example.weather247.data.Cache;
+import com.example.weather247.data.DataController;
+import com.example.weather247.ui.cards.predictioncard.PredictionCardAdapter;
+import com.example.weather247.ui.cards.predictioncard.PredictionCardModel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class WeatherPrediction extends AppCompatActivity {
-
-    private RecyclerView predictionRecyclerView;
 
     private final ArrayList<PredictionCardModel> predictionCardCollection = new ArrayList<>();
 
@@ -34,7 +30,7 @@ public class WeatherPrediction extends AppCompatActivity {
     private final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
     //for swipe left/right
-    private static int MIN_DISTANCE = 140;
+    private final static int MIN_DISTANCE = 140;
     private GestureDetector gestureDetector;
 
     private ScrollView scrollView;
@@ -58,7 +54,7 @@ public class WeatherPrediction extends AppCompatActivity {
     }
 
     public void setUiComponents() {
-        predictionRecyclerView = findViewById(R.id.prediction_recycler_view);
+        RecyclerView predictionRecyclerView = findViewById(R.id.prediction_recycler_view);
         predictionRecyclerView.setAdapter(predictionCardAdapter);
         predictionRecyclerView.setLayoutManager(linearLayoutManager);
 
@@ -84,7 +80,7 @@ public class WeatherPrediction extends AppCompatActivity {
         Date date = new Date();
         SimpleDateFormat dateFormat;
         dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        String nowTime = (String) dateFormat.format(date);
+        String nowTime = dateFormat.format(date);
 
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
@@ -124,7 +120,7 @@ public class WeatherPrediction extends AppCompatActivity {
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
             if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE) {
-                startActivity(new Intent(WeatherPrediction.this, MainActivity.class));
+                startActivity(new Intent(WeatherPrediction.this, Home.class));
                 WeatherPrediction.this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
             return super.onFling(motionEvent, motionEvent1, v, v1);

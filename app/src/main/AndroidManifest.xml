@@ -21,17 +21,17 @@
         android:theme="@style/Theme.Weather247"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Settings"
+            android:name=".ui.Settings"
             android:exported="false"
             android:theme="@android:style/Theme.Dialog"/>
         <activity
-            android:name=".WeatherPrediction"
+            android:name=".ui.WeatherPrediction"
             android:exported="false" />
         <activity
-            android:name=".CurrentWeather"
+            android:name=".ui.CurrentWeather"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.Home"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>

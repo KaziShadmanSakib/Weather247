@@ -1,6 +1,4 @@
-package com.example.weather247;
-
-import android.util.Log;
+package com.example.weather247.data;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +14,6 @@ public class DataController {
 
     private static String region = "Dhaka";
     private static String country = "Bangladesh";
-    private static String[] currentDateTimeRegion = {"2022-04-12", "00:00"};
     private static String currentTimeRegion = "00:00";
     private static String currentTemperatureHome = "30";
     private static String currentTemperatureCI = "30";
@@ -134,7 +131,7 @@ public class DataController {
         try {
             region = urlResponseJson.getJSONObject("location").getString("name");
             country = urlResponseJson.getJSONObject("location").getString("country");
-            currentDateTimeRegion = urlResponseJson.getJSONObject("location").getString("localtime").split(" ");
+            String[] currentDateTimeRegion = urlResponseJson.getJSONObject("location").getString("localtime").split(" ");
             currentTimeRegion = currentDateTimeRegion[1];
         } catch (JSONException e) {
             e.printStackTrace();
@@ -241,7 +238,7 @@ public class DataController {
             Date date = new Date();
             SimpleDateFormat dateFormat;
             dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-            String realTime = (String) dateFormat.format(date);
+            String realTime = dateFormat.format(date);
             int realTimeInt = getTimeInInteger(realTime);
 
             //current 00:00, show hourly weather

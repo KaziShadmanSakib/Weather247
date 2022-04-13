@@ -6,7 +6,7 @@
     android:id="@+id/swipeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".ui.Home"
     android:background="@drawable/day_background" >
     <ScrollView
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            tools:context=".MainActivity">
+            tools:context=".ui.Home">
 
             <ImageButton
                 android:id="@+id/settingsIcon"

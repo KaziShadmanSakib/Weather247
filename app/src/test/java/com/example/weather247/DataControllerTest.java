@@ -1,6 +1,6 @@
 package com.example.weather247;
 
-import android.provider.ContactsContract;
+import com.example.weather247.data.DataController;
 
 import org.junit.Assert;
 import org.junit.Test;

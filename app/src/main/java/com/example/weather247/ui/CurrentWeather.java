@@ -1,4 +1,4 @@
-package com.example.weather247;
+package com.example.weather247.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.weather247.R;
+import com.example.weather247.data.DataController;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -209,7 +211,7 @@ public class CurrentWeather extends AppCompatActivity{
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
             if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE) {
-                startActivity(new Intent(CurrentWeather.this, MainActivity.class));
+                startActivity(new Intent(CurrentWeather.this, Home.class));
                 CurrentWeather.this.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anime_slide_out_right);
             }
             return super.onFling(motionEvent, motionEvent1, v, v1);

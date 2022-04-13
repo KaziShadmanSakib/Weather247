@@ -1,4 +1,4 @@
-package com.example.weather247.locationcard;
+package com.example.weather247.ui.cards.locationcard;
 
 public class LocationCardModel {
     private final String region;

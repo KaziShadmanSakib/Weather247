@@ -1,4 +1,4 @@
-package com.example.weather247.locationcard;
+package com.example.weather247.ui.cards.locationcard;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weather247.DataController;
+import com.example.weather247.data.DataController;
 import com.example.weather247.R;
-import com.example.weather247.WeatherApiController;
+import com.example.weather247.data.WeatherApiController;
 
 
 import java.util.ArrayList;

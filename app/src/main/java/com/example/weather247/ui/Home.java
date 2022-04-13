@@ -1,4 +1,4 @@
-package com.example.weather247;
+package com.example.weather247.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -32,8 +32,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.weather247.locationcard.LocationCardAdapter;
-import com.example.weather247.locationcard.LocationCardModel;
+import com.example.weather247.R;
+import com.example.weather247.data.Cache;
+import com.example.weather247.data.DataController;
+import com.example.weather247.data.VolleyListener;
+import com.example.weather247.data.WeatherApiController;
+import com.example.weather247.ui.cards.locationcard.LocationCardAdapter;
+import com.example.weather247.ui.cards.locationcard.LocationCardModel;
 import com.example.weather247.notification.MemoBroadcast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,7 +57,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements  VolleyListener {
+public class Home extends AppCompatActivity implements VolleyListener {
 
     private WeatherApiController weatherApiController;
     private String userLocation, currentTemperature, currentWeatherStatus, currentWeatherIcon;
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.home);
 
         //weather API controller controls the API and fetches data from it
         weatherApiController = new WeatherApiController(this);
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
 
         }
 
-        Intent intent = new Intent(MainActivity.this, MemoBroadcast.class);
+        Intent intent = new Intent(Home.this, MemoBroadcast.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -214,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         String country = DataController.getCountry();
         String searchedLocation = region + ", " + country;
         userLocationTv.setText(searchedLocation);
-        Cache.saveUserLocation(MainActivity.this, searchedLocation);
+        Cache.saveUserLocation(Home.this, searchedLocation);
 
         LocalDateTime currentTime = LocalDateTime.now();
         String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
@@ -331,13 +336,13 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         //check permission
-        if (ActivityCompat.checkSelfPermission(MainActivity.this,
+        if (ActivityCompat.checkSelfPermission(Home.this,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //when permission granted
             getLocation();
         } else {
             //when permission denied
-            ActivityCompat.requestPermissions(MainActivity.this,
+            ActivityCompat.requestPermissions(Home.this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
 
@@ -364,14 +369,14 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             if(location!=null){
                 try {
                     //initialize geoCoder
-                    Geocoder geocoder = new Geocoder(MainActivity.this,
+                    Geocoder geocoder = new Geocoder(Home.this,
                             Locale.getDefault());
                     //initialize address list
                     List<Address> addresses = geocoder.getFromLocation(
                             location.getLatitude(), location.getLongitude(), 1);
 
                     userLocation = addresses.get(0).getLocality();
-                    Cache.saveUserLocation(MainActivity.this, userLocation);
+                    Cache.saveUserLocation(Home.this, userLocation);
                     Log.i("Location", "getLocation: " + userLocation);
 
                 } catch (IOException ioException) {
@@ -381,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
             }
             if(location==null){
                 //make a toast
-                Toast.makeText(MainActivity.this, "Please turn on your location to get updated information!", Toast.LENGTH_LONG).show();
+                Toast.makeText(Home.this, "Please turn on your location to get updated information!", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -390,12 +395,12 @@ public class MainActivity extends AppCompatActivity implements  VolleyListener {
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
             if (motionEvent.getX() - motionEvent1.getX() > MIN_DISTANCE) {
-                startActivity(new Intent(MainActivity.this, CurrentWeather.class));
-                MainActivity.this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                startActivity(new Intent(Home.this, CurrentWeather.class));
+                Home.this.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
             else if (motionEvent1.getX() - motionEvent.getX() > MIN_DISTANCE) {
-                startActivity(new Intent(MainActivity.this, WeatherPrediction.class));
-                MainActivity.this.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anime_slide_out_right);
+                startActivity(new Intent(Home.this, WeatherPrediction.class));
+                Home.this.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anime_slide_out_right);
             }
             return super.onFling(motionEvent, motionEvent1, v, v1);
         }

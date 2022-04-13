@@ -1,4 +1,4 @@
-package com.example.weather247.predictioncard;
+package com.example.weather247.ui.cards.predictioncard;
 
 public class PredictionCardModel {
     private final String day;

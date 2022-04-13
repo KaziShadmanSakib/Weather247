@@ -1,13 +1,15 @@
-package com.example.weather247;
+package com.example.weather247.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.weather247.R;
+import com.example.weather247.data.DataController;
 
 public class Settings extends Activity {
 
@@ -45,7 +47,7 @@ public class Settings extends Activity {
             DataController.setWindSpeedUnit(windSpeedUnit);
             DataController.setPressureUnit(pressureUnit);
 
-            Intent intent = new Intent(Settings.this, MainActivity.class);
+            Intent intent = new Intent(Settings.this, Home.class);
             startActivity(intent);
         });
     }
