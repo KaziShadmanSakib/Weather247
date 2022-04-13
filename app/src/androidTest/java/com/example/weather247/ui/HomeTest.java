@@ -13,17 +13,22 @@ import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 
 import com.example.weather247.R;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@LargeTest
+@RunWith(AndroidJUnit4.class)
 public class HomeTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         ActivityScenario<Home> activityScenario = ActivityScenario.launch(Home.class);
         activityScenario.moveToState(Lifecycle.State.RESUMED);
     }
@@ -44,6 +49,11 @@ public class HomeTest {
                 ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
     }
 
+    @Test
+    public void openSettings() {
+        Espresso.onView(withId(R.id.settingsIcon)).perform(ViewActions.click());
+    }
+
 //    @Test
 //    public void selectRecentlySearchedLocation() {
 //        String firstLocation = "Delhi";
@@ -62,6 +72,6 @@ public class HomeTest {
 //    }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
     }
 }

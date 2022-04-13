@@ -79,6 +79,8 @@ public class DataController {
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
+        if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY)
+            return dayOfTheWeeks[0];
         return dayOfTheWeeks[calendar.get(Calendar.DAY_OF_WEEK)];
     }
 
