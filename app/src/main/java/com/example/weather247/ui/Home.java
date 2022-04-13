@@ -14,6 +14,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -98,21 +99,33 @@ public class Home extends AppCompatActivity implements VolleyListener {
         //Initialize all the UI components
         setUiComponents();
 
+        //system first time opened or not
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
 
         //if there is no internet connection, get data from cache file
-        if(!(isConnectedToInternet(this))){
+        //or if not first time system opened then first load the lastSavedData
+        if(!(isConnectedToInternet(this)) || !firstStart){
 
             lastSavedData = readSavedData();
             weatherApiController.getSavedJsonData(this, lastSavedData);
 
         }
 
-        //else there is internet connection, so detect user location and get data
-        else{
+        //if first time system opened, so detect user location and get data
+        // or if there is internet connection, so detect user location and get data
+        if(firstStart || (isConnectedToInternet(this))){
 
             //LocationController() takes the Location from the user device
             locationController();
             weatherApiController.getJsonData();
+
+            if(firstStart){
+                prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("firstStart", false);
+                editor.apply();
+            }
 
         }
 

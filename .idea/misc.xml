@@ -25,7 +25,9 @@
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/simple_spinner_item.xml" value="0.18645833333333334" />
         <entry key="..\:/Users/Tahmid/StudioProjects/Weather247/app/src/main/res/layout/weather_prediction.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/day_background.xml" value="0.2335" />
+        <entry key="app/src/main/res/drawable/info_trey.xml" value="0.2065" />
         <entry key="app/src/main/res/drawable/night_background.xml" value="0.234" />
+        <entry key="app/src/main/res/drawable/sunset_background.xml" value="0.2065" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/current_weather.xml" value="0.33" />
         <entry key="app/src/main/res/layout/location_card.xml" value="0.3532608695652174" />
