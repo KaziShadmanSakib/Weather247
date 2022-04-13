@@ -21,7 +21,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -81,7 +80,6 @@ public class Home extends AppCompatActivity implements VolleyListener {
     private GestureDetector gestureDetector;
 
     private String urlResponse;
-    private String lastSavedData;
 
 
 
@@ -106,10 +104,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         //if there is no internet connection, get data from cache file
         //or if not first time system opened then first load the lastSavedData
         if(!(isConnectedToInternet(this)) || !firstStart){
-
-            lastSavedData = readSavedData();
-            weatherApiController.getSavedJsonData(this, lastSavedData);
-
+            weatherApiController.getSavedJsonData(this, readSavedData());
         }
 
         //if first time system opened, so detect user location and get data
@@ -154,27 +149,21 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        }
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
     }
 
     private void notificationChannel(){
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        CharSequence name = "Weather247";
+        String description = "Weather247 CHANNEL";
 
-            CharSequence name = "Weather247";
-            String description = "Weather247 CHANNEL";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel("Notification", name, importance);
+        channel.setDescription(description);
 
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("Notification", name, importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-
-        }
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
 
 
     }
@@ -426,8 +415,8 @@ public class Home extends AppCompatActivity implements VolleyListener {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
-        super.dispatchTouchEvent(ev);
-        return gestureDetector.onTouchEvent(ev);
+    public boolean dispatchTouchEvent(MotionEvent motionEvent){
+        gestureDetector.onTouchEvent(motionEvent);
+        return super.dispatchTouchEvent(motionEvent);
     }
 }

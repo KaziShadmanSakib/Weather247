@@ -1,4 +1,4 @@
-package com.example.weather247;
+package com.example.weather247.data;
 
 import com.example.weather247.data.DataController;
 

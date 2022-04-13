@@ -47,6 +47,7 @@ dependencies {
     //Recycler view
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
     testImplementation 'junit:junit:4.13.2'
     //Assertion library
