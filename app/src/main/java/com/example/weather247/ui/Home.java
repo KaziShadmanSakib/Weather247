@@ -20,7 +20,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -134,8 +136,8 @@ public class Home extends AppCompatActivity implements VolleyListener {
         notificationChannel();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 24);
+        calendar.set(Calendar.HOUR_OF_DAY, 21);
+        calendar.set(Calendar.MINUTE, 53);
         calendar.set(Calendar.SECOND, 0);
 
         if(Calendar.getInstance().after(calendar)){
@@ -168,23 +170,35 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
     }
 
+
+
     public boolean isConnectedToInternet(Context context){
 
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            // connected to the mobile provider's data plan
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                return true;
-            }
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        boolean isConnectedToWifi = false;
+        boolean isConnectedToCellular = false;
 
-            else return activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE;
-        }
-
-        else {
+        if (connectivityManager == null) {
             return false;
         }
+
+        //check for API >= 23
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network activeNetwork = connectivityManager.getActiveNetwork();
+            if (activeNetwork == null) {
+                return false;
+            } else {
+                NetworkCapabilities nc = connectivityManager.getNetworkCapabilities(activeNetwork);
+                if (nc == null) {
+                    return false;
+                } else {
+                    isConnectedToCellular = nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
+                    isConnectedToWifi = nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI);
+                }
+            }
+        }
+
+        return isConnectedToCellular || isConnectedToWifi;
     }
 
     private String readSavedData(){
