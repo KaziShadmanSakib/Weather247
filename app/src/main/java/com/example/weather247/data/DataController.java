@@ -237,10 +237,7 @@ public class DataController {
                     Float.parseFloat(currentO3)).toString();
 
             //hourly temperatures
-            Date date = new Date();
-            SimpleDateFormat dateFormat;
-            dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-            String realTime = dateFormat.format(date);
+            String realTime = DataController.getCurrentTimeRegion();
             int realTimeInt = getTimeInInteger(realTime);
 
             //current 00:00, show hourly weather

@@ -323,8 +323,8 @@ public class Home extends AppCompatActivity implements VolleyListener {
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
-        currentSunsetInt = currentSunsetInt + 720;
-        int currentSunsetFinishTimeInt = currentSunsetInt + 120;
+        currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
 
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 

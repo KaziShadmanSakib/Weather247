@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.widget.ScrollView;
 
 import com.example.weather247.R;
-import com.example.weather247.data.Cache;
 import com.example.weather247.data.DataController;
 import com.example.weather247.ui.cards.predictioncard.PredictionCardAdapter;
 import com.example.weather247.ui.cards.predictioncard.PredictionCardModel;
@@ -63,8 +62,6 @@ public class WeatherPrediction extends AppCompatActivity {
 
     public void setWeatherPredictionInformation() {
 
-        String location = Cache.loadUserLocation(this);
-
         //predictionWeatherStatus and predictionIcon are an String array where index 0 is today, 1 is tomorrow and 2 is nextDay
         String[] predictionDay = DataController.getPredictionDay();
         String[] predictionDate = DataController.getPredictionDate();
@@ -88,15 +85,25 @@ public class WeatherPrediction extends AppCompatActivity {
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
-        currentSunsetInt = currentSunsetInt + 720;
+        currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
 
-        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+        if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
+
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+        }
+
+        else if(nowTimeInt >= currentSunsetInt && nowTimeInt < currentSunsetFinishTimeInt){
+
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
+
         }
 
         else {
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
         }
+
 
         for (int i = 0; i < 3; i++) {
             predictionCardCollection.add(new PredictionCardModel(

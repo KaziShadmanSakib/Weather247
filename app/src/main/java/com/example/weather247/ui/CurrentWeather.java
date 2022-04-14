@@ -89,7 +89,7 @@ public class CurrentWeather extends AppCompatActivity{
         Date date = new Date();
         SimpleDateFormat dateFormat;
         dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        String nowTime = (String) dateFormat.format(date);
+        String nowTime = dateFormat.format(date);
 
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
@@ -97,12 +97,19 @@ public class CurrentWeather extends AppCompatActivity{
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
-        currentSunsetInt = currentSunsetInt + 720;
+        currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
 
         ScrollView scrollView = findViewById(R.id.currentWeather);
-        if(nowTimeInt>= currentSunriseInt && nowTimeInt < currentSunsetInt){
+        if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+        }
+
+        else if(nowTimeInt >= currentSunsetInt && nowTimeInt < currentSunsetFinishTimeInt){
+
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
 
         }
 
