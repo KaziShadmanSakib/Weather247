@@ -16,9 +16,6 @@ import com.example.weather247.R;
 import com.example.weather247.data.DataController;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class CurrentWeather extends AppCompatActivity{
 
@@ -86,11 +83,7 @@ public class CurrentWeather extends AppCompatActivity{
         String temp4 = DataController.getTemp4();
         String currentHealthConcern = DataController.getCurrentHealthConcern();
 
-        Date date = new Date();
-        SimpleDateFormat dateFormat;
-        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        String nowTime = dateFormat.format(date);
-
+        String nowTime = DataController.getCurrentTimeRegion();
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
 

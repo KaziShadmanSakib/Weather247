@@ -16,10 +16,7 @@ import com.example.weather247.data.DataController;
 import com.example.weather247.ui.cards.predictioncard.PredictionCardAdapter;
 import com.example.weather247.ui.cards.predictioncard.PredictionCardModel;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class WeatherPrediction extends AppCompatActivity {
 
@@ -74,11 +71,8 @@ public class WeatherPrediction extends AppCompatActivity {
         String[] predictionWeatherStatus = DataController.getPredictionWeatherStatus();
         String[] predictionIcon = DataController.getPredictionIcon();
 
-        Date date = new Date();
-        SimpleDateFormat dateFormat;
-        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        String nowTime = dateFormat.format(date);
 
+        String nowTime = DataController.getCurrentTimeRegion();
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
 

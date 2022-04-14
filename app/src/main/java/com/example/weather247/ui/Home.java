@@ -51,12 +51,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -312,11 +310,8 @@ public class Home extends AppCompatActivity implements VolleyListener {
         currentWeatherStatus = DataController.getCurrentCondition();
         currentWeatherIcon = DataController.getCurrentIcon();
 
-        Date date = new Date();
-        SimpleDateFormat dateFormat;
-        dateFormat = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        String nowTime = dateFormat.format(date);
 
+        String nowTime = DataController.getCurrentTimeRegion();
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
 
