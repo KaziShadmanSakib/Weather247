@@ -15,6 +15,7 @@ import com.example.weather247.R;
 public class MemoBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        String weatherStatus = intent.getStringExtra("Weather status");
         Intent repeating_Intent = new Intent(context, Home.class);
 
         repeating_Intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -24,7 +25,7 @@ public class MemoBroadcast extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Weather 247")
-                .setContentText("Daily notification")
+                .setContentText(weatherStatus)
                 .setPriority(Notification.VISIBILITY_PRIVATE)
                 .setAutoCancel(true);
 

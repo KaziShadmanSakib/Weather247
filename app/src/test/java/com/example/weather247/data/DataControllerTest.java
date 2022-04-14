@@ -8,16 +8,17 @@ import org.junit.Test;
 public class DataControllerTest {
 
     @Test
-    public void test1CalculateAQI() {
+    public void belowRange() {
         int result1 = DataController.calculateAQI(
-                8.0f,
+                -8.0f,
                 15.0f,
-                71.0f
+                -71.0f
         );
         Assert.assertTrue(result1 > 0 && result1 < 150);
     }
+
     @Test
-    public void test2CalculateAQI() {
+    public void betweenRange() {
         int result2 = DataController.calculateAQI(
                 37.0f,
                 44.0f,
@@ -25,14 +26,15 @@ public class DataControllerTest {
         );
         Assert.assertTrue(result2 > 0 && result2 < 100);
     }
+
     @Test
-    public void test3CalculateAQI() {
+    public void aboveRange() {
         int result3 = DataController.calculateAQI(
-                75.6f,
-                55.6f,
-                12.4f
+                1000.6f,
+                2000.6f,
+                1276.4f
         );
-        Assert.assertTrue(result3 > 0 && result3 < 150);
+        Assert.assertTrue(result3 > 0 && result3 <= 500);
     }
 
     @Test

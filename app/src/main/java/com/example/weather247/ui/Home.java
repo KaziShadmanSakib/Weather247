@@ -136,8 +136,8 @@ public class Home extends AppCompatActivity implements VolleyListener {
         notificationChannel();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 21);
-        calendar.set(Calendar.MINUTE, 53);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 00);
         calendar.set(Calendar.SECOND, 0);
 
         if(Calendar.getInstance().after(calendar)){
@@ -147,6 +147,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         }
 
         Intent intent = new Intent(Home.this, MemoBroadcast.class);
+        intent.putExtra("Weather status", DataController.getCurrentCondition());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

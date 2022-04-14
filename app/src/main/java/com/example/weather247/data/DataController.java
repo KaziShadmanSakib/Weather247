@@ -85,6 +85,10 @@ public class DataController {
     }
 
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
+        if (currentPM2_5 < 0f || currentPM10 < 0f || currentO3 < 0f) {
+            throw new IllegalArgumentException("Arguments can not be negative");
+        }
+
         Float[] aqiBreakpoints = {-1f, 50f, 100f, 150f, 200f, 300f, 400f, 500f};
         Float[] pm25Breakpoints = {-0.1f, 12.0f, 35.4f, 55.4f, 150.4f, 250.4f, 350.4f, 500.4f};
         Float[] pm10Breakpoints = {-1f, 54f, 154f, 254f, 354f, 424f, 504f, 604f};
@@ -118,7 +122,7 @@ public class DataController {
         aqi3 = ((aqiBreakpoints[pos3]-aqiBreakpoints[pos3-1]-1f)/(o3Breakpoints[pos3]-o3Breakpoints[pos3-1]-1f))*
                 (currentO3-o3Breakpoints[pos3-1]-1f)+aqiBreakpoints[pos3-1]+1f;
 
-        return Math.round((aqi1 + aqi2 + aqi3) / 3.0f);
+        return Math.min(Math.round((aqi1 + aqi2 + aqi3) / 3.0f), 500);
     }
 
     private static int getTimeInInteger(String time){
