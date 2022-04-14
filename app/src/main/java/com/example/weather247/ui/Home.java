@@ -126,19 +126,29 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         }
 
-        //set notifications for today
-        setNotification();
+        //set notifications
+        setNotifications();
     }
 
-    public void setNotification(){
+    public void setNotifications(){
+
+        //notification for today's weather prediction
+        setNotification(3, 26, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0]);
+
+        //notification for tomorrow's weather prediction
+        setNotification(3, 27, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1]);
+
+    }
+
+    public void setNotification(int hour, int minute, int second, String day, String weatherStatus, String icon){
 
 
         notificationChannel();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 00);
-        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
 
         if(Calendar.getInstance().after(calendar)){
 
@@ -146,8 +156,11 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         }
 
+
         Intent intent = new Intent(Home.this, MemoBroadcast.class);
-        intent.putExtra("Weather status", DataController.getCurrentCondition());
+        intent.putExtra("Weather status", weatherStatus);
+        intent.putExtra("Day", day);
+        intent.putExtra("Icon", icon);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);

@@ -245,7 +245,7 @@ public class DataController {
             int realTimeInt = getTimeInInteger(realTime);
 
             //current 00:00, show hourly weather
-            if(realTimeInt >= 1440){
+            if(realTimeInt >= 0 && realTimeInt < 60){
 
                 time1 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(1).getString("time").substring(11,16);
                 time2 = jsonArray1.getJSONObject(0).getJSONArray("hour").getJSONObject(2).getString("time").substring(11,16);
