@@ -28,6 +28,12 @@ public class MemoBroadcast extends BroadcastReceiver {
         String weatherStatus = intent.getStringExtra("Weather status");
         String day = intent.getStringExtra("Day");
         String icon = intent.getStringExtra("Icon");
+        String region = intent.getStringExtra("Region");
+        String maxTemp = intent.getStringExtra("Max");
+        String minTemp = intent.getStringExtra("Min");
+
+        String contentTitle = day + " in " + region + ":\n" + weatherStatus;
+        String contentText = maxTemp + " / " + minTemp + " • See full forecast";
 
         try {
             URL url = new URL(icon);
@@ -46,8 +52,8 @@ public class MemoBroadcast extends BroadcastReceiver {
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.cloudy_icon)
                 .setLargeIcon(image)
-                .setContentTitle(day)
-                .setContentText(weatherStatus)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
                 .setPriority(Notification.VISIBILITY_PRIVATE)
                 .setAutoCancel(true);
 

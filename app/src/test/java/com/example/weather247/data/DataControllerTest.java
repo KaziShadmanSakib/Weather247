@@ -1,6 +1,6 @@
 package com.example.weather247.data;
 
-import com.example.weather247.data.DataController;
+
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -47,5 +47,49 @@ public class DataControllerTest {
     public void test2GetDayOfTheWeek() {
         String result = DataController.getDayOfTheWeek("gibberish");
         Assert.assertEquals("The day after tomorrow", result);
+    }
+
+    @Test
+    public void timingTestOnDataControllerParseLocation(){
+
+        long startTime = System.nanoTime();
+
+        String result = DataController.getRegion();
+
+        System.out.println("Time Taken to get Location " + result + " : " + (System.nanoTime() - startTime) * 0.001 + " mS\n");
+
+    }
+
+    @Test
+    public void timingTestOnDataControllerHome(){
+
+        long startTime = System.nanoTime();
+
+        String result = DataController.getCurrentTemperatureHome();
+
+        System.out.println("Time Taken to get Home Temperature " + result + " : " + (System.nanoTime() - startTime) * 0.001 + " mS\n");
+
+    }
+
+    @Test
+    public void timingTestOnDataControllerCurrentWeather(){
+
+        long startTime = System.nanoTime();
+
+        String result = DataController.getCurrentAQI();
+
+        System.out.println("Time Taken to get Current AQI " + result + " : " + (System.nanoTime() - startTime) * 0.001 + " mS\n");
+
+    }
+
+    @Test
+    public void timingTestOnDataControllerWeatherPrediction(){
+
+        long startTime = System.nanoTime();
+
+        String result = DataController.getPredictedAvgTemp()[0];
+
+        System.out.println("Time Taken to get Predicted Average Temperature " + result + " : " + (System.nanoTime() - startTime) * 0.001 + " mS\n");
+
     }
 }
