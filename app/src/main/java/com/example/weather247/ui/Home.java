@@ -84,7 +84,6 @@ public class Home extends AppCompatActivity implements VolleyListener {
     private String urlResponse;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,13 +129,88 @@ public class Home extends AppCompatActivity implements VolleyListener {
         setNotifications();
     }
 
+    private String readRecentlySearchedData(){
+        String recentlySearched = null;
+        File file = new File(this.getFilesDir(), "cache");
+
+        try {
+
+            File gpxfile = new File(file, "recentlySearched");
+            FileReader fileReader = new FileReader(gpxfile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            recentlySearched = bufferedReader.readLine();
+            bufferedReader.close();
+            //fileReader.close();
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File read failed: " + e);
+        }
+        return recentlySearched;
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        File file = new File(this.getFilesDir(), "cache");
+        if (!file.exists()){
+            if ( !file.mkdir()) {
+                Toast.makeText(this, "Could not create a cache directory!", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        File gpxfile = new File(file, "recentlySearched");
+        if (!gpxfile.exists()){
+            try {
+                if ( !gpxfile.createNewFile()) {
+                    Toast.makeText(this, "Could not create a cache directory!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String recentlySearched = readRecentlySearchedData();
+
+        if (recentlySearched == null){
+            return;
+        }
+
+        String[] recentlySearchedData = recentlySearched.split(", ");
+
+        locationCardCollection.add(0, new LocationCardModel(recentlySearchedData[0], recentlySearchedData[1], recentlySearchedData[2]));
+
+        Log.i("activity", recentlySearchedData[2]);
+
+        locationCardAdapter.notifyItemInserted(0);
+        if (locationCardCollection.size() > 0) {
+            TextView recentlySearchTV = findViewById(R.id.recentlySearched);
+            recentlySearchTV.setText(R.string.recently_searched);
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        File file = new File(this.getFilesDir(), "cache");
+        File gpxfile = new File(file, "recentlySearched");
+        boolean deleted = gpxfile.delete();
+        Log.i("activity", "initiated");
+        finish();
+    }
+
     public void setNotifications(){
 
         //notification for today's weather prediction
-        setNotification(3, 27, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0], DataController.getRegion(), DataController.getPredictedMaxTemp()[0], DataController.getPredictedMinTemp()[0]);
+        setNotification(18, 0, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0], DataController.getRegion(), DataController.getPredictedMaxTemp()[0], DataController.getPredictedMinTemp()[0]);
 
         //notification for tomorrow's weather prediction
-        //setNotification(3, 50, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1]);
+        setNotification(18, 5, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1], DataController.getRegion(), DataController.getPredictedMaxTemp()[1], DataController.getPredictedMinTemp()[1]);
 
     }
 
@@ -164,7 +238,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         intent.putExtra("Region", region);
         intent.putExtra("Max", maxTemp);
         intent.putExtra("Min", minTemp);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
@@ -271,6 +345,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         setHomeInformation();
 
     }
+
 
     @Override
     public void invalidSearchRequestFinished() {

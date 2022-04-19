@@ -1,10 +1,12 @@
 package com.example.weather247.ui.cards.locationcard;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,6 +17,9 @@ import com.example.weather247.R;
 import com.example.weather247.data.WeatherApiController;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapter.Viewholder> {
@@ -39,14 +44,46 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         String region = model.getRegion();
         String country = model.getCountry();
         String searchedLocation = region + ", " + country;
-        String dateAdded = model.getDateAdded() + ", Local Time in " + region + " : " + DataController.getCurrentTimeRegion();
+
+        //local time of searched location
+        String dateAdded = model.getDateAdded() + ", Local Time in " + country + " : " + DataController.getCurrentTimeRegion();
+        writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(", ")[0], context);
+
+
         holder.searchedLocationTV.setText(searchedLocation);
         holder.dateAddedTV.setText(dateAdded);
         holder.locationHolderLayout.setOnClickListener(view -> {
             WeatherApiController weatherApiController = new WeatherApiController(context);
             weatherApiController.getJsonData(region);
+            writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(", ")[0], context);
         });
     }
+
+    private void writeToRecentlySearched(String data,Context context) {
+
+        File file = new File(context.getFilesDir(), "cache");
+        if (!file.exists()){
+            if ( !file.mkdir()) {
+                Toast.makeText(context, "Could not create a cache directory!", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        try {
+
+            File gpxfile = new File(file, "recentlySearched");
+            FileWriter writer = new FileWriter(gpxfile);
+            writer.append(data);
+            writer.append("\n\r");
+            writer.flush();
+            writer.close();
+
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e);
+        }
+    }
+
 
     @Override
     public int getItemCount() {
