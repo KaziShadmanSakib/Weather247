@@ -43,15 +43,29 @@ public class SettingsTest {
     }
 
     @Test
-    public void selectAndApplySettings() {
+    public void test1Settings() {
         Espresso.onView(withId(R.id.temperatureUnits)).perform(click());
         Espresso.onData(anything()).atPosition(1).perform(click());
+
+        Espresso.onView(withId(R.id.windSpeedUnits)).perform(click());
+        Espresso.onData(anything()).atPosition(0).perform(click());
+
+        Espresso.onView(withId(R.id.pressureUnits)).perform(click());
+        Espresso.onData(anything()).atPosition(1).perform(click());
+
+        Espresso.onView(withId(R.id.settingsApply)).perform(click());
+    }
+
+    @Test
+    public void test2Settings() {
+        Espresso.onView(withId(R.id.temperatureUnits)).perform(click());
+        Espresso.onData(anything()).atPosition(0).perform(click());
 
         Espresso.onView(withId(R.id.windSpeedUnits)).perform(click());
         Espresso.onData(anything()).atPosition(1).perform(click());
 
         Espresso.onView(withId(R.id.pressureUnits)).perform(click());
-        Espresso.onData(anything()).atPosition(1).perform(click());
+        Espresso.onData(anything()).atPosition(0).perform(click());
 
         Espresso.onView(withId(R.id.settingsApply)).perform(click());
     }

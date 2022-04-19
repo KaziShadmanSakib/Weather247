@@ -54,22 +54,22 @@ public class HomeTest {
         Espresso.onView(withId(R.id.settingsIcon)).perform(ViewActions.click());
     }
 
-//    @Test
-//    public void selectRecentlySearchedLocation() {
-//        String firstLocation = "Delhi";
-//        String secondLocation = "London";
-//
-//        Espresso.onView(withId(R.id.searchLocationBar)).perform(ViewActions.click());
-//        Espresso.onView(isAssignableFrom(EditText.class)).perform(ViewActions.typeText(firstLocation),
-//                ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
-//
-//        Espresso.onView(withId(R.id.searchLocationBar)).perform(ViewActions.click());
-//        Espresso.onView(isAssignableFrom(EditText.class)).perform(ViewActions.typeText(secondLocation),
-//                ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
-//
-//        Espresso.onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, ViewActions.click()));
-//
-//    }
+    @Test
+    public void selectRecentlySearchedLocation() {
+        String firstLocation = "Delhi";
+        String secondLocation = "London";
+
+        Espresso.onView(withId(R.id.searchLocationBar)).perform(ViewActions.click());
+        Espresso.onView(isAssignableFrom(EditText.class)).perform(ViewActions.typeText(firstLocation),
+                ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
+
+        Espresso.onView(withId(R.id.searchLocationBar)).perform(ViewActions.click());
+        Espresso.onView(isAssignableFrom(EditText.class)).perform(ViewActions.typeText(secondLocation),
+                ViewActions.pressKey(KeyEvent.KEYCODE_ENTER));
+
+        Espresso.onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(1, ViewActions.click()));
+
+    }
 
     @After
     public void tearDown() {

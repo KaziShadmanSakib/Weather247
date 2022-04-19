@@ -106,8 +106,6 @@ public class WeatherApiController {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.i("activity", error.toString());
-
             }
         });
 
