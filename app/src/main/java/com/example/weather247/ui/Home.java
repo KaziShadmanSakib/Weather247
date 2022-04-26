@@ -183,9 +183,14 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         locationCardCollection.add(0, new LocationCardModel(recentlySearchedData[0], recentlySearchedData[1], recentlySearchedData[2]));
 
-        Log.i("activity", recentlySearchedData[2]);
 
         locationCardAdapter.notifyItemInserted(0);
+
+        while (locationCardCollection.size() > 5) {
+            locationCardCollection.remove(locationCardCollection.size() - 1);
+            locationCardAdapter.notifyItemRemoved(locationCardCollection.size());
+        }
+
         if (locationCardCollection.size() > 0) {
             TextView recentlySearchTV = findViewById(R.id.recentlySearched);
             recentlySearchTV.setText(R.string.recently_searched);
@@ -207,10 +212,11 @@ public class Home extends AppCompatActivity implements VolleyListener {
     public void setNotifications(){
 
         //notification for today's weather prediction
-        setNotification(18, 0, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0], DataController.getRegion(), DataController.getPredictedMaxTemp()[0], DataController.getPredictedMinTemp()[0]);
+        setNotification(7, 0, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0], DataController.getRegion(), DataController.getPredictedMaxTemp()[0], DataController.getPredictedMinTemp()[0]);
 
+        //Todo 2nd notification yet to be done before deployment
         //notification for tomorrow's weather prediction
-        setNotification(18, 5, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1], DataController.getRegion(), DataController.getPredictedMaxTemp()[1], DataController.getPredictedMinTemp()[1]);
+        //setNotification(18, 5, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1], DataController.getRegion(), DataController.getPredictedMaxTemp()[1], DataController.getPredictedMinTemp()[1]);
 
     }
 
@@ -238,7 +244,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         intent.putExtra("Region", region);
         intent.putExtra("Max", maxTemp);
         intent.putExtra("Min", minTemp);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

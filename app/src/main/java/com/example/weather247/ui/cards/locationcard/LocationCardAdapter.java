@@ -46,8 +46,8 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         String searchedLocation = region + ", " + country;
 
         //local time of searched location
-        String dateAdded = model.getDateAdded() + ", Local Time in " + country + " : " + DataController.getCurrentTimeRegion();
-        writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(", ")[0], context);
+        String dateAdded = model.getDateAdded() + ",\n" +"Local Time in " + country + " : " + DataController.getCurrentTimeRegion();
+        writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(",\n")[0], context);
 
 
         holder.searchedLocationTV.setText(searchedLocation);
@@ -55,7 +55,7 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         holder.locationHolderLayout.setOnClickListener(view -> {
             WeatherApiController weatherApiController = new WeatherApiController(context);
             weatherApiController.getJsonData(region);
-            writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(", ")[0], context);
+            writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(",\n")[0], context);
         });
     }
 
