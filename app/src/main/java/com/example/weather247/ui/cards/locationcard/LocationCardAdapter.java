@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weather247.data.DataController;
 import com.example.weather247.R;
 import com.example.weather247.data.WeatherApiController;
 
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapter.Viewholder> {
     private final Context context;
     private final ArrayList<LocationCardModel> locationCardCollection;
+    private String recentlySearchedLocalTime = "00:00";
 
     public LocationCardAdapter(Context context, ArrayList<LocationCardModel> locationCardCollection) {
         this.context = context;
@@ -46,9 +46,8 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
         String searchedLocation = region + ", " + country;
 
         //local time of searched location
-        String dateAdded = model.getDateAdded() + ",\n" +"Local Time in " + country + " : " + DataController.getCurrentTimeRegion();
+        String dateAdded = model.getDateAdded() + ",\n" +"Local Time in " + country + " : " + recentlySearchedLocalTime;
         writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(",\n")[0], context);
-
 
         holder.searchedLocationTV.setText(searchedLocation);
         holder.dateAddedTV.setText(dateAdded);
@@ -58,6 +57,11 @@ public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapte
             writeToRecentlySearched(searchedLocation + ", " + dateAdded.split(",\n")[0], context);
         });
     }
+
+    public void setRecentlySearchedLocalTime(String recentlySearchedLocalTime){
+        this.recentlySearchedLocalTime = recentlySearchedLocalTime;
+    }
+
 
     private void writeToRecentlySearched(String data,Context context) {
 

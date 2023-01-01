@@ -127,6 +127,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         //set notifications
         setNotifications();
+
     }
 
     private String readRecentlySearchedData(){
@@ -181,8 +182,11 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         String[] recentlySearchedData = recentlySearched.split(", ");
 
-        locationCardCollection.add(0, new LocationCardModel(recentlySearchedData[0], recentlySearchedData[1], recentlySearchedData[2]));
+        String recentlySearchedLocalTime = Cache.loadRecentlySearchedLocalTime(Home.this);
+        locationCardAdapter.setRecentlySearchedLocalTime(recentlySearchedLocalTime);
 
+
+        locationCardCollection.add(0, new LocationCardModel(recentlySearchedData[0], recentlySearchedData[1], recentlySearchedData[2]));
 
         locationCardAdapter.notifyItemInserted(0);
 
@@ -195,6 +199,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
             TextView recentlySearchTV = findViewById(R.id.recentlySearched);
             recentlySearchTV.setText(R.string.recently_searched);
         }
+
 
     }
 
@@ -336,6 +341,10 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
         LocalDateTime currentTime = LocalDateTime.now();
         String dateAdded = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss").format(currentTime);
+
+        Cache.saveRecentlySearchedLocalTime(Home.this, DataController.getCurrentTimeRegion());
+        locationCardAdapter.setRecentlySearchedLocalTime(DataController.getCurrentTimeRegion());
+
         locationCardCollection.add(0, new LocationCardModel(region, country, dateAdded));
         locationCardAdapter.notifyItemInserted(0);
         while (locationCardCollection.size() > 5) {

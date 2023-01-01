@@ -1,5 +1,6 @@
 package com.example.weather247.data;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -137,8 +138,9 @@ public class DataController {
         try {
             region = urlResponseJson.getJSONObject("location").getString("name");
             country = urlResponseJson.getJSONObject("location").getString("country");
-            String[] currentDateTimeRegion = urlResponseJson.getJSONObject("location").getString("localtime").split(" ");
-            currentTimeRegion = currentDateTimeRegion[1];
+            String[] currentDateTimeRegions = urlResponseJson.getJSONObject("location").getString("localtime").split(" ");
+            currentTimeRegion = currentDateTimeRegions[1];
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
