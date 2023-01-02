@@ -28,6 +28,8 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -316,7 +318,6 @@ public class Home extends AppCompatActivity implements VolleyListener {
             bufferedReader.close();
             //fileReader.close();
 
-            Log.i("activity", urlResponse);
 
         }
         catch (IOException e) {
@@ -426,12 +427,18 @@ public class Home extends AppCompatActivity implements VolleyListener {
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
-        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 60; //adds 1 hour
 
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
             cloudIv.setVisibility(View.VISIBLE);
+
+            //status bar color
+            Window window = Home.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(Home.this, R.color.Day));
 
         }
 
@@ -440,11 +447,25 @@ public class Home extends AppCompatActivity implements VolleyListener {
             swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
             cloudIv.setVisibility(View.VISIBLE);
 
+            //status bar color
+            Window window = Home.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(Home.this, R.color.Sunset));
+
         }
 
         else {
-            swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+            swipeRefreshLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.moon_night));
             cloudIv.setVisibility(View.GONE);
+
+            //status bar color
+            Window window = Home.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(Home.this, R.color.black));
+
+
         }
 
         userLocationTv.setText(userLocation);
@@ -508,7 +529,6 @@ public class Home extends AppCompatActivity implements VolleyListener {
 
                     userLocation = addresses.get(0).getLocality();
                     Cache.saveUserLocation(Home.this, userLocation);
-                    Log.i("Location", "getLocation: " + userLocation);
 
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

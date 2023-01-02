@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ScrollView;
 
 import com.example.weather247.R;
@@ -80,11 +82,18 @@ public class WeatherPrediction extends AppCompatActivity {
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
-        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 60; //adds 1 hour
 
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+            //status bar color
+            Window window = WeatherPrediction.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(WeatherPrediction.this, R.color.Day));
+
 
         }
 
@@ -92,10 +101,23 @@ public class WeatherPrediction extends AppCompatActivity {
 
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
 
+            //status bar color
+            Window window = WeatherPrediction.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(WeatherPrediction.this, R.color.Sunset));
+
         }
 
         else {
-            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.moon_night));
+
+            //status bar color
+            Window window = WeatherPrediction.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(WeatherPrediction.this, R.color.black));
+
         }
 
 

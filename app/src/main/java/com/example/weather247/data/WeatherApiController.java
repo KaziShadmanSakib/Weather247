@@ -78,7 +78,6 @@ public class WeatherApiController {
 
         url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
 
-        Log.i("Location", url);
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.
@@ -117,7 +116,6 @@ public class WeatherApiController {
 
         url = "http://api.weatherapi.com/v1/forecast.json?key=15f2d8078f8148e9a1b91810222503&q=" + location + "&days=10&aqi=yes&alerts=yes";
 
-        Log.i("Location", url);
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.

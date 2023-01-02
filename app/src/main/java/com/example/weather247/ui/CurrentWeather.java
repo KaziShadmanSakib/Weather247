@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -19,8 +21,8 @@ import com.squareup.picasso.Picasso;
 
 public class CurrentWeather extends AppCompatActivity{
 
-    private TextView locationTv, currentTemperatureTv, currentHumidityTv, currentRealFeelTv;
-    private TextView currentPressureTv, currentChanceOfRainTv, currentWindSpeedTv, currentWindDirTv;
+    private TextView locationTv, currentTemperatureTv, currentHumidityTv, currentRealFeelTv, currentSunsetTv;
+    private TextView currentPressureTv, currentChanceOfRainTv, currentWindSpeedTv, currentWindDirTv, currentSunriseTv;
     private TextView currentUVIndexTv, currentPM2_5Tv, currentPM10Tv, currentSOTv, currentNOTv;
     private TextView currentO3Tv, currentCOTv, currentAQITv, time1Tv, time2Tv, time3Tv, time4Tv;
     private TextView temp1Tv, temp2Tv, temp3Tv, temp4Tv, currentHealthConcernTv;
@@ -86,17 +88,25 @@ public class CurrentWeather extends AppCompatActivity{
         String nowTime = DataController.getCurrentTimeRegion();
         String currentSunrise = DataController.getCurrentSunrise().substring(0, 5);
         String currentSunset = DataController.getCurrentSunset().substring(0, 5);
+        String currentSunriseTime = DataController.getCurrentSunrise();
+        String currentSunsetTime = DataController.getCurrentSunset();
 
         int nowTimeInt = getTimeInInteger(nowTime);
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
-        int currentSunsetFinishTimeInt = currentSunsetInt + 120; //adds 2 hours
+        int currentSunsetFinishTimeInt = currentSunsetInt + 60; //adds 1 hour
 
         ScrollView scrollView = findViewById(R.id.currentWeather);
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.day_background));
+
+            //status bar color
+            Window window = CurrentWeather.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(CurrentWeather.this, R.color.Day));
 
         }
 
@@ -104,15 +114,31 @@ public class CurrentWeather extends AppCompatActivity{
 
             scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.sunset_background));
 
+            //status bar color
+            Window window = CurrentWeather.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(CurrentWeather.this, R.color.Sunset));
+
+
         }
 
         else {
-            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.night_background));
+            scrollView.setBackground(ContextCompat.getDrawable(this, R.drawable.moon_night));
+
+            //status bar color
+            Window window = CurrentWeather.this.getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(CurrentWeather.this, R.color.black));
+
         }
 
 
         locationTv.setText(location);
         currentTemperatureTv.setText(currentTemperature);
+        currentSunriseTv.setText(currentSunriseTime);
+        currentSunsetTv.setText(currentSunsetTime);
         currentHumidityTv.setText(currentHumidity);
         currentRealFeelTv.setText(currentRealFeel);
         currentPressureTv.setText(currentPressure);
@@ -204,6 +230,8 @@ public class CurrentWeather extends AppCompatActivity{
         icon2Iv = findViewById(R.id.icon2Iv);
         icon3Iv = findViewById(R.id.icon3Iv);
         icon4Iv = findViewById(R.id.icon4Iv);
+        currentSunriseTv = findViewById(R.id.currentSunriseTv);
+        currentSunsetTv = findViewById(R.id.currentSunsetTv);
 
     }
 
