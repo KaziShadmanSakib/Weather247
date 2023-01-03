@@ -221,7 +221,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         //notification for today's weather prediction
         setNotification(7, 0, 0, "Today", DataController.getPredictionWeatherStatus()[0], DataController.getPredictionIcon()[0], DataController.getRegion(), DataController.getPredictedMaxTemp()[0], DataController.getPredictedMinTemp()[0]);
 
-        //Todo 2nd notification yet to be done before deployment
+        //for second notification
         //notification for tomorrow's weather prediction
         //setNotification(18, 5, 0, "Tomorrow", DataController.getPredictionWeatherStatus()[1], DataController.getPredictionIcon()[1], DataController.getRegion(), DataController.getPredictedMaxTemp()[1], DataController.getPredictedMinTemp()[1]);
 
@@ -427,7 +427,7 @@ public class Home extends AppCompatActivity implements VolleyListener {
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
-        int currentSunsetFinishTimeInt = currentSunsetInt + 60; //adds 1 hour
+        int currentSunsetFinishTimeInt = currentSunsetInt + 75; //adds 1 hour and 15 mintues
 
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 

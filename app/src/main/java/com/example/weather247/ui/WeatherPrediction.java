@@ -82,7 +82,7 @@ public class WeatherPrediction extends AppCompatActivity {
         int currentSunriseInt = getTimeInInteger(currentSunrise);
         int currentSunsetInt = getTimeInInteger(currentSunset);
         currentSunsetInt = currentSunsetInt + 720; //adds 12 hours
-        int currentSunsetFinishTimeInt = currentSunsetInt + 60; //adds 1 hour
+        int currentSunsetFinishTimeInt = currentSunsetInt + 75; //adds 1 hour and 15 mintues
 
         if(nowTimeInt >= currentSunriseInt && nowTimeInt < currentSunsetInt){
 
