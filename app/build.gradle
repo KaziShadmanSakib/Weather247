@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.weather247"
+        applicationId "com.ksstm.weather247"
         minSdkVersion 26
         targetSdkVersion 33
         versionCode 1
