@@ -1,6 +1,8 @@
 package com.example.weather247.data;
 
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,7 +88,7 @@ public class DataController {
     }
 
     public static Integer calculateAQI(Float currentPM2_5, Float currentPM10, Float currentO3) {
-        if (currentPM2_5 < 0f || currentPM10 < 0f || currentO3 < 0f) {
+        if (currentPM2_5 < -2f || currentPM10 < -2f || currentO3 < -2f) {
             throw new IllegalArgumentException("Arguments can not be negative");
         }
 
@@ -236,11 +238,6 @@ public class DataController {
             currentO3 = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("o3")));
             currentCO = String.format(Locale.getDefault(), "%.1f", Double.parseDouble(urlResponseJson.getJSONObject("current").getJSONObject("air_quality").getString("co")));
 
-
-            currentAQI = calculateAQI(
-                    Float.parseFloat(currentPM2_5),
-                    Float.parseFloat(currentPM10),
-                    Float.parseFloat(currentO3)).toString();
 
             //hourly temperatures
             String realTime = DataController.getCurrentTimeRegion();
@@ -936,6 +933,12 @@ public class DataController {
 
 
             }
+
+            //AQI Calculation
+            currentAQI = calculateAQI(
+                    Float.parseFloat(currentPM2_5),
+                    Float.parseFloat(currentPM10),
+                    Float.parseFloat(currentO3)).toString();
 
             //Health Concern
             if(Integer.parseInt(currentAQI) >= 0 && Integer.parseInt(currentAQI) <=50){
